@@ -309,5 +309,21 @@ TEST(TMassiveTest, ReplaceMethod) {
 
     // Попытка заменить значение на несуществующей позиции
     EXPECT_THROW(massive.replace(5, 50), std::out_of_range);
+}
 
+TEST(TMassiveTest, FindFirstMethod) {
+    TMassive<int> massive;
+    massive.push_back(10);
+    massive.push_back(20);
+    massive.push_back(10);
+    massive.push_back(30);
+
+    size_t index = massive.find_first(10);
+    EXPECT_EQ(index, 0);
+
+    index = massive.find_first(20);
+    EXPECT_EQ(index, 1);
+
+    // Проверяем исключение для отсутствующего значения
+    EXPECT_THROW(massive.find_first(40), std::logic_error);
 }

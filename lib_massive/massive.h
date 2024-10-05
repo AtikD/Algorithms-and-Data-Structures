@@ -53,8 +53,8 @@ class TMassive {
     TMassive& remove_last(const T& value);
     TMassive& remove_by_index(size_t pos);
     size_t find_last(const T& value) const;
-    // size_t find_first(T value);
-    // size_t find_all(T value);
+    size_t find_first(const T& value) const;
+    // size_t find_all(const T& value) const;
 };
 
 template <typename T>
@@ -348,6 +348,15 @@ size_t TMassive<T>::find_last(const T& value) const {
     throw std::logic_error("Value not found in the archive.");
 }
 
+template <typename T>
+size_t TMassive<T>::find_first(const T& value) const {
+    for (size_t i = 0; i < _size; ++i) {
+        if (_states[i] == State::busy && _data[i] == value) {
+            return i;
+        }
+    }
+    throw std::logic_error("Value not found in the archive.");
+}
 
 template <typename T>
 void TMassive<T>::print(std::ostream& out) const noexcept {
