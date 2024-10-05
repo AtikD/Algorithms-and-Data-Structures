@@ -36,7 +36,7 @@ class TMassive {
 
     // void clear();
     // void resize(size_t n, T value);
-    // void reserve(size_t n);
+    void reserve(size_t new_capacity);
 
     // void push_back(T value);             // âñòàâêà ýëåìåíòà (â êîíåö)
     // void pop_back();                     // óäàëåíèå ýëåìåíòà (èç êîíöà)
@@ -87,6 +87,30 @@ template <typename T>
 inline bool TMassive<T>::full() const noexcept {
     return _size == _capacity;
 }
+
+
+
+template <typename T>
+void TMassive<T>::reserve(size_t new_capacity) {
+    if (new_capacity <= _capacity) return;
+    T* new_data = new T[new_capacity];
+    State* new_states = new State[new_capacity];
+    // Copy existing data
+    for (size_t i = 0; i < _size; ++i) {
+        new_data[i] = _data[i];
+        new_states[i] = _states[i];
+    }
+    // Initialize remaining states
+    for (size_t i = _size; i < new_capacity; ++i) {
+        new_states[i] = State::empty;
+    }
+    delete[] _data;
+    delete[] _states;
+    _data = new_data;
+    _states = new_states;
+    _capacity = new_capacity;
+}
+
 
 template <typename T>
 TMassive<T>& TMassive<T>::insert(const T& value, size_t pos) {
