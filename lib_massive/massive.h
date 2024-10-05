@@ -50,7 +50,7 @@ class TMassive {
 
     TMassive& erase(size_t pos, size_t n);
     TMassive& remove_all(const T& value);
-    // TMassive& remove_first(T value);
+    TMassive& remove_first(const T& value);
     // TMassive& remove_last(T value);
     // TMassive& remove_by_index(size_t pos);
 
@@ -191,6 +191,18 @@ TMassive<T>& TMassive<T>::remove_all(const T& value) {
     }
     return *this;
 }
+
+template <typename T>
+TMassive<T>& TMassive<T>::remove_first(const T& value) {
+    for (size_t i = 0; i < _size; ++i) {
+        if (_states[i] == State::busy && _data[i] == value) {
+            erase(i, 1);
+            return *this;
+        }
+    }
+    throw std::logic_error("Value not found in the archive.");
+}
+
 
 template <typename T>
 void TMassive<T>::print(std::ostream& out) const noexcept {

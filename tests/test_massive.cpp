@@ -75,3 +75,27 @@ TEST(TMassiveTest, RemoveAllOccurrences) {
     massive.print(ss);
     EXPECT_EQ(ss.str(), "20, 30, ");
 }
+
+TEST(TMassiveTest, RemoveFirstOccurrence) {
+    TMassive<int> massive;
+    // Заполняем архив значениями
+    massive.push_back(10);
+    massive.push_back(20);
+    massive.push_back(10);
+    massive.push_back(30);
+
+    // Удаляем первое вхождение 10
+    massive.remove_first(10);
+
+    EXPECT_EQ(massive.size(), 3);
+    std::stringstream ss;
+    massive.print(ss);
+    EXPECT_EQ(ss.str(), "20, 10, 30, ");
+
+    massive.remove_first(10);
+    std::stringstream ss2;
+    massive.print(ss2);
+    EXPECT_EQ(ss2.str(), "20, 30, ");
+    // Проверяем удаление значения, которого нет
+    EXPECT_THROW(massive.remove_first(40), std::logic_error);
+}
