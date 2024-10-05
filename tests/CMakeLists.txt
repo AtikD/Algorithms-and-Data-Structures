@@ -13,13 +13,17 @@ set(BUILD_GTEST ON)
 
 FetchContent_MakeAvailable(googletest)
 
-# Создаём исполняемый файл тестов
-add_executable(Tests test_easy_example.cpp)
+# Добавляем новый тестовый файл
+set(TEST_SOURCES
+    test_easy_example.cpp
+    test_additional.cpp
+)
 
-# Линкуем с библиотекой и Google Test
+# Создаём (или обновляем) исполняемый файл с новыми тестами
+add_executable(Tests ${TEST_SOURCES})
+
+# Остальные настройки остаются прежними
 target_link_libraries(Tests PRIVATE EasyExample gtest gtest_main)
-
-# Указываем путь к заголовочным файлам библиотеки
 target_include_directories(Tests PRIVATE ${PROJECT_SOURCE_DIR}/lib_easy_example)
 
 # Регистрируем тесты
