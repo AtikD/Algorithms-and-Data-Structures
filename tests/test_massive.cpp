@@ -57,3 +57,21 @@ TEST(TMassiveTest, Clearmassive) {
     massive.print(ss);
     EXPECT_EQ(ss.str(), "");
 }
+
+TEST(TMassiveTest, RemoveAllOccurrences) {
+    TMassive<int> massive;
+    // Заполняем архив значениями
+    massive.push_back(10);
+    massive.push_back(20);
+    massive.push_back(10);
+    massive.push_back(30);
+    massive.push_back(10);
+
+    // Удаляем все вхождения 10
+    massive.remove_all(10);
+
+    EXPECT_EQ(massive.size(), 2);
+    std::stringstream ss;
+    massive.print(ss);
+    EXPECT_EQ(ss.str(), "20, 30, ");
+}

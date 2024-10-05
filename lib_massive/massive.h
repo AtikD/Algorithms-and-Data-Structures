@@ -49,7 +49,7 @@ class TMassive {
     // TMassive& replace(size_t pos, T new_value);
 
     TMassive& erase(size_t pos, size_t n);
-    // TMassive& remove_all(T value);
+    TMassive& remove_all(const T& value);
     // TMassive& remove_first(T value);
     // TMassive& remove_last(T value);
     // TMassive& remove_by_index(size_t pos);
@@ -176,6 +176,19 @@ TMassive<T>& TMassive<T>::erase(size_t pos, size_t n) {
         _states[i] = State::empty;
     }
     _size -= erase_count;
+    return *this;
+}
+
+template <typename T>
+TMassive<T>& TMassive<T>::remove_all(const T& value) {
+    size_t i = 0;
+    while (i < _size) {
+        if (_states[i] == State::busy && _data[i] == value) {
+            erase(i, 1);
+        } else {
+            ++i;
+        }
+    }
     return *this;
 }
 
