@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.24)
+
 # Загрузка Google Test с использованием FetchContent
 include(FetchContent)
 

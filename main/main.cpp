@@ -1,12 +1,15 @@
+// Copyright 2024 atikdd.t.me
+
 #include <iostream>
 #include <iomanip>
-#include "easy_example.h"
+#include "../lib_easy_example/easy_example.h"
 
 int main() {
     int a, b;
     float result;
 
-    a = 1; b = 4;
+    a = 1;
+    b = 4;
 
     try {
         result = division(a, b);
@@ -16,7 +19,8 @@ int main() {
         std::cerr << err.what() << std::endl;
     }
 
-    a = 1; b = 0;
+    a = 1;
+    b = 0;
 
     try {
         result = division(a, b);
