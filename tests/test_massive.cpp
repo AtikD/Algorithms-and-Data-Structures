@@ -261,3 +261,16 @@ TEST(TMassiveTest, InsertArrayMethod) {
     EXPECT_THROW(massive.insert(arr, 2, 10), std::out_of_range);
 }
 
+TEST(TMassiveTest, FindLastMethod) {
+    TMassive<int> massive;
+    massive.push_back(10);
+    massive.push_back(20);
+    massive.push_back(10);
+    massive.push_back(30);
+
+    size_t index = massive.find_last(10);
+    EXPECT_EQ(index, 2);
+
+    // Проверяем исключение для отсутствующего значения
+    EXPECT_THROW(massive.find_last(40), std::logic_error);
+}
