@@ -46,3 +46,14 @@ TEST(TMassiveTest, EraseMultipleValues) {
     massive.erase(0, 0);
     EXPECT_EQ(massive.size(), 5);
 }
+
+TEST(TMassiveTest, Clearmassive) {
+    TMassive<int> massive;
+    massive.insert(10, 0);
+    massive.insert(20, 1);
+    massive.clear();
+    EXPECT_TRUE(massive.empty());
+    std::stringstream ss;
+    massive.print(ss);
+    EXPECT_EQ(ss.str(), "");
+}
