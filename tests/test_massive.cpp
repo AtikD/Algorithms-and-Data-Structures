@@ -241,3 +241,23 @@ TEST(TMassiveTest, PopFrontMethod) {
     massive.pop_front();
     EXPECT_THROW(massive.pop_front(), std::out_of_range);
 }
+
+TEST(TMassiveTest, InsertArrayMethod) {
+    TMassive<int> massive;
+    massive.push_back(10);
+    massive.push_back(40);
+
+    int arr[] = {20, 30};
+
+    // Вставляем массив из 2 элементов на позицию 1
+    massive.insert(arr, 2, 1);
+
+    EXPECT_EQ(massive.size(), 4);
+    std::stringstream ss;
+    massive.print(ss);
+    EXPECT_EQ(ss.str(), "10, 20, 30, 40, ");
+
+    // Попытка вставить в некорректную позицию
+    EXPECT_THROW(massive.insert(arr, 2, 10), std::out_of_range);
+}
+

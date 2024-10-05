@@ -42,7 +42,7 @@ class TMassive {
     void push_front(const T& value);
     void pop_front();
 
-    // TMassive& insert(const T* arr, size_t n, size_t pos);
+    TMassive& insert(const T* arr, size_t n, size_t pos);
     TMassive& insert(const T& value, size_t pos);
 
     // TMassive& replace(size_t pos, T new_value);
@@ -206,6 +206,30 @@ void TMassive<T>::pop_front() {
     }
     erase(0, 1);
 }
+
+template <typename T>
+TMassive<T>& TMassive<T>::insert(const T* arr, size_t n, size_t pos) {
+    if (pos > _size) {
+        throw std::out_of_range("Insert position is out of range.");
+    }
+    if (n == 0) {
+        return *this;
+    }
+    if (_size + n > _capacity) {
+        reserve(_size + n);
+    }
+    for (size_t i = _size + n - 1; i >= pos + n; --i) {
+        _data[i] = _data[i - n];
+        _states[i] = _states[i - n];
+    }
+    for (size_t i = 0; i < n; ++i) {
+        _data[pos + i] = arr[i];
+        _states[pos + i] = State::busy;
+    }
+    _size += n;
+    return *this;
+}
+
 
 template <typename T>
 TMassive<T>& TMassive<T>::insert(const T& value, size_t pos) {
