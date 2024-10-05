@@ -14,7 +14,6 @@ class TMassive {
     State* _states;
     size_t _capacity;
     size_t _size;
-    size_t _deleted;
 
  public:
     TMassive();
@@ -30,7 +29,7 @@ class TMassive {
     size_t capacity() const noexcept;
     const T* data() const noexcept;
 
-    // void swap(TMassive& archive);
+    void swap(TMassive& archive) noexcept;
 
     // TMassive& assign(const TMassive& archive);
 
@@ -91,6 +90,14 @@ size_t TMassive<T>::capacity() const noexcept {
 template <typename T>
 const T* TMassive<T>::data() const noexcept {
     return _data;
+}
+
+template <typename T>
+void TMassive<T>::swap(TMassive& archive) noexcept {
+    std::swap(_data, archive._data);
+    std::swap(_states, archive._states);
+    std::swap(_size, archive._size);
+    std::swap(_capacity, archive._capacity);
 }
 
 template <typename T>

@@ -138,3 +138,28 @@ TEST(TMassiveTest, RemoveByIndex) {
     // Попытка удалить по некорректному индексу
     EXPECT_THROW(massive.remove_by_index(5), std::out_of_range);
 }
+
+TEST(TMassiveTest, SwapMethod) {
+    TMassive<int> massive1;
+    TMassive<int> massive2;
+
+    massive1.push_back(10);
+    massive1.push_back(20);
+
+    massive2.push_back(30);
+    massive2.push_back(40);
+    massive2.push_back(50);
+
+    // Выполняем обмен
+    massive1.swap(massive2);
+
+    // Проверяем содержимое massive1
+    std::stringstream ss1;
+    massive1.print(ss1);
+    EXPECT_EQ(ss1.str(), "30, 40, 50, ");
+
+    // Проверяем содержимое massive2
+    std::stringstream ss2;
+    massive2.print(ss2);
+    EXPECT_EQ(ss2.str(), "10, 20, ");
+}
