@@ -45,7 +45,7 @@ class TMassive {
     TMassive& insert(const T* arr, size_t n, size_t pos);
     TMassive& insert(const T& value, size_t pos);
 
-    // TMassive& replace(size_t pos, T new_value);
+    TMassive& replace(size_t pos, const T& new_value);
 
     TMassive& erase(size_t pos, size_t n);
     TMassive& remove_all(const T& value);
@@ -255,6 +255,19 @@ TMassive<T>& TMassive<T>::insert(const T& value, size_t pos) {
     ++_size;
     return *this;
 }
+
+template <typename T>
+TMassive<T>& TMassive<T>::replace(size_t pos, const T& new_value) {
+    if (pos >= _size) {
+        throw std::out_of_range("Position is out of range.");
+    }
+    if (_states[pos] != State::busy) {
+        throw std::logic_error("Cannot replace an empty or deleted position.");
+    }
+    _data[pos] = new_value;
+    return *this;
+}
+
 
 template <typename T>
 TMassive<T>& TMassive<T>::erase(size_t pos, size_t n) {

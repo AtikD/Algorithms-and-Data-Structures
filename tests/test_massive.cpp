@@ -293,3 +293,21 @@ TEST(TMassiveTest, PopBackMethod) {
     massive.pop_back();
     EXPECT_THROW(massive.pop_back(), std::out_of_range);
 }
+
+TEST(TMassiveTest, ReplaceMethod) {
+    TMassive<int> massive;
+    massive.push_back(10);
+    massive.push_back(20);
+    massive.push_back(30);
+
+    // Заменяем значение на позиции 1
+    massive.replace(1, 25);
+
+    std::stringstream ss;
+    massive.print(ss);
+    EXPECT_EQ(ss.str(), "10, 25, 30, ");
+
+    // Попытка заменить значение на несуществующей позиции
+    EXPECT_THROW(massive.replace(5, 50), std::out_of_range);
+
+}
