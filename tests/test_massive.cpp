@@ -209,3 +209,16 @@ TEST(TMassiveTest, ResizeMethod) {
     massive.print(ss);
     EXPECT_EQ(ss.str(), "10, 20, ");
 }
+
+TEST(TMassiveTest, PushFrontMethod) {
+    TMassive<int> massive;
+    massive.push_back(20);
+    massive.push_back(30);
+
+    massive.push_front(10);
+
+    EXPECT_EQ(massive.size(), 3);
+    std::stringstream ss;
+    massive.print(ss);
+    EXPECT_EQ(ss.str(), "10, 20, 30, ");
+}

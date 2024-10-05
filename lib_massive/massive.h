@@ -39,7 +39,7 @@ class TMassive {
 
     void push_back(const T& value);
     // void pop_back();
-    // void push_front(T value);
+    void push_front(const T& value);
     // void pop_front();
 
     // TMassive& insert(const T* arr, size_t n, size_t pos);
@@ -148,6 +148,7 @@ void TMassive<T>::clear() {
     }
 }
 
+
 template <typename T>
 void TMassive<T>::resize(size_t n, const T& value) {
     if (n < _size) {
@@ -191,6 +192,11 @@ void TMassive<T>::reserve(size_t new_capacity) {
 template <typename T>
 void TMassive<T>::push_back(const T& value) {
     insert(value, _size);
+}
+
+template <typename T>
+void TMassive<T>::push_front(const T& value) {
+    insert(value, 0);
 }
 
 
