@@ -48,7 +48,7 @@ class TMassive {
 
     // TMassive& replace(size_t pos, T new_value);
 
-    // TMassive& erase(size_t pos, size_t n);
+    TMassive& erase(size_t pos, size_t n);
     // TMassive& remove_all(T value);
     // TMassive& remove_first(T value);
     // TMassive& remove_last(T value);
@@ -127,6 +127,29 @@ TMassive<T>& TMassive<T>::insert(const T& value, size_t pos) {
     _data[pos] = value;
     _states[pos] = State::busy;
     ++_size;
+    return *this;
+}
+
+template <typename T>
+TMassive<T>& TMassive<T>::erase(size_t pos, size_t n) {
+    if (pos >= _size) {
+        throw std::out_of_range("Erase position is out of range.");
+    }
+    if (n == 0) {
+        return *this;
+    }
+    size_t erase_count = n;
+    if (pos + n > _size) {
+        erase_count = _size - pos;
+    }
+    for (size_t i = pos; i + erase_count < _size; ++i) {
+        _data[i] = _data[i + erase_count];
+        _states[i] = _states[i + erase_count];
+    }
+    for (size_t i = _size - erase_count; i < _size; ++i) {
+        _states[i] = State::empty;
+    }
+    _size -= erase_count;
     return *this;
 }
 
