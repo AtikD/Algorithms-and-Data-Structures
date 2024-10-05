@@ -26,8 +26,8 @@ class TMassive {
     inline bool empty() const noexcept;
     inline bool full() const noexcept;
 
-    // size_t size();
-    // size_t capacity();
+    size_t size();
+    size_t capacity();
     // const T* data();
 
     // void swap(TMassive& archive);
@@ -76,6 +76,16 @@ template <typename T>
 TMassive<T>::~TMassive() {
     delete[] _data;
     _data = nullptr;
+}
+
+template <typename T>
+size_t TMassive<T>::size() const noexcept {
+    return _size;
+}
+
+template <typename T>
+size_t TMassive<T>::capacity() const noexcept {
+    return _capacity;
 }
 
 template <typename T>
