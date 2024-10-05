@@ -188,3 +188,24 @@ TEST(TMassiveTest, AssignMethod) {
     massive2.print(ss2);
     EXPECT_EQ(ss2.str(), "30, 40, 50, ");
 }
+
+TEST(TMassiveTest, ResizeMethod) {
+    TMassive<int> massive;
+    massive.push_back(10);
+    massive.push_back(20);
+    massive.push_back(30);
+
+    // Увеличиваем размер до 5, заполняя значением 0
+    massive.resize(5, 0);
+    EXPECT_EQ(massive.size(), 5);
+    std::stringstream ss;
+    massive.print(ss);
+    EXPECT_EQ(ss.str(), "10, 20, 30, 0, 0, ");
+
+    // Уменьшаем размер до 2
+    massive.resize(2, 0);
+    EXPECT_EQ(massive.size(), 2);
+    ss.str("");
+    massive.print(ss);
+    EXPECT_EQ(ss.str(), "10, 20, ");
+}

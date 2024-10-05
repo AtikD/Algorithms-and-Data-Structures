@@ -34,7 +34,7 @@ class TMassive {
     TMassive& assign(const TMassive& archive);
 
     void clear();
-    // void resize(size_t n, T value);
+    void resize(size_t n, const T& value);
     void reserve(size_t new_capacity);
 
     void push_back(const T& value);
@@ -145,6 +145,25 @@ void TMassive<T>::clear() {
     _states = new State[_capacity];
     for (size_t i = 0; i < _capacity; ++i) {
         _states[i] = State::empty;
+    }
+}
+
+template <typename T>
+void TMassive<T>::resize(size_t n, const T& value) {
+    if (n < _size) {
+        for (size_t i = n; i < _size; ++i) {
+            _states[i] = State::empty;
+        }
+        _size = n;
+    } else if (n > _size) {
+        if (n > _capacity) {
+            reserve(n);
+        }
+        for (size_t i = _size; i < n; ++i) {
+            _data[i] = value;
+            _states[i] = State::busy;
+        }
+        _size = n;
     }
 }
 
