@@ -1,7 +1,7 @@
 // Copyright 2024 atikdd.t.me
 
 #include <gtest/gtest.h>
-#include "easy_example.h"
+#include "../lib_easy_example/easy_example.h"
 
 TEST(DivisionTest, PositiveNumbers) {
     EXPECT_FLOAT_EQ(division(10, 2), 5.0f);
