@@ -9,7 +9,7 @@ enum State { empty, busy, deleted };
 
 
 template <typename T>
-class TArchive {
+class TMassive {
     T* _data;
     State* _states;
     size_t _capacity;
@@ -17,11 +17,11 @@ class TArchive {
     size_t _deleted;
 
  public:
-    TArchive();
+    TMassive();
 
-    ~TArchive();
+    ~TMassive();
 
-    void print() const noexcept;
+    void print(std::ostream& out) const noexcept;
 
     inline bool empty() const noexcept;
     inline bool full() const noexcept;
@@ -30,9 +30,9 @@ class TArchive {
     // size_t capacity();
     // const T* data();
 
-    // void swap(TArchive& archive);
+    // void swap(TMassive& archive);
 
-    // TArchive& assign(const TArchive& archive);
+    // TMassive& assign(const TMassive& archive);
 
     // void clear();
     // void resize(size_t n, T value);
@@ -43,16 +43,16 @@ class TArchive {
     // void push_front(T value);            // âñòàâêà ýëåìåíòà (â íà÷àëî)
     // void pop_front();                    // óäàëåíèå ýëåìåíòà (èç íà÷àëà)
 
-    // TArchive& insert(const T* arr, size_t n, size_t pos);
-    TArchive& insert(T value, size_t pos);
+    // TMassive& insert(const T* arr, size_t n, size_t pos);
+    TMassive& insert(const T& value, size_t pos);
 
-    // TArchive& replace(size_t pos, T new_value);
+    // TMassive& replace(size_t pos, T new_value);
 
-    // TArchive& erase(size_t pos, size_t n);
-    // TArchive& remove_all(T value);
-    // TArchive& remove_first(T value);
-    // TArchive& remove_last(T value);
-    // TArchive& remove_by_index(size_t pos);
+    // TMassive& erase(size_t pos, size_t n);
+    // TMassive& remove_all(T value);
+    // TMassive& remove_first(T value);
+    // TMassive& remove_last(T value);
+    // TMassive& remove_by_index(size_t pos);
 
     // size_t* find_all(T value) const noexcept;
     // size_t find_first(T value);
@@ -62,7 +62,7 @@ class TArchive {
 };
 
 template <typename T>
-TArchive<T>::TArchive() {
+TMassive<T>::TMassive() {
     _size = 0;
     _capacity = STEP_CAPACITY;
     _data = new T[_capacity];
@@ -73,49 +73,44 @@ TArchive<T>::TArchive() {
 }
 
 template <typename T>
-TArchive<T>::~TArchive() {
+TMassive<T>::~TMassive() {
     delete[] _data;
     _data = nullptr;
 }
 
 template <typename T>
-inline bool TArchive<T>::empty() const noexcept {
+inline bool TMassive<T>::empty() const noexcept {
     return _size == 0;
 }
 
 template <typename T>
-inline bool TArchive<T>::full() const noexcept {
+inline bool TMassive<T>::full() const noexcept {
     return _size == _capacity;
 }
 
 template <typename T>
-TArchive<T>& TArchive<T>::insert(T value, size_t pos) {
-    if (_size < pos) {
-        throw std::logic_error("Error in function \
-\"TArchive<T>& insert(T value, size_t pos)\": wrong position value.");
+TMassive<T>& TMassive<T>::insert(const T& value, size_t pos) {
+    if (pos > _size) {
+        throw std::out_of_range("Insert position is out of range.");
     }
-    /*
-    // äåéñòâèÿ ïðè ïåðåïîëíåíèè
-    if (this->full()) {
-        this->reserve(size_t n);
-        // + âíóòðè reserve() èñêëþ÷åíèå, åñëè äîñòèãíåì ìàñèìàëüíî
-        // âîçìîæíîãî çíà÷åíèÿ _capacity
+    if (_size >= _capacity) {
+        reserve(_capacity + STEP_CAPACITY);
     }
-    */
-    for (size_t i = _size; i > pos; i--) {
+    for (size_t i = _size; i > pos; --i) {
         _data[i] = _data[i - 1];
+        _states[i] = _states[i - 1];
     }
     _data[pos] = value;
     _states[pos] = State::busy;
-    _size++;
+    ++_size;
     return *this;
 }
 
 template <typename T>
-void TArchive<T>::print() const noexcept {
-    for (size_t i = 0; i < _size; i++) {
+void TMassive<T>::print(std::ostream& out) const noexcept {
+    for (size_t i = 0; i < _size; ++i) {
         if (_states[i] != State::deleted) {
-            std::cout << _data[i] << ", ";
+            out << _data[i] << ", ";
         }
     }
 }
@@ -123,7 +118,7 @@ void TArchive<T>::print() const noexcept {
 /*
 // ïðèìåð ðåàëèçàöèè ñ âîçâðàòîì ìàññèâà íàéäåííûõ ïîçèöèé
 template <typename T>
-size_t* TArchive<T>::find_all (T value) const noexcept {
+size_t* TMassive<T>::find_all (T value) const noexcept {
     size_t count = this->count_value(value);
     if (count == 0) { return nullptr; }
     int* found_positions = new int[count + 1];
