@@ -26,8 +26,8 @@ class TMassive {
     inline bool empty() const noexcept;
     inline bool full() const noexcept;
 
-    size_t size();
-    size_t capacity();
+    size_t size() const noexcept;
+    size_t capacity() const noexcept;
     // const T* data();
 
     // void swap(TMassive& archive);
@@ -38,10 +38,10 @@ class TMassive {
     // void resize(size_t n, T value);
     void reserve(size_t new_capacity);
 
-    // void push_back(T value);             // âñòàâêà ýëåìåíòà (â êîíåö)
-    // void pop_back();                     // óäàëåíèå ýëåìåíòà (èç êîíöà)
-    // void push_front(T value);            // âñòàâêà ýëåìåíòà (â íà÷àëî)
-    // void pop_front();                    // óäàëåíèå ýëåìåíòà (èç íà÷àëà)
+    void push_back(const T& value);
+    // void pop_back();
+    // void push_front(T value);
+    // void pop_front();
 
     // TMassive& insert(const T* arr, size_t n, size_t pos);
     TMassive& insert(const T& value, size_t pos);
@@ -119,6 +119,11 @@ void TMassive<T>::reserve(size_t new_capacity) {
     _data = new_data;
     _states = new_states;
     _capacity = new_capacity;
+}
+
+template <typename T>
+void TMassive<T>::push_back(const T& value) {
+    insert(value, _size);
 }
 
 
