@@ -38,7 +38,7 @@ class TMassive {
     void reserve(size_t new_capacity);
 
     void push_back(const T& value);
-    // void pop_back();
+    void pop_back();
     void push_front(const T& value);
     void pop_front();
 
@@ -54,9 +54,7 @@ class TMassive {
     TMassive& remove_by_index(size_t pos);
     size_t find_last(const T& value) const;
     // size_t find_first(T value);
-    // size_t find_last(T value);
- private:
-    // size_t count_value(T value);
+    // size_t find_all(T value);
 };
 
 template <typename T>
@@ -192,6 +190,16 @@ template <typename T>
 void TMassive<T>::push_back(const T& value) {
     insert(value, _size);
 }
+
+template <typename T>
+void TMassive<T>::pop_back() {
+    if (_size == 0) {
+        throw std::out_of_range("Archive is empty.");
+    }
+    _states[_size - 1] = State::empty;
+    --_size;
+}
+
 
 template <typename T>
 void TMassive<T>::push_front(const T& value) {
@@ -336,18 +344,3 @@ void TMassive<T>::print(std::ostream& out) const noexcept {
         }
     }
 }
-
-/*
-// ïðèìåð ðåàëèçàöèè ñ âîçâðàòîì ìàññèâà íàéäåííûõ ïîçèöèé
-template <typename T>
-size_t* TMassive<T>::find_all (T value) const noexcept {
-    size_t count = this->count_value(value);
-    if (count == 0) { return nullptr; }
-    int* found_positions = new int[count + 1];
-    found_positions[0] = count;
-
-    // TBD
-
-    return found_positions;
-}
-*/

@@ -274,3 +274,22 @@ TEST(TMassiveTest, FindLastMethod) {
     // Проверяем исключение для отсутствующего значения
     EXPECT_THROW(massive.find_last(40), std::logic_error);
 }
+
+TEST(TMassiveTest, PopBackMethod) {
+    TMassive<int> massive;
+    massive.push_back(10);
+    massive.push_back(20);
+    massive.push_back(30);
+
+    massive.pop_back();
+
+    EXPECT_EQ(massive.size(), 2);
+    std::stringstream ss;
+    massive.print(ss);
+    EXPECT_EQ(ss.str(), "10, 20, ");
+
+    // Проверяем исключение при попытке удалить из пустого архива
+    massive.pop_back();
+    massive.pop_back();
+    EXPECT_THROW(massive.pop_back(), std::out_of_range);
+}
