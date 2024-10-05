@@ -163,3 +163,28 @@ TEST(TMassiveTest, SwapMethod) {
     massive2.print(ss2);
     EXPECT_EQ(ss2.str(), "10, 20, ");
 }
+
+TEST(TMassiveTest, AssignMethod) {
+    TMassive<int> massive1;
+    TMassive<int> massive2;
+
+    massive1.push_back(10);
+    massive1.push_back(20);
+
+    massive2.push_back(30);
+    massive2.push_back(40);
+    massive2.push_back(50);
+
+    // Присваиваем massive1 содержимое massive2
+    massive1.assign(massive2);
+
+    // Проверяем содержимое massive1
+    std::stringstream ss1;
+    massive1.print(ss1);
+    EXPECT_EQ(ss1.str(), "30, 40, 50, ");
+
+    // Проверяем, что massive2 не изменился
+    std::stringstream ss2;
+    massive2.print(ss2);
+    EXPECT_EQ(ss2.str(), "30, 40, 50, ");
+}

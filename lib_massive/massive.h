@@ -31,7 +31,7 @@ class TMassive {
 
     void swap(TMassive& archive) noexcept;
 
-    // TMassive& assign(const TMassive& archive);
+    TMassive& assign(const TMassive& archive);
 
     void clear();
     // void resize(size_t n, T value);
@@ -109,6 +109,31 @@ template <typename T>
 inline bool TMassive<T>::full() const noexcept {
     return _size == _capacity;
 }
+
+template <typename T>
+TMassive<T>& TMassive<T>::assign(const TMassive& archive) {
+    if (this != &archive) {
+        delete[] _data;
+        delete[] _states;
+
+        _capacity = archive._capacity;
+        _size = archive._size;
+
+        _data = new T[_capacity];
+        _states = new State[_capacity];
+
+        for (size_t i = 0; i < _size; ++i) {
+            _data[i] = archive._data[i];
+            _states[i] = archive._states[i];
+        }
+        // Инициализируем оставшиеся состояния
+        for (size_t i = _size; i < _capacity; ++i) {
+            _states[i] = State::empty;
+        }
+    }
+    return *this;
+}
+
 
 template <typename T>
 void TMassive<T>::clear() {
