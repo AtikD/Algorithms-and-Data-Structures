@@ -336,12 +336,14 @@ TEST(TMassiveTest, FindAllMethod) {
     massive.push_back(30);
     massive.push_back(10);
 
+    size_t count = 0;
     size_t* indices = massive.find_all(10);
 
+    EXPECT_EQ(indices[0], 3);
     ASSERT_NE(indices, nullptr);
-    EXPECT_EQ(indices[0], 0);
-    EXPECT_EQ(indices[1], 2);
-    EXPECT_EQ(indices[2], 4);
+    EXPECT_EQ(indices[1], 0);
+    EXPECT_EQ(indices[2], 2);
+    EXPECT_EQ(indices[3], 4);
 
     delete[] indices;
 

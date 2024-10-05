@@ -367,8 +367,9 @@ size_t* TMassive<T>::find_all(const T& value) const noexcept {
     if (count == 0) {
         return nullptr;
     }
-    size_t* indices = new size_t[count];
-    size_t idx = 0;
+    size_t* indices = new size_t[count+1];
+    indices[0] = count;
+    size_t idx = 1;
     for (size_t i = 0; i < _size; ++i) {
         if (_states[i] == State::busy && _data[i] == value) {
             indices[idx++] = i;
@@ -376,6 +377,8 @@ size_t* TMassive<T>::find_all(const T& value) const noexcept {
     }
     return indices;
 }
+
+
 
 template <typename T>
 size_t TMassive<T>::count_value(T value) const noexcept {
