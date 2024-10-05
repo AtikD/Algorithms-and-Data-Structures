@@ -327,3 +327,25 @@ TEST(TMassiveTest, FindFirstMethod) {
     // Проверяем исключение для отсутствующего значения
     EXPECT_THROW(massive.find_first(40), std::logic_error);
 }
+
+TEST(TMassiveTest, FindAllMethod) {
+    TMassive<int> massive;
+    massive.push_back(10);
+    massive.push_back(20);
+    massive.push_back(10);
+    massive.push_back(30);
+    massive.push_back(10);
+
+    size_t* indices = massive.find_all(10);
+
+    ASSERT_NE(indices, nullptr);
+    EXPECT_EQ(indices[0], 0);
+    EXPECT_EQ(indices[1], 2);
+    EXPECT_EQ(indices[2], 4);
+
+    delete[] indices;
+
+    // Проверка для значения, которого нет
+    indices = massive.find_all(40);
+    EXPECT_EQ(indices, nullptr);
+}
