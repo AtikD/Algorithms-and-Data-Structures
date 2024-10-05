@@ -28,7 +28,7 @@ class TMassive {
 
     size_t size() const noexcept;
     size_t capacity() const noexcept;
-    // const T* data();
+    const T* data() const noexcept;
 
     // void swap(TMassive& archive);
 
@@ -86,6 +86,11 @@ size_t TMassive<T>::size() const noexcept {
 template <typename T>
 size_t TMassive<T>::capacity() const noexcept {
     return _capacity;
+}
+
+template <typename T>
+const T* TMassive<T>::data() const noexcept {
+    return _data;
 }
 
 template <typename T>
