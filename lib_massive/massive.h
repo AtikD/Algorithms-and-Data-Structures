@@ -40,7 +40,7 @@ class TMassive {
     void push_back(const T& value);
     // void pop_back();
     void push_front(const T& value);
-    // void pop_front();
+    void pop_front();
 
     // TMassive& insert(const T* arr, size_t n, size_t pos);
     TMassive& insert(const T& value, size_t pos);
@@ -199,6 +199,13 @@ void TMassive<T>::push_front(const T& value) {
     insert(value, 0);
 }
 
+template <typename T>
+void TMassive<T>::pop_front() {
+    if (_size == 0) {
+        throw std::out_of_range("Archive is empty.");
+    }
+    erase(0, 1);
+}
 
 template <typename T>
 TMassive<T>& TMassive<T>::insert(const T& value, size_t pos) {

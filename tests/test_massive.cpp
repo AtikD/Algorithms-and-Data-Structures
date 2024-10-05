@@ -222,3 +222,22 @@ TEST(TMassiveTest, PushFrontMethod) {
     massive.print(ss);
     EXPECT_EQ(ss.str(), "10, 20, 30, ");
 }
+
+TEST(TMassiveTest, PopFrontMethod) {
+    TMassive<int> massive;
+    massive.push_back(10);
+    massive.push_back(20);
+    massive.push_back(30);
+
+    massive.pop_front();
+
+    EXPECT_EQ(massive.size(), 2);
+    std::stringstream ss;
+    massive.print(ss);
+    EXPECT_EQ(ss.str(), "20, 30, ");
+
+    // Проверяем исключение при попытке удалить из пустого архива
+    massive.pop_front();
+    massive.pop_front();
+    EXPECT_THROW(massive.pop_front(), std::out_of_range);
+}
