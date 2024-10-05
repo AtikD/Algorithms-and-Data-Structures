@@ -52,7 +52,7 @@ class TMassive {
     TMassive& remove_all(const T& value);
     TMassive& remove_first(const T& value);
     TMassive& remove_last(const T& value);
-    // TMassive& remove_by_index(size_t pos);
+    TMassive& remove_by_index(size_t pos);
 
     // size_t* find_all(T value) const noexcept;
     // size_t find_first(T value);
@@ -213,6 +213,15 @@ TMassive<T>& TMassive<T>::remove_last(const T& value) {
         }
     }
     throw std::logic_error("Value not found in the archive.");
+}
+
+template <typename T>
+TMassive<T>& TMassive<T>::remove_by_index(size_t pos) {
+    if (pos >= _size) {
+        throw std::out_of_range("Index is out of range.");
+    }
+    erase(pos, 1);
+    return *this;
 }
 
 

@@ -119,3 +119,22 @@ TEST(TMassiveTest, RemoveLastOccurrence) {
     // Проверяем удаление значения, которого нет
     EXPECT_THROW(massive.remove_last(40), std::logic_error);
 }
+
+TEST(TMassiveTest, RemoveByIndex) {
+    TMassive<int> massive;
+    // Заполняем архив значениями
+    massive.push_back(10);
+    massive.push_back(20);
+    massive.push_back(30);
+
+    // Удаляем элемент по индексу 1 (значение 20)
+    massive.remove_by_index(1);
+
+    EXPECT_EQ(massive.size(), 2);
+    std::stringstream ss;
+    massive.print(ss);
+    EXPECT_EQ(ss.str(), "10, 30, ");
+
+    // Попытка удалить по некорректному индексу
+    EXPECT_THROW(massive.remove_by_index(5), std::out_of_range);
+}
