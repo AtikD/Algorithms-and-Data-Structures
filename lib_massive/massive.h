@@ -17,7 +17,8 @@ class TMassive {
 
  public:
     TMassive();
-
+    TMassive(const TMassive<T>& other);
+    TMassive(TMassive<T>&& other) noexcept;
     ~TMassive();
 
     void print(std::ostream& out) const noexcept;
@@ -55,6 +56,10 @@ class TMassive {
     size_t find_last(const T& value) const;
     size_t find_first(const T& value) const;
     size_t* find_all(const T& value) const noexcept;
+    TMassive<T>& operator=(const TMassive<T>& other);
+    TMassive<T>& operator=(TMassive<T>&& other) noexcept;
+    T& operator[](size_t index);
+    const T& operator[](size_t index) const;
 
  private:
     size_t count_value(T value) const noexcept;
@@ -66,15 +71,106 @@ TMassive<T>::TMassive() {
     _capacity = STEP_CAPACITY;
     _data = new T[_capacity];
     _states = new State[_capacity];
-    for (size_t i = 0; i < STEP_CAPACITY; i++) {
+    for (size_t i = 0; i < _capacity; ++i) {
         _states[i] = State::empty;
     }
 }
 
 template <typename T>
+TMassive<T>::TMassive(const TMassive<T>& other) {
+    _size = other._size;
+    _capacity = other._capacity;
+    _data = new T[_capacity];
+    _states = new State[_capacity];
+    for (size_t i = 0; i < _capacity; ++i) {
+        _states[i] = other._states[i];
+        if (_states[i] == State::busy) {
+            _data[i] = other._data[i];
+        }
+    }
+}
+
+template <typename T>
+T& TMassive<T>::operator[](size_t index) {
+    if (index >= _size) {
+        throw std::out_of_range("Index out of range.");
+    }
+    if (_states[index] != State::busy) {
+        throw std::logic_error("Element at this index is not valid.");
+    }
+    return _data[index];
+}
+
+template <typename T>
+const T& TMassive<T>::operator[](size_t index) const {
+    if (index >= _size) {
+        throw std::out_of_range("Index out of range.");
+    }
+    if (_states[index] != State::busy) {
+        throw std::logic_error("Element at this index is not valid.");
+    }
+    return _data[index];
+}
+
+template <typename T>
+TMassive<T>::TMassive(TMassive<T>&& other) noexcept {
+    _data = other._data;
+    _states = other._states;
+    _size = other._size;
+    _capacity = other._capacity;
+
+    other._data = nullptr;
+    other._states = nullptr;
+    other._size = 0;
+    other._capacity = 0;
+}
+
+template <typename T>
+TMassive<T>& TMassive<T>::operator=(const TMassive<T>& other) {
+    if (this != &other) {
+        delete[] _data;
+        delete[] _states;
+
+        _size = other._size;
+        _capacity = other._capacity;
+        _data = new T[_capacity];
+        _states = new State[_capacity];
+        for (size_t i = 0; i < _capacity; ++i) {
+            _states[i] = other._states[i];
+            if (_states[i] == State::busy) {
+                _data[i] = other._data[i];
+            }
+        }
+    }
+    return *this;
+}
+
+template <typename T>
+TMassive<T>& TMassive<T>::operator=(TMassive<T>&& other) noexcept {
+    if (this != &other) {
+        delete[] _data;
+        delete[] _states;
+
+        _data = other._data;
+        _states = other._states;
+        _size = other._size;
+        _capacity = other._capacity;
+
+        other._data = nullptr;
+        other._states = nullptr;
+        other._size = 0;
+        other._capacity = 0;
+    }
+    return *this;
+}
+
+
+template <typename T>
 TMassive<T>::~TMassive() {
     delete[] _data;
+    delete[] _states;
     _data = nullptr;
+    _states = nullptr;
 }
 
 template <typename T>
@@ -137,16 +233,12 @@ TMassive<T>& TMassive<T>::assign(const TMassive& archive) {
 
 template <typename T>
 void TMassive<T>::clear() {
-    delete[] _data;
-    delete[] _states;
-    _capacity = STEP_CAPACITY;
-    _size = 0;
-    _data = new T[_capacity];
-    _states = new State[_capacity];
-    for (size_t i = 0; i < _capacity; ++i) {
+    for (size_t i = 0; i < _size; ++i) {
         _states[i] = State::empty;
     }
+    _size = 0;
 }
+
 
 
 template <typename T>
@@ -189,6 +281,7 @@ void TMassive<T>::reserve(size_t new_capacity) {
     _capacity = new_capacity;
 }
 
+
 template <typename T>
 void TMassive<T>::push_back(const T& value) {
     insert(value, _size);
@@ -228,9 +321,9 @@ TMassive<T>& TMassive<T>::insert(const T* arr, size_t n, size_t pos) {
     if (_size + n > _capacity) {
         reserve(_size + n);
     }
-    for (size_t i = _size + n - 1; i >= pos + n; --i) {
-        _data[i] = _data[i - n];
-        _states[i] = _states[i - n];
+    for (size_t i = _size; i > pos; --i) {
+        _data[i + n - 1] = _data[i - 1];
+        _states[i + n - 1] = _states[i - 1];
     }
     for (size_t i = 0; i < n; ++i) {
         _data[pos + i] = arr[i];

@@ -15,6 +15,36 @@ TEST(TMassiveTest, InsertSingleValue) {
     EXPECT_EQ(ss.str(), "10, 15, 20, ");
 }
 
+TEST(TMassiveTest, DefaultConstructor) {
+    TMassive<int> massive;
+    EXPECT_EQ(massive.size(), 0);
+    EXPECT_EQ(massive.capacity(), STEP_CAPACITY);
+    EXPECT_TRUE(massive.empty());
+}
+
+TEST(TMassiveTest, CopyConstructor) {
+    TMassive<int> original;
+    original.push_back(1);
+    original.push_back(2);
+
+    TMassive<int> copy(original);
+    EXPECT_EQ(copy.size(), original.size());
+    EXPECT_EQ(copy[0], 1);
+    EXPECT_EQ(copy[1], 2);
+}
+
+TEST(TMassiveTest, MoveConstructor) {
+    TMassive<int> original;
+    original.push_back(1);
+    original.push_back(2);
+
+    TMassive<int> moved(std::move(original));
+    EXPECT_EQ(moved.size(), 2);
+    EXPECT_EQ(moved[0], 1);
+    EXPECT_EQ(moved[1], 2);
+    EXPECT_EQ(original.size(), 0);
+}
+
 TEST(TMassiveTest, EraseMultipleValues) {
     TMassive<int> massive;
     // Заполняем архив значениями
