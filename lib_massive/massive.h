@@ -1,6 +1,6 @@
 // Copyright 2024 atikdd.t.me
 #include <utility>
-
+#include <ostream>
 
 #pragma once
 #define STEP_CAPACITY 15
