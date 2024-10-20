@@ -19,22 +19,20 @@ class TVector {
     TVector(size_t size, size_t start_index);
     TVector(const T* arr, size_t size, size_t start_index);
     TVector(const TVector<T>& other);
-    TVector(TVector<T>&& other) noexcept;
 
     ~TVector();
 
     // Операторы присваивания
-    // TVector<T>& operator=(const TVector<T>& other);
-    // TVector<T>& operator=(TVector<T>&& other) noexcept;
+    TVector<T>& operator=(const TVector<T>& other);
 
     // Операторы доступа
     T& operator[](size_t index);
     const T& operator[](size_t index) const;
 
     // А рифметические операторы
-    // TVector<T> operator+(const TVector<T>& other) const;
-    // TVector<T> operator-(const TVector<T>& other) const;
-    // T operator*(const TVector<T>& other) const;  // Скалярное произведение
+    TVector<T> operator+(const TVector<T>& other) const;
+    TVector<T> operator-(const TVector<T>& other) const;
+    T operator*(const TVector<T>& other) const;  // Скалярное произведение
 
     // TVector<T>& operator+=(const TVector<T>& other);
     // TVector<T>& operator-=(const TVector<T>& other);
@@ -78,14 +76,6 @@ TVector<T>::TVector(const TVector<T>& other) :
                 _data(other._data), _start_index(other._start_index) {}
 
 template <typename T>
-TVector<T>::TVector(TVector<T>&& other) noexcept :
-            _data(std::move(other._data)), _start_index(other._start_index) {
-    other._start_index = 0;
-}
-
-
-
-template <typename T>
 TVector<T>::~TVector() {}
 
 template <typename T>
@@ -112,4 +102,49 @@ const T& TVector<T>::operator[](size_t index) const {
         throw std::out_of_range("Индекс вне диапазона");
     }
     return _data[index - _start_index];
+}
+
+template <typename T>
+TVector<T>& TVector<T>::operator=(const TVector<T>& other) {
+    if (this != &other) {
+        _data = other._data;
+        _start_index = other._start_index;
+    }
+    return *this;
+}
+
+template <typename T>
+TVector<T> TVector<T>::operator+(const TVector<T>& other) const {
+    if (size() != other.size() || _start_index != other._start_index) {
+        throw std::logic_error("Размеры векторов не совпадают");
+    }
+    TVector<T> result(size(), _start_index);
+    for (size_t i = 0; i < size(); ++i) {
+        result._data.replace(i, _data[i] + other._data[i]);
+    }
+    return result;
+}
+
+template <typename T>
+TVector<T> TVector<T>::operator-(const TVector<T>& other) const {
+    if (size() != other.size() || _start_index != other._start_index) {
+        throw std::logic_error("Размеры векторов не совпадают");
+    }
+    TVector<T> result(size(), _start_index);
+    for (size_t i = 0; i < size(); ++i) {
+        result._data.replace(i, _data[i] - other._data[i]);
+    }
+    return result;
+}
+
+template <typename T>
+T TVector<T>::operator*(const TVector<T>& other) const {
+    if (size() != other.size() || _start_index != other._start_index) {
+        throw std::logic_error("Размеры векторов не совпадают");
+    }
+    T result = T();
+    for (size_t i = 0; i < size(); ++i) {
+        result += _data[i] * other._data[i];
+    }
+    return result;
 }

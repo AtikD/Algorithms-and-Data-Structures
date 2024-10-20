@@ -44,16 +44,69 @@ TEST(TVectorTest, CopyConstructor) {
     EXPECT_EQ(vec2[2], 30);
 }
 
-TEST(TVectorTest, MoveConstructor) {
-    TVector<int> vec1(3, 0);
-    vec1[0] = 5;
-    vec1[1] = 10;
-    vec1[2] = 15;
 
-    TVector<int> vec2(std::move(vec1));
-    EXPECT_EQ(vec2.size(), 3);
-    EXPECT_EQ(vec2[0], 5);
-    EXPECT_EQ(vec2[1], 10);
-    EXPECT_EQ(vec2[2], 15);
-    EXPECT_EQ(vec1.size(), 0);
+TEST(TVectorTest, CopyAssignmentOperator) {
+    TVector<int> vec1(2, 0);
+    vec1[0] = 1;
+    vec1[1] = 2;
+
+    TVector<int> vec2;
+    vec2 = vec1;
+    EXPECT_EQ(vec2.size(), 2);
+    EXPECT_EQ(vec2[0], 1);
+    EXPECT_EQ(vec2[1], 2);
+}
+
+TEST(TVectorTest, AdditionOperator) {
+    TVector<int> vec1(3, 0);
+    TVector<int> vec2(3, 0);
+    vec1[0] = 1;
+    vec1[1] = 2;
+    vec1[2] = 3;
+    vec2[0] = 4;
+    vec2[1] = 5;
+    vec2[2] = 6;
+
+    TVector<int> result = vec1 + vec2;
+    EXPECT_EQ(result.size(), 3);
+    EXPECT_EQ(result[0], 5);
+    EXPECT_EQ(result[1], 7);
+    EXPECT_EQ(result[2], 9);
+}
+
+TEST(TVectorTest, AdditionOperatorDifferentSize) {
+    TVector<int> vec1(3, 0);
+    TVector<int> vec2(2, 0);
+    EXPECT_THROW(vec1 + vec2, std::logic_error);
+}
+
+TEST(TVectorTest, SubtractionOperator) {
+    TVector<int> vec1(3, 0);
+    TVector<int> vec2(3, 0);
+    vec1[0] = 5;
+    vec1[1] = 7;
+    vec1[2] = 9;
+    vec2[0] = 1;
+    vec2[1] = 2;
+    vec2[2] = 3;
+
+    TVector<int> result = vec1 - vec2;
+    EXPECT_EQ(result.size(), 3);
+    EXPECT_EQ(result[0], 4);
+    EXPECT_EQ(result[1], 5);
+    EXPECT_EQ(result[2], 6);
+}
+
+TEST(TVectorTest, ScalarProductOperator) {
+    TVector<int> vec1(3, 0);
+    TVector<int> vec2(3, 0);
+    vec1[0] = 1;
+    vec1[1] = 2;
+    vec1[2] = 3;
+    vec2[0] = 4;
+    vec2[1] = 5;
+    vec2[2] = 6;
+
+    int result = vec1 * vec2;
+    EXPECT_EQ(result, 32);  // 1*4 + 2*5 + 3*6 = 32
 }
