@@ -4,7 +4,7 @@
 #include <iomanip>
 #include "../lib_easy_example/easy_example.h"
 
-#define MASSIVE
+#define STACK
 #ifdef EXAPLE
 int main() {
     int a, b;
@@ -165,6 +165,29 @@ int main() {
             break;
         }
     }
+
+    return 0;
+}
+#endif
+#ifdef STACK
+#include "../lib_stack/stack.h"
+
+int main() {
+    Stack<int> s;
+
+    s.push(10);
+    s.push(20);
+    s.push(30);
+
+    std::cout << "Размер стека: " << s.size() << std::endl;
+
+    std::cout << "Верхний элемент: " << s.top() << std::endl;
+
+    s.pop();
+    std::cout << "Верхний элемент после pop(): " << s.top() << std::endl;
+
+    s.clear();
+    std::cout << "Стек пуст? " << (s.empty() ? "Да" : "Нет") << std::endl;
 
     return 0;
 }
