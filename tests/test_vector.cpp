@@ -142,3 +142,40 @@ TEST(TVectorTest, SubtractionAssignmentOperator) {
     EXPECT_EQ(vec1[1], 5);
     EXPECT_EQ(vec1[2], 6);
 }
+
+TEST(TVectorTest, EqualityOperator) {
+    TVector<int> vec1(3, 0);
+    TVector<int> vec2(3, 0);
+    for (size_t i = 0; i < 3; ++i) {
+        vec1[i] = static_cast<int>(i);
+        vec2[i] = static_cast<int>(i);
+    }
+    EXPECT_TRUE(vec1 == vec2);
+
+    vec2[2] = 10;
+    EXPECT_FALSE(vec1 == vec2);
+    EXPECT_TRUE(vec1 != vec2);
+}
+
+TEST(TVectorTest, EqualityOperatorDifferentSize) {
+    TVector<int> vec1(3, 0);
+    TVector<int> vec2(4, 0);
+    EXPECT_FALSE(vec1 == vec2);
+}
+
+TEST(TVectorTest, ScalarMultiplication) {
+    TVector<int> vec(3, 0);
+    vec[0] = 1;
+    vec[1] = 2;
+    vec[2] = 3;
+
+    TVector<int> result = vec * 2;
+    EXPECT_EQ(result[0], 2);
+    EXPECT_EQ(result[1], 4);
+    EXPECT_EQ(result[2], 6);
+
+    vec *= 3;
+    EXPECT_EQ(vec[0], 3);
+    EXPECT_EQ(vec[1], 6);
+    EXPECT_EQ(vec[2], 9);
+}

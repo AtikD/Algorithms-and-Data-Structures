@@ -38,12 +38,12 @@ class TVector {
     TVector<T>& operator-=(const TVector<T>& other);
 
     // Операторы сравнения
-    // bool operator==(const TVector<T>& other) const;
-    // bool operator!=(const TVector<T>& other) const;
+    bool operator==(const TVector<T>& other) const;
+    bool operator!=(const TVector<T>& other) const;
 
     // Умножение на скаляр
-    // TVector<T> operator*(const T& scalar) const;
-    // TVector<T>& operator*=(const T& scalar);
+    TVector<T> operator*(const T& scalar) const;
+    TVector<T>& operator*=(const T& scalar);
 
     // Методы
     size_t size() const;
@@ -167,6 +167,41 @@ TVector<T>& TVector<T>::operator-=(const TVector<T>& other) {
     }
     for (size_t i = 0; i < size(); ++i) {
         _data.replace(i, _data[i] - other._data[i]);
+    }
+    return *this;
+}
+
+template <typename T>
+bool TVector<T>::operator==(const TVector<T>& other) const {
+    if (size() != other.size() || _start_index != other._start_index) {
+        return false;
+    }
+    for (size_t i = 0; i < size(); ++i) {
+        if (_data[i] != other._data[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+template <typename T>
+bool TVector<T>::operator!=(const TVector<T>& other) const {
+    return !(*this == other);
+}
+
+template <typename T>
+TVector<T> TVector<T>::operator*(const T& scalar) const {
+    TVector<T> result(size(), _start_index);
+    for (size_t i = 0; i < size(); ++i) {
+        result._data.replace(i, _data[i] * scalar);
+    }
+    return result;
+}
+
+template <typename T>
+TVector<T>& TVector<T>::operator*=(const T& scalar) {
+    for (size_t i = 0; i < size(); ++i) {
+        _data.replace(i, _data[i] * scalar);
     }
     return *this;
 }
