@@ -4,7 +4,7 @@
 #include <iomanip>
 
 
-#define MASSIVE
+#define VECTOR
 #ifdef EXAPLE
 #include "../lib_easy_example/easy_example.h"
 int main() {
@@ -166,6 +166,42 @@ int main() {
             break;
         }
     }
+
+    return 0;
+}
+#endif
+#ifdef VECTOR
+#include "../lib_vector/vector.h"
+
+int main() {
+    TVector<int> vec1(3, 0);
+    vec1[0] = 1;
+    vec1[1] = 2;
+    vec1[2] = 3;
+
+    TVector<int> vec2(3, 0);
+    vec2[0] = 4;
+    vec2[1] = 5;
+    vec2[2] = 6;
+
+    TVector<int> vecSum = vec1 + vec2;
+    vecSum.print();
+
+    int scalarProduct = vec1 * vec2;
+    std::cout << "Scalar product: " << scalarProduct << std::endl;
+
+    TVector<int> vecScaled = vec1 * 2;
+    vecScaled.print();
+
+    if (vec1 == vec1) {
+        std::cout << "Vectors are equal." << std::endl;
+    }
+
+    TVector<int> vec3 = vec1;
+    vec3.print();
+
+    vec3.resize(5);
+    vec3.print();
 
     return 0;
 }
