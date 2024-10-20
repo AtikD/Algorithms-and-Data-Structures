@@ -13,8 +13,8 @@ enum InsertMode { Back, Front, OneValue, SeveralValues };
 
 template <typename T>
 T* insert(size_t* n,
-        size_t* pos,
-        InputSystem::InsertMode* mode) noexcept {
+size_t* pos,
+InputSystem::InsertMode* mode) noexcept {
     T* value = nullptr;
     *mode = Back;
     int user;
