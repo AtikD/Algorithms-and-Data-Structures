@@ -28,8 +28,8 @@ class TVector {
     // TVector<T>& operator=(TVector<T>&& other) noexcept;
 
     // Операторы доступа
-    // T& operator[](size_t index);
-    // const T& operator[](size_t index) const;
+    T& operator[](size_t index);
+    const T& operator[](size_t index) const;
 
     // А рифметические операторы
     // TVector<T> operator+(const TVector<T>& other) const;
@@ -68,16 +68,25 @@ TVector<T>::TVector(size_t size, size_t start_index) :
 }
 
 template <typename T>
+TVector<T>::TVector(const T* arr, size_t size, size_t start_index) :
+            _data(), _start_index(start_index) {
+    _data.insert(arr, size, 0);
+}
+
+template <typename T>
+TVector<T>::TVector(const TVector<T>& other) :
+                _data(other._data), _start_index(other._start_index) {}
+
+template <typename T>
 TVector<T>::TVector(TVector<T>&& other) noexcept :
             _data(std::move(other._data)), _start_index(other._start_index) {
     other._start_index = 0;
 }
 
+
+
 template <typename T>
-TVector<T>::TVector(const T* arr, size_t size, size_t start_index) :
-            _data(), _start_index(start_index) {
-    _data.insert(arr, size, 0);
-}
+TVector<T>::~TVector() {}
 
 template <typename T>
 size_t TVector<T>::get_start_index() const {
@@ -89,3 +98,18 @@ size_t TVector<T>::size() const {
     return _data.size();
 }
 
+template <typename T>
+T& TVector<T>::operator[](size_t index) {
+    if (index < _start_index || index >= _start_index + _data.size()) {
+        throw std::out_of_range("Индекс вне диапазона");
+    }
+    return _data[index - _start_index];
+}
+
+template <typename T>
+const T& TVector<T>::operator[](size_t index) const {
+    if (index < _start_index || index >= _start_index + _data.size()) {
+        throw std::out_of_range("Индекс вне диапазона");
+    }
+    return _data[index - _start_index];
+}
