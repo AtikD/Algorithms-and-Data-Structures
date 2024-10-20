@@ -34,8 +34,8 @@ class TVector {
     TVector<T> operator-(const TVector<T>& other) const;
     T operator*(const TVector<T>& other) const;  // Скалярное произведение
 
-    // TVector<T>& operator+=(const TVector<T>& other);
-    // TVector<T>& operator-=(const TVector<T>& other);
+    TVector<T>& operator+=(const TVector<T>& other);
+    TVector<T>& operator-=(const TVector<T>& other);
 
     // Операторы сравнения
     // bool operator==(const TVector<T>& other) const;
@@ -147,4 +147,26 @@ T TVector<T>::operator*(const TVector<T>& other) const {
         result += _data[i] * other._data[i];
     }
     return result;
+}
+
+template <typename T>
+TVector<T>& TVector<T>::operator+=(const TVector<T>& other) {
+    if (size() != other.size() || _start_index != other._start_index) {
+        throw std::logic_error("Размеры векторов не совпадают");
+    }
+    for (size_t i = 0; i < size(); ++i) {
+        _data.replace(i, _data[i] + other._data[i]);
+    }
+    return *this;
+}
+
+template <typename T>
+TVector<T>& TVector<T>::operator-=(const TVector<T>& other) {
+    if (size() != other.size() || _start_index != other._start_index) {
+        throw std::logic_error("Размеры векторов не совпадают");
+    }
+    for (size_t i = 0; i < size(); ++i) {
+        _data.replace(i, _data[i] - other._data[i]);
+    }
+    return *this;
 }
