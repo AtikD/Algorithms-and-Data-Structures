@@ -179,3 +179,72 @@ TEST(TVectorTest, ScalarMultiplication) {
     EXPECT_EQ(vec[1], 6);
     EXPECT_EQ(vec[2], 9);
 }
+
+TEST(TVectorTest, SizeAndStartIndexMethods) {
+    TVector<int> vec(5, 2);
+    EXPECT_EQ(vec.size(), 5);
+    EXPECT_EQ(vec.get_start_index(), 2);
+
+    vec.set_start_index(0);
+    EXPECT_EQ(vec.get_start_index(), 0);
+}
+
+TEST(TVectorTest, ResizeMethod) {
+    TVector<int> vec(3, 0);
+    vec[0] = 1;
+    vec[1] = 2;
+    vec[2] = 3;
+
+    vec.resize(5);
+    EXPECT_EQ(vec.size(), 5);
+    EXPECT_EQ(vec[3], 0);
+    EXPECT_EQ(vec[4], 0);
+
+    vec.resize(2);
+    EXPECT_EQ(vec.size(), 2);
+    EXPECT_EQ(vec[0], 1);
+    EXPECT_EQ(vec[1], 2);
+}
+
+TEST(TVectorTest, ClearMethod) {
+    TVector<int> vec(3, 0);
+    vec[0] = 10;
+    vec[1] = 20;
+    vec[2] = 30;
+
+    vec.clear();
+    EXPECT_EQ(vec.size(), 0);
+    EXPECT_EQ(vec.get_start_index(), 0);
+    EXPECT_THROW(vec[0], std::out_of_range);
+}
+
+TEST(TVectorTest, PrintMethod) {
+    TVector<int> vec(3, 0);
+    vec[0] = 5;
+    vec[1] = 10;
+    vec[2] = 15;
+
+    std::stringstream ss;
+    vec.print(ss);
+    EXPECT_EQ(ss.str(), "{ 5, 10, 15 }");
+}
+
+TEST(TVectorTest, OperationsWithDifferentSizes) {
+    TVector<int> vec1(3, 0);
+    TVector<int> vec2(4, 0);
+    EXPECT_THROW(vec1 + vec2, std::logic_error);
+    EXPECT_THROW(vec1 - vec2, std::logic_error);
+    EXPECT_THROW(vec1 * vec2, std::logic_error);
+}
+
+TEST(TVectorTest, OperationsWithDifferentStartIndices) {
+    TVector<int> vec1(3, 0);
+    TVector<int> vec2(3, 1);
+    EXPECT_THROW(vec1 + vec2, std::logic_error);
+}
+
+TEST(TVectorTest, OutOfRangeAccess) {
+    TVector<int> vec(3, 0);
+    EXPECT_THROW(vec[-1], std::out_of_range);
+    EXPECT_THROW(vec[3], std::out_of_range);
+}

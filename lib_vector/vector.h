@@ -48,12 +48,12 @@ class TVector {
     // Методы
     size_t size() const;
     size_t get_start_index() const;
-    // void set_start_index(size_t start_index);
+    void set_start_index(size_t start_index);
 
-    // void resize(size_t new_size);
-    // void clear();
+    void resize(size_t new_size);
+    void clear();
 
-    // void print(std::ostream& out = std::cout) const;
+    void print(std::ostream& out = std::cout) const;
 };
 
 template <typename T>
@@ -204,4 +204,32 @@ TVector<T>& TVector<T>::operator*=(const T& scalar) {
         _data.replace(i, _data[i] * scalar);
     }
     return *this;
+}
+
+template <typename T>
+void TVector<T>::set_start_index(size_t start_index) {
+    _start_index = start_index;
+}
+
+template <typename T>
+void TVector<T>::resize(size_t new_size) {
+    _data.resize(new_size, 0);
+}
+
+template <typename T>
+void TVector<T>::clear() {
+    _data.clear();
+    _start_index = 0;
+}
+
+template <typename T>
+void TVector<T>::print(std::ostream& out) const {
+    out << "{ ";
+    for (size_t i = 0; i < size(); ++i) {
+        out << _data[i];
+        if (i < size() - 1) {
+            out << ", ";
+        }
+    }
+    out << " }";
 }
