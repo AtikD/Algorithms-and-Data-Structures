@@ -2,6 +2,8 @@
 
 
 #include <gtest/gtest.h>
+#include <utility>
+#include <algorithm>
 #include "../lib_massive/massive.h"
 
 TEST(TMassiveTest, InsertSingleValue) {
