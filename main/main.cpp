@@ -2,10 +2,11 @@
 
 #include <iostream>
 #include <iomanip>
-#include "../lib_easy_example/easy_example.h"
+
 
 #define MASSIVE
 #ifdef EXAPLE
+#include "../lib_easy_example/easy_example.h"
 int main() {
     int a, b;
     float result;
