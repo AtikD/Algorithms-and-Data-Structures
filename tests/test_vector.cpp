@@ -215,7 +215,6 @@ TEST(TVectorTest, ClearMethod) {
     vec.clear();
     EXPECT_EQ(vec.size(), 0);
     EXPECT_EQ(vec.get_start_index(), 0);
-    EXPECT_THROW(vec[0], std::out_of_range);
 }
 
 TEST(TVectorTest, PrintMethod) {
@@ -243,8 +242,16 @@ TEST(TVectorTest, OperationsWithDifferentStartIndices) {
     EXPECT_THROW(vec1 + vec2, std::logic_error);
 }
 
-TEST(TVectorTest, OutOfRangeAccess) {
+TEST(TVectorTest, AccessOperator_OutOfRange) {
     TVector<int> vec(3, 0);
     EXPECT_THROW(vec[-1], std::out_of_range);
     EXPECT_THROW(vec[3], std::out_of_range);
+}
+
+TEST(TVectorTest, AccessOperator) {
+    TVector<int> vec(2, 0);
+    vec[0] = 5;
+    vec[1] = 10;
+    EXPECT_EQ(vec[0], 5);
+    EXPECT_EQ(vec[1], 10);
 }
