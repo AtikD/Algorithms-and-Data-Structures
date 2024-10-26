@@ -43,10 +43,3 @@ TEST(TPairTest, Setters) {
   EXPECT_EQ(pair.first(), "Hello");
   EXPECT_EQ(pair.second(), "World");
 }
-
-TEST(TPairTest, OutputOperator) {
-  TPair<int, int> pair(1, 2);
-  std::stringstream ss;
-  ss << pair;
-  EXPECT_EQ(ss.str(), "(1, 2)");
-}

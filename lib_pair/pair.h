@@ -41,11 +41,6 @@ class TPair {
     TPair& operator=(const TPair& pair) noexcept;
     // Equality operator
     bool operator==(const TPair& pair) const noexcept;
-
-    // Friend function for output
-    friend std::ostream& operator<< <>(
-        std::ostream& out,
-        const TPair<T1, T2>& obj) noexcept;
 };
 
 // Default constructor
@@ -106,11 +101,5 @@ bool TPair<T1, T2>::operator==(const TPair& pair) const noexcept {
   return (_first == pair._first) && (_second == pair._second);
 }
 
-// Overloaded insertion operator for output
-template <class T1, class T2>
-std::ostream& operator<<(std::ostream& out, const TPair<T1, T2>& obj) noexcept {
-  out << '(' << obj._first << ", " << obj._second << ')';
-  return out;
-}
 
 #endif  // LIB_PAIR_PAIR_H_
