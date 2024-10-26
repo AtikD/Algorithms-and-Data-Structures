@@ -19,6 +19,7 @@ FetchContent_MakeAvailable(googletest)
 set(TEST_SOURCES
     test_easy_example.cpp
     test_additional.cpp
+    test_pair.cpp
     test_massive.cpp
 )
 
