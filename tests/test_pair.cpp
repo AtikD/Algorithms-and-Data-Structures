@@ -1,6 +1,7 @@
 // Copyright 2024 atikdd.t.me
 
 #include <gtest/gtest.h>
+#include <string>
 #include "../lib_pair/pair.h"
 
 TEST(TPairTest, DefaultConstructor) {
