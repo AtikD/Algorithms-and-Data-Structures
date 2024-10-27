@@ -25,3 +25,25 @@ TEST(TListTest, PushFront) {
     list.push_front(5);
     EXPECT_EQ(list.find(5)->getValue(), 5);
 }
+
+TEST(TListTest, InsertAt_PositionZero) {
+    TList<int> list;
+    list.push_back(1);
+    list.insert_at(0, 0);
+    EXPECT_EQ(list.front(), 0);
+}
+
+TEST(TListTest, InsertAt_InsertsAtCorrectPosition) {
+    TList<int> list;
+    list.push_back(1);
+    list.push_back(3);
+    list.insert_at(1, 2);
+    TNode<int>* node = list.getNodeAt(1);
+    EXPECT_EQ(node->getValue(), 2);
+}
+
+TEST(TListTest, InsertAt_ThrowsException_WhenPositionOutOfRange) {
+    TList<int> list;
+    list.push_back(1);
+    EXPECT_THROW(list.insert_at(5, 2), std::out_of_range);
+}
