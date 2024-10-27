@@ -114,3 +114,18 @@ TEST(TQueueTest, IsEmptyAfterPushPop) {
     q.pop();
     EXPECT_TRUE(q.is_empty());
 }
+
+TEST(TQueueTest, IsFullAfterPushes) {
+    TQueue<int> q(2);
+    q.push(1);
+    q.push(2);
+    EXPECT_TRUE(q.is_full());
+}
+
+TEST(TQueueTest, IsNotFullAfterPop) {
+    TQueue<int> q(2);
+    q.push(1);
+    q.push(2);
+    q.pop();
+    EXPECT_FALSE(q.is_full());
+}
