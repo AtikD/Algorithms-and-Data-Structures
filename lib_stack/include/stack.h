@@ -2,8 +2,8 @@
 
 #pragma once
 
+#include <massive.h>
 #include <stdexcept>
-#include "../lib_massive/massive.h"
 
 //  Стек — это абстрактный тип данных, который
 //  реализует принцип LIFO (Last In, First Out),

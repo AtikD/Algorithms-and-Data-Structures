@@ -1,3 +1,5 @@
-add_library(TStack STATIC stack.cpp)
+add_library(TStack INTERFACE)
 
-target_include_directories(TStack PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(TStack INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
