@@ -28,6 +28,7 @@ class TList {
 
     // Поиск
     TNode<T>* find(const T& value) const;                // По значению
+    T front() const;
 
     // Удаление
     void pop_back();                                     // Из конца
@@ -259,4 +260,12 @@ std::istream& operator>>(std::istream& is, TList<U>& list) {
         list.push_back(value);
     }
     return is;
+}
+
+template <class T>
+T TList<T>::front() const {
+    if (isEmpty()) {
+        throw std::out_of_range("List is empty");
+    }
+    return _head->getValue();
 }
