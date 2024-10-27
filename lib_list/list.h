@@ -190,3 +190,30 @@ void TList<T>::remove(TNode<T>* node) {
     }
     delete node;
 }
+
+template <class T>
+void TList<T>::remove_at(size_t pos) {
+    if (isEmpty()) {
+        throw std::out_of_range("List is empty");
+    }
+    if (pos == 0) {
+        pop_front();
+        return;
+    }
+    TNode<T>* current = _head;
+    for (size_t i = 0; i < pos - 1; ++i) {
+        if (current == nullptr || current->getNext() == nullptr) {
+            throw std::out_of_range("Position out of range");
+        }
+        current = current->getNext();
+    }
+    TNode<T>* nodeToDelete = current->getNext();
+    if (nodeToDelete == nullptr) {
+        throw std::out_of_range("Position out of range");
+    }
+    current->setNext(nodeToDelete->getNext());
+    if (nodeToDelete == _tail) {
+        _tail = current;
+    }
+    delete nodeToDelete;
+}
