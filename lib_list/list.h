@@ -225,3 +225,18 @@ void TList<T>::replace(TNode<T>* node, const T& newValue) {
     }
     node->setValue(newValue);
 }
+
+template <class T>
+void TList<T>::replace_at(size_t pos, const T& newValue) {
+    TNode<T>* current = _head;
+    for (size_t i = 0; i < pos; ++i) {
+        if (current == nullptr) {
+            throw std::out_of_range("Position out of range");
+        }
+        current = current->getNext();
+    }
+    if (current == nullptr) {
+        throw std::out_of_range("Position out of range");
+    }
+    current->setValue(newValue);
+}
