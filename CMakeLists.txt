@@ -8,5 +8,6 @@ enable_testing()
 # Добавляем подкаталоги
 add_subdirectory(lib_easy_example)
 add_subdirectory(lib_massive)
+add_subdirectory(lib_pair)
 add_subdirectory(main)
 add_subdirectory(tests)
