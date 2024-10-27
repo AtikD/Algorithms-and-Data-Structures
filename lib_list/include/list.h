@@ -2,9 +2,10 @@
 
 #pragma once
 
+#include <node.h>
 #include <iostream>
 #include <algorithm>
-#include "../lib_list/node.h"
+
 
 template <class T>
 class TList {

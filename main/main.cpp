@@ -1,14 +1,12 @@
 // Copyright 2024 atikdd.t.me
 
+#include <massive.h>
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include "../lib_massive/massive.h"
-
-#define LIST
 
 #ifdef EXAMPLE
-#include "../lib_easy_example/easy_example.h"
+#include <easy_example.h>
 
 void EasyExample() {
     int a, b;
@@ -170,7 +168,7 @@ void MassiveExample() {
 #endif
 #ifdef LIST
 
-#include "../lib_list/list.h"
+#include <list.h>
 
 void ListExample() {
     TList<int> list;

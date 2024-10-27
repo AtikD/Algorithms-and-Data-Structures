@@ -1,3 +1,5 @@
-add_library(TList STATIC node.cpp list.cpp)
+add_library(TList INTERFACE)
 
-target_include_directories(TList PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(TList INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
