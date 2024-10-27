@@ -122,3 +122,15 @@ void TList<T>::insert_at(size_t pos, const T& value) {
     }
     insert_after(current, value);
 }
+
+template <class T>
+TNode<T>* TList<T>::find(const T& value) const {
+    TNode<T>* current = _head;
+    while (current != nullptr) {
+        if (current->getValue() == value) {
+            return current;
+        }
+        current = current->getNext();
+    }
+    return nullptr;
+}
