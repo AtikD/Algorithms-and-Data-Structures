@@ -69,3 +69,20 @@ TEST(TQueueTest, MassiveConstructorEmpty) {
     EXPECT_TRUE(q.is_empty());
     EXPECT_EQ(q.capacity(), 0);
 }
+
+TEST(TQueueTest, PushSuccess) {
+    TQueue<int> q;
+    q.push(10);
+    EXPECT_FALSE(q.is_empty());
+    EXPECT_EQ(q.get_top(), 0);
+    EXPECT_EQ(q.get_back(), 0);
+    EXPECT_EQ(q.size(), 1);
+}
+
+TEST(TQueueTest, PushOverflow) {
+    TQueue<int> q(3);
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    EXPECT_THROW(q.push(4), std::overflow_error);
+}
