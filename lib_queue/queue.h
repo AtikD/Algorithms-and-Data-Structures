@@ -116,3 +116,59 @@ T TQueue<T>::pop() {
     --_size;
     return value;
 }
+
+template <typename T>
+bool TQueue<T>::is_empty() const {
+    return _size == 0;
+}
+
+template <typename T>
+bool TQueue<T>::is_full() const {
+    return _size == _capacity;
+}
+
+template <typename T>
+void TQueue<T>::clear() {
+    _top = -1;
+    _back = -1;
+    _size = 0;
+}
+
+template <typename T>
+void TQueue<T>::print() const {
+    if (is_empty()) {
+        std::cout << "Очередь пуста." << std::endl;
+        return;
+    }
+
+    std::cout << "Состояние очереди: ";
+    int i = _top;
+    while (true) {
+        std::cout << _data[i] << " ";
+        if (i == _back) {
+            break;
+        }
+        i = (i + 1) % _capacity;
+    }
+    std::cout << std::endl;
+}
+
+template <typename T>
+int TQueue<T>::get_top() const {
+    return _top;
+}
+
+template <typename T>
+int TQueue<T>::get_back() const {
+    return _back;
+}
+
+template <typename T>
+int TQueue<T>::size() const {
+    return _size;
+}
+
+template <typename T>
+int TQueue<T>::capacity() const {
+    return _capacity;
+}
