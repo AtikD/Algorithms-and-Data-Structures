@@ -116,3 +116,12 @@ TEST(TListTest, ReplaceAt_ThrowsException_WhenPositionOutOfRange) {
     TList<int> list;
     EXPECT_THROW(list.replace_at(2, 30), std::out_of_range);
 }
+
+TEST(TListTest, CopyConstructor_CreatesCorrectCopy) {
+    TList<int> original;
+    original.push_back(10);
+    original.push_back(20);
+    TList<int> copy(original);
+    EXPECT_EQ(copy.find(10)->getValue(), 10);
+    EXPECT_EQ(copy.find(20)->getValue(), 20);
+}
