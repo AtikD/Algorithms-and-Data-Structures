@@ -171,6 +171,8 @@ void MassiveExample() {
 
 #ifdef QUEUE
 
+#include "../lib_queue/queue.h"
+
 void QueueExample() {
     // Создаем очередь целых чисел с емкостью 5
     TQueue<int> intQueue(5);
