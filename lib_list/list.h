@@ -154,3 +154,16 @@ void TList<T>::pop_back() {
         _tail->setNext(nullptr);
     }
 }
+
+template <class T>
+void TList<T>::pop_front() {
+    if (isEmpty()) {
+        throw std::out_of_range("List is empty");
+    }
+    TNode<T>* temp = _head;
+    _head = _head->getNext();
+    delete temp;
+    if (_head == nullptr) {
+        _tail = nullptr;
+    }
+}
