@@ -88,3 +88,18 @@ TEST(TListTest, PopFront_ThrowsException_WhenListIsEmpty) {
     TList<int> list;
     EXPECT_THROW(list.pop_front(), std::out_of_range);
 }
+
+TEST(TListTest, RemoveAt_RemovesElementAtPosition) {
+    TList<int> list;
+    list.push_back(10);
+    list.push_back(20);
+    list.push_back(30);
+    list.remove_at(1);
+    EXPECT_EQ(list.find(20), nullptr);
+}
+
+TEST(TListTest, RemoveAt_ThrowsException_WhenPositionOutOfRange) {
+    TList<int> list;
+    list.push_back(10);
+    EXPECT_THROW(list.remove_at(5), std::out_of_range);
+}
