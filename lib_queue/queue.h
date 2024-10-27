@@ -43,11 +43,11 @@ TQueue<T>::TQueue()
 
 template <typename T>
 TQueue<T>::TQueue(int capacity)
-        : _capacity(capacity), _data(new T[_capacity]),
-          _top(-1), _back(-1), _size(0) {
+        : _capacity(capacity), _data(nullptr), _top(-1), _back(-1), _size(0) {
     if (_capacity <= 0) {
         throw std::invalid_argument("Capacity must be positive");
     }
+    _data = new T[_capacity];
 }
 
 template <typename T>

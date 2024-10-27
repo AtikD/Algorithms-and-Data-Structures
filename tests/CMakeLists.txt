@@ -21,6 +21,7 @@ set(TEST_SOURCES
     test_additional.cpp
     test_pair.cpp
     test_massive.cpp
+    test_queue.cpp
 )
 
 # Создаём (или обновляем) исполняемый файл с новыми тестами
