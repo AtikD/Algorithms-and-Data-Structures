@@ -134,3 +134,23 @@ TNode<T>* TList<T>::find(const T& value) const {
     }
     return nullptr;
 }
+
+template <class T>
+void TList<T>::pop_back() {
+    if (isEmpty()) {
+        throw std::out_of_range("List is empty");
+    }
+    if (_head == _tail) {
+        delete _head;
+        _head = nullptr;
+        _tail = nullptr;
+    } else {
+        TNode<T>* current = _head;
+        while (current->getNext() != _tail) {
+            current = current->getNext();
+        }
+        delete _tail;
+        _tail = current;
+        _tail->setNext(nullptr);
+    }
+}
