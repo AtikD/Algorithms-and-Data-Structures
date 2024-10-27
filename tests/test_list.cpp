@@ -13,3 +13,9 @@ TEST(TListTest, IsEmpty_ReturnsFalse) {
     list.push_back(1);
     EXPECT_FALSE(list.isEmpty());
 }
+
+TEST(TListTest, PushBack) {
+    TList<int> list;
+    list.push_back(10);
+    EXPECT_EQ(list.find(10)->getValue(), 10);
+}
