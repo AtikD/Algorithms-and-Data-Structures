@@ -79,3 +79,40 @@ template <typename T>
 TQueue<T>::~TQueue() {
     delete[] _data;
 }
+
+template <typename T>
+void TQueue<T>::push(const T& value) {
+    if (is_full()) {
+        throw std::overflow_error("Очередь полна!");
+    }
+
+    if (is_empty()) {
+        _top = 0;
+        _back = 0;
+    } else {
+        _back = (_back + 1) % _capacity;
+    }
+
+    _data[_back] = value;
+    ++_size;
+}
+
+template <typename T>
+T TQueue<T>::pop() {
+    if (is_empty()) {
+        throw std::underflow_error("Очередь пуста!");
+    }
+
+    T value = _data[_top];
+
+    if (_top == _back) {
+        // Очередь стала пустой
+        _top = -1;
+        _back = -1;
+    } else {
+        _top = (_top + 1) % _capacity;
+    }
+
+    --_size;
+    return value;
+}
