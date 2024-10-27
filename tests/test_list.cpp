@@ -62,3 +62,16 @@ TEST(TListTest, Find_ReturnsNullptr_WhenValueNotFound) {
     TNode<int>* node = list.find(20);
     EXPECT_EQ(node, nullptr);
 }
+
+TEST(TListTest, PopBack_RemovesLastElement) {
+    TList<int> list;
+    list.push_back(10);
+    list.push_back(20);
+    list.pop_back();
+    EXPECT_EQ(list.find(20), nullptr);
+}
+
+TEST(TListTest, PopBack_ThrowsException_WhenListIsEmpty) {
+    TList<int> list;
+    EXPECT_THROW(list.pop_back(), std::out_of_range);
+}
