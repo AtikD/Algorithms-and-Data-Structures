@@ -1,3 +1,5 @@
-add_library(TVector STATIC vector.cpp)
+add_library(TVector INTERFACE)
 
-target_include_directories(TVector PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(TVector INTERFACE
+${CMAKE_CURRENT_SOURCE_DIR}/include
+)

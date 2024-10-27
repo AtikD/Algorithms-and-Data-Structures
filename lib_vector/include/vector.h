@@ -2,10 +2,11 @@
 
 #pragma once
 
+#include <massive.h>
 #include <iostream>
 #include <stdexcept>
 #include <utility>
-#include "../lib_massive/massive.h"
+
 
 
 template <typename T>

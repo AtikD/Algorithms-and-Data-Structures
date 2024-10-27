@@ -168,9 +168,9 @@ void MassiveExample() {
 #endif
 
 #ifdef VECTOR
-#include "../lib_vector/vector.h"
+#include <vector.h>
 
-int main() {
+void VectorExample() {
     TVector<int> vec1(3, 0);
     vec1[0] = 1;
     vec1[1] = 2;
@@ -199,9 +199,8 @@ int main() {
 
     vec3.resize(5);
     vec3.print();
-
-    return 0;
 }
+
 #endif
 
 int main() {
@@ -213,7 +212,8 @@ int main() {
     MassiveExample();
     #endif
 
+    #ifdef VECTOR
+    VectorExample();
+    #endif
     return 0;
 }
-#endif
-

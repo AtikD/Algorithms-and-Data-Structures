@@ -2,7 +2,7 @@
 
 
 #include <gtest/gtest.h>
-#include "../lib_vector/vector.h"
+#include <vector.h>
 
 TEST(TVectorTest, DefaultConstructor) {
     TVector<int> vec;
