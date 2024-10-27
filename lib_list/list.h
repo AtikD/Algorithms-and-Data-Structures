@@ -3,6 +3,7 @@
 #pragma once
 
 #include <iostream>
+#include <algorithm>
 #include "../lib_list/node.h"
 
 template <class T>
