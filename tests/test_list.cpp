@@ -47,3 +47,18 @@ TEST(TListTest, InsertAt_ThrowsException_WhenPositionOutOfRange) {
     list.push_back(1);
     EXPECT_THROW(list.insert_at(5, 2), std::out_of_range);
 }
+
+TEST(TListTest, Find_ReturnsNode_WhenValueExists) {
+    TList<int> list;
+    list.push_back(10);
+    TNode<int>* node = list.find(10);
+    EXPECT_NE(node, nullptr);
+    EXPECT_EQ(node->getValue(), 10);
+}
+
+TEST(TListTest, Find_ReturnsNullptr_WhenValueNotFound) {
+    TList<int> list;
+    list.push_back(10);
+    TNode<int>* node = list.find(20);
+    EXPECT_EQ(node, nullptr);
+}
