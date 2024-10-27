@@ -49,3 +49,22 @@ class TList {
     template <class U>
     friend std::istream& operator>>(std::istream& is, TList<U>& list);
 };
+
+template <class T>
+TList<T>::TList() : _head(nullptr), _tail(nullptr) {}
+
+template <class T>
+TList<T>::TList(const TList<T>& other) : _head(nullptr), _tail(nullptr) {
+    TNode<T>* current = other._head;
+    while (current != nullptr) {
+        push_back(current->getValue());
+        current = current->getNext();
+    }
+}
+
+template <class T>
+TList<T>::~TList() {
+    while (!isEmpty()) {
+        pop_front();
+    }
+}
