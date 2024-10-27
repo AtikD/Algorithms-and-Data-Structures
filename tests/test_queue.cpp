@@ -86,3 +86,19 @@ TEST(TQueueTest, PushOverflow) {
     q.push(3);
     EXPECT_THROW(q.push(4), std::overflow_error);
 }
+
+TEST(TQueueTest, PopSuccess) {
+    TQueue<int> q;
+    q.push(10);
+    q.push(20);
+    int val = q.pop();
+    EXPECT_EQ(val, 10);
+    EXPECT_EQ(q.size(), 1);
+    EXPECT_EQ(q.get_top(), 1);
+    EXPECT_EQ(q.get_back(), 1);
+}
+
+TEST(TQueueTest, PopUnderflow) {
+    TQueue<int> q;
+    EXPECT_THROW(q.pop(), std::underflow_error);
+}
