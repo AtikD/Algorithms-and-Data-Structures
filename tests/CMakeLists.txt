@@ -27,13 +27,6 @@ set(TEST_SOURCES
 # Создаём (или обновляем) исполняемый файл с новыми тестами
 add_executable(Tests ${TEST_SOURCES})
 
-# Настраиваем пути к заголовочным файлам
-target_include_directories(Tests PRIVATE
-    ${PROJECT_SOURCE_DIR}/lib_easy_example
-    ${PROJECT_SOURCE_DIR}/lib_pair
-    ${PROJECT_SOURCE_DIR}/lib_massive/include
-)
-
 # Подключаем необходимые библиотеки
 target_link_libraries(Tests PRIVATE EasyExample TPair TMassive gtest gtest_main)
 
