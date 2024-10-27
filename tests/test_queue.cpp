@@ -102,3 +102,15 @@ TEST(TQueueTest, PopUnderflow) {
     TQueue<int> q;
     EXPECT_THROW(q.pop(), std::underflow_error);
 }
+
+TEST(TQueueTest, IsEmptyInitially) {
+    TQueue<int> q;
+    EXPECT_TRUE(q.is_empty());
+}
+
+TEST(TQueueTest, IsEmptyAfterPushPop) {
+    TQueue<int> q;
+    q.push(1);
+    q.pop();
+    EXPECT_TRUE(q.is_empty());
+}
