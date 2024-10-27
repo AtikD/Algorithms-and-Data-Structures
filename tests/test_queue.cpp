@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 #include <string>
 #include "../lib_queue/queue.h"
+#include "../lib_massive/massive.h"
 
 TEST(TQueueTest, DefaultConstructor) {
     TQueue<int> q;
@@ -44,4 +45,27 @@ TEST(TQueueTest, CopyConstructorNonEmptyQueue) {
     EXPECT_EQ(q2.pop(), 2);
     EXPECT_EQ(q2.pop(), 3);
     EXPECT_TRUE(q2.is_empty());
+}
+
+TEST(TQueueTest, MassiveConstructor) {
+    TMassive<int> massive;
+    massive.push_back(1);
+    massive.push_back(2);
+    massive.push_back(3);
+
+    TQueue<int> q(massive);
+    EXPECT_EQ(q.size(), 3);
+    EXPECT_EQ(q.capacity(), 3);
+
+    EXPECT_EQ(q.pop(), 1);
+    EXPECT_EQ(q.pop(), 2);
+    EXPECT_EQ(q.pop(), 3);
+    EXPECT_TRUE(q.is_empty());
+}
+
+TEST(TQueueTest, MassiveConstructorEmpty) {
+    TMassive<int> massive;
+    TQueue<int> q(massive);
+    EXPECT_TRUE(q.is_empty());
+    EXPECT_EQ(q.capacity(), 0);
 }
