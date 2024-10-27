@@ -103,3 +103,22 @@ void TList<T>::insert_after(TNode<T>* node, const T& value) {
         _tail = newNode;
     }
 }
+
+template <class T>
+void TList<T>::insert_at(size_t pos, const T& value) {
+    if (pos == 0) {
+        push_front(value);
+        return;
+    }
+    TNode<T>* current = _head;
+    for (size_t i = 0; i < pos - 1; ++i) {
+        if (current == nullptr) {
+            throw std::out_of_range("Position out of range");
+        }
+        current = current->getNext();
+    }
+    if (current == nullptr) {
+        throw std::out_of_range("Position out of range");
+    }
+    insert_after(current, value);
+}
