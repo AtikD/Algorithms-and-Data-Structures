@@ -70,3 +70,15 @@ template <class T>
 bool TList<T>::isEmpty() const {
     return _head == nullptr;
 }
+
+template <class T>
+void TList<T>::push_back(const T& value) {
+    TNode<T>* newNode = new TNode<T>(value);
+    if (isEmpty()) {
+        _head = newNode;
+        _tail = newNode;
+    } else {
+        _tail->setNext(newNode);
+        _tail = newNode;
+    }
+}
