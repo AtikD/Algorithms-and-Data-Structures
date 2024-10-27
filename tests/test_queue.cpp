@@ -139,3 +139,34 @@ TEST(TQueueTest, ClearQueue) {
     EXPECT_EQ(q.get_top(), -1);
     EXPECT_EQ(q.get_back(), -1);
 }
+
+TEST(TQueueTest, TestQueueOperations) {
+    TQueue<int> q(5);
+
+    // Заполняем очередь
+    for (int i = 0; i < 5; ++i) {
+        q.push(i + 1);
+    }
+    EXPECT_TRUE(q.is_full());
+
+    // Удаляем два элемента
+    EXPECT_EQ(q.pop(), 1);
+    EXPECT_EQ(q.pop(), 2);
+
+    // Добавляем два элемента, чтобы вызвать циклический переход
+    q.push(6);
+    q.push(7);
+    EXPECT_TRUE(q.is_full());
+
+    // Проверяем состояние очереди
+    EXPECT_EQ(q.get_top(), 2);
+    EXPECT_EQ(q.get_back(), 1);
+
+    // Проверяем элементы в очереди
+    EXPECT_EQ(q.pop(), 3);
+    EXPECT_EQ(q.pop(), 4);
+    EXPECT_EQ(q.pop(), 5);
+    EXPECT_EQ(q.pop(), 6);
+    EXPECT_EQ(q.pop(), 7);
+    EXPECT_TRUE(q.is_empty());
+}
