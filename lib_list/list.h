@@ -240,3 +240,14 @@ void TList<T>::replace_at(size_t pos, const T& newValue) {
     }
     current->setValue(newValue);
 }
+
+template <class U>
+std::ostream& operator<<(std::ostream& os, const TList<U>& list) {
+    TNode<U>* current = list._head;
+    while (current != nullptr) {
+        os << current->getValue() << " -> ";
+        current = current->getNext();
+    }
+    os << "nullptr";
+    return os;
+}
