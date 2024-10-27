@@ -1,14 +1,12 @@
 // Copyright 2024 atikdd.t.me
 
+#include <massive.h>
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include "../lib_massive/massive.h"
-
-#define QUEUE
 
 #ifdef EXAMPLE
-#include "../lib_easy_example/easy_example.h"
+#include <easy_example.h>
 
 void EasyExample() {
     int a, b;
@@ -171,7 +169,7 @@ void MassiveExample() {
 
 #ifdef QUEUE
 
-#include "../lib_queue/queue.h"
+#include <queue.h>
 
 void QueueExample() {
     // Создаем очередь целых чисел с емкостью 5

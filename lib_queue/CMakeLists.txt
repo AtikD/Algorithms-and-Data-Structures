@@ -1,3 +1,5 @@
-add_library(TQueue STATIC queue.cpp)
+add_library(TQueue INTERFACE)
 
-target_include_directories(TQueue PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(TQueue INTERFACE
+${CMAKE_CURRENT_SOURCE_DIR}/include
+)

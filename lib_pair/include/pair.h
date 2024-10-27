@@ -1,7 +1,6 @@
 // Copyright 2024 atikdd.t.me
 
-#ifndef LIB_PAIR_PAIR_H_
-#define LIB_PAIR_PAIR_H_
+#pragma once
 
 #include <iostream>
 
@@ -100,6 +99,3 @@ template <class T1, class T2>
 bool TPair<T1, T2>::operator==(const TPair& pair) const noexcept {
   return (_first == pair._first) && (_second == pair._second);
 }
-
-
-#endif  // LIB_PAIR_PAIR_H_

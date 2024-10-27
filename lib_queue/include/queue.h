@@ -2,9 +2,10 @@
 
 #pragma once
 
+#include <massive.h>
 #include <stdexcept>
 #include <iostream>
-#include "../lib_massive/massive.h"
+
 
 template <typename T>
 class TQueue {

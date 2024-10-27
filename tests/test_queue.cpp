@@ -1,9 +1,10 @@
 // Copyright 2024 atikdd.t.me
 
+#include <queue.h>
+#include <massive.h>
 #include <gtest/gtest.h>
 #include <string>
-#include "../lib_queue/queue.h"
-#include "../lib_massive/massive.h"
+
 
 TEST(TQueueTest, DefaultConstructor) {
     TQueue<int> q;
