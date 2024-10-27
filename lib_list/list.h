@@ -82,3 +82,12 @@ void TList<T>::push_back(const T& value) {
         _tail = newNode;
     }
 }
+
+template <class T>
+void TList<T>::push_front(const T& value) {
+    TNode<T>* newNode = new TNode<T>(value, _head);
+    if (isEmpty()) {
+        _tail = newNode;
+    }
+    _head = newNode;
+}
