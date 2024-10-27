@@ -103,3 +103,16 @@ TEST(TListTest, RemoveAt_ThrowsException_WhenPositionOutOfRange) {
     list.push_back(10);
     EXPECT_THROW(list.remove_at(5), std::out_of_range);
 }
+
+TEST(TListTest, ReplaceAt_ReplacesValueAtPosition) {
+    TList<int> list;
+    list.push_back(10);
+    list.push_back(20);
+    list.replace_at(1, 30);
+    EXPECT_EQ(list.find(30)->getValue(), 30);
+}
+
+TEST(TListTest, ReplaceAt_ThrowsException_WhenPositionOutOfRange) {
+    TList<int> list;
+    EXPECT_THROW(list.replace_at(2, 30), std::out_of_range);
+}
