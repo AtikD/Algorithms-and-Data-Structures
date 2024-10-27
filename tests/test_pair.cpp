@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 #include <string>
-#include "../lib_pair/pair.h"
+#include <pair.h>
 
 TEST(TPairTest, DefaultConstructor) {
   TPair<int, double> pair;

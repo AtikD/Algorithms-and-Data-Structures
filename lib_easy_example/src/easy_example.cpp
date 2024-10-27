@@ -1,6 +1,6 @@
 // Copyright 2024 atikdd.t.me
 
-#include "../lib_easy_example/easy_example.h"
+#include "../include/easy_example.h"
 #include <stdexcept>
 
 float division(int a, int b) {

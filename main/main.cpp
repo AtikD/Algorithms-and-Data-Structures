@@ -1,13 +1,14 @@
 // Copyright 2024 atikdd.t.me
 
+#include <massive.h>
 #include <iostream>
 #include <iomanip>
+#include <string>
 
+#ifdef EXAMPLE
+#include <easy_example.h>
 
-#define VECTOR
-#ifdef EXAPLE
-#include "../lib_easy_example/easy_example.h"
-int main() {
+void EasyExample() {
     int a, b;
     float result;
 
@@ -32,18 +33,15 @@ int main() {
     } catch (std::exception& err) {
         std::cerr << err.what() << std::endl;
     }
-
-    return 0;
 }
 #endif
 #ifdef MASSIVE
 
-#include "../lib_massive/massive.h"
 #include "../main/utilities.h"
 
 enum Actions { EXIT, INSERT, FIND, REMOVE, CLEAN };
 
-int main() {
+void MassiveExample() {
     TMassive<int> massive;
     size_t n, pos;
     int* values = nullptr;
@@ -166,10 +164,9 @@ int main() {
             break;
         }
     }
-
-    return 0;
 }
 #endif
+
 #ifdef VECTOR
 #include "../lib_vector/vector.h"
 
@@ -206,3 +203,17 @@ int main() {
     return 0;
 }
 #endif
+
+int main() {
+    #ifdef EXAMPLE
+    EasyExample();
+    #endif
+
+    #ifdef MASSIVE
+    MassiveExample();
+    #endif
+
+    return 0;
+}
+#endif
+
