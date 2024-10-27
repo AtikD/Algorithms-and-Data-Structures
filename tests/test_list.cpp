@@ -125,3 +125,17 @@ TEST(TListTest, CopyConstructor_CreatesCorrectCopy) {
     EXPECT_EQ(copy.find(10)->getValue(), 10);
     EXPECT_EQ(copy.find(20)->getValue(), 20);
 }
+
+TEST(TListTest, Remove_DeletesSpecifiedNode) {
+    TList<int> list;
+    list.push_back(10);
+    list.push_back(20);
+    TNode<int>* node = list.find(10);
+    list.remove(node);
+    EXPECT_EQ(list.find(10), nullptr);
+}
+
+TEST(TListTest, Remove_ThrowsException_WhenNodeIsNullptr) {
+    TList<int> list;
+    EXPECT_THROW(list.remove(nullptr), std::invalid_argument);
+}
