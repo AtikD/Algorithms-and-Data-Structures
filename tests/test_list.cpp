@@ -2,6 +2,7 @@
 
 #include <gtest/gtest.h>
 #include <list.h>
+#include <algorithm>
 
 TEST(TListTest, Constructor_CreatesEmptyList) {
     TList<int> list;

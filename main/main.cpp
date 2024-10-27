@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <list>
 
 #ifdef EXAMPLE
 #include <easy_example.h>
