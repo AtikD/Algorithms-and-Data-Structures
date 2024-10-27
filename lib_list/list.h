@@ -167,3 +167,26 @@ void TList<T>::pop_front() {
         _tail = nullptr;
     }
 }
+
+template <class T>
+void TList<T>::remove(TNode<T>* node) {
+    if (isEmpty() || node == nullptr) {
+        throw std::invalid_argument("Node cannot be null or list is empty");
+    }
+    if (node == _head) {
+        pop_front();
+        return;
+    }
+    TNode<T>* current = _head;
+    while (current->getNext() != nullptr && current->getNext() != node) {
+        current = current->getNext();
+    }
+    if (current->getNext() == nullptr) {
+        throw std::invalid_argument("Node not found in the list");
+    }
+    current->setNext(node->getNext());
+    if (node == _tail) {
+        _tail = current;
+    }
+    delete node;
+}
