@@ -17,9 +17,6 @@ class TList {
     TList(const TList<T>& other);
     ~TList();
 
-    // Оператор присваивания
-    TList<T>& operator=(const TList<T>& other);
-
     // Проверка на пустоту
     bool isEmpty() const;
 
@@ -67,4 +64,9 @@ TList<T>::~TList() {
     while (!isEmpty()) {
         pop_front();
     }
+}
+
+template <class T>
+bool TList<T>::isEmpty() const {
+    return _head == nullptr;
 }
