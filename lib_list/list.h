@@ -251,3 +251,12 @@ std::ostream& operator<<(std::ostream& os, const TList<U>& list) {
     os << "nullptr";
     return os;
 }
+
+template <class U>
+std::istream& operator>>(std::istream& is, TList<U>& list) {
+    U value;
+    while (is >> value) {
+        list.push_back(value);
+    }
+    return is;
+}
