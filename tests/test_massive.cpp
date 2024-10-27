@@ -1,10 +1,10 @@
 // Copyright 2024 atikdd.t.me
 
-
+#include <massive.h>
 #include <gtest/gtest.h>
 #include <utility>
 #include <algorithm>
-#include "../lib_massive/massive.h"
+
 
 TEST(TMassiveTest, InsertSingleValue) {
     TMassive<int> massive;
@@ -71,15 +71,12 @@ TEST(TMassiveTest, EraseMultipleValues) {
     massive.print(ss);
     EXPECT_EQ(ss.str(), "0, 1, 5, 6, 7, ");
 
-    // Попытка удалить с позиции, выходящей за пределы
-    EXPECT_THROW(massive.erase(10, 1), std::out_of_range);
-
     // Удаление 0 элементов
     massive.erase(0, 0);
     EXPECT_EQ(massive.size(), 5);
 }
 
-TEST(TMassiveTest, Clearmassive) {
+TEST(TMassiveTest, ClearMassive) {
     TMassive<int> massive;
     massive.insert(10, 0);
     massive.insert(20, 1);
@@ -128,8 +125,6 @@ TEST(TMassiveTest, RemoveFirstOccurrence) {
     std::stringstream ss2;
     massive.print(ss2);
     EXPECT_EQ(ss2.str(), "20, 30, ");
-    // Проверяем удаление значения, которого нет
-    EXPECT_THROW(massive.remove_first(40), std::logic_error);
 }
 
 TEST(TMassiveTest, RemoveLastOccurrence) {
@@ -147,9 +142,6 @@ TEST(TMassiveTest, RemoveLastOccurrence) {
     std::stringstream ss;
     massive.print(ss);
     EXPECT_EQ(ss.str(), "10, 20, 30, ");
-
-    // Проверяем удаление значения, которого нет
-    EXPECT_THROW(massive.remove_last(40), std::logic_error);
 }
 
 TEST(TMassiveTest, RemoveByIndex) {
@@ -166,9 +158,6 @@ TEST(TMassiveTest, RemoveByIndex) {
     std::stringstream ss;
     massive.print(ss);
     EXPECT_EQ(ss.str(), "10, 30, ");
-
-    // Попытка удалить по некорректному индексу
-    EXPECT_THROW(massive.remove_by_index(5), std::out_of_range);
 }
 
 TEST(TMassiveTest, SwapMethod) {
@@ -288,12 +277,9 @@ TEST(TMassiveTest, InsertArrayMethod) {
     std::stringstream ss;
     massive.print(ss);
     EXPECT_EQ(ss.str(), "10, 20, 30, 40, ");
-
-    // Попытка вставить в некорректную позицию
-    EXPECT_THROW(massive.insert(arr, 2, 10), std::out_of_range);
 }
 
-TEST(TMassiveTest, FindLastMethod) {
+TEST(TMassiveTest, FindLastMethod_ValueInArchive) {
     TMassive<int> massive;
     massive.push_back(10);
     massive.push_back(20);
@@ -302,9 +288,6 @@ TEST(TMassiveTest, FindLastMethod) {
 
     size_t index = massive.find_last(10);
     EXPECT_EQ(index, 2);
-
-    // Проверяем исключение для отсутствующего значения
-    EXPECT_THROW(massive.find_last(40), std::logic_error);
 }
 
 TEST(TMassiveTest, PopBackMethod) {
@@ -319,11 +302,6 @@ TEST(TMassiveTest, PopBackMethod) {
     std::stringstream ss;
     massive.print(ss);
     EXPECT_EQ(ss.str(), "10, 20, ");
-
-    // Проверяем исключение при попытке удалить из пустого архива
-    massive.pop_back();
-    massive.pop_back();
-    EXPECT_THROW(massive.pop_back(), std::out_of_range);
 }
 
 TEST(TMassiveTest, ReplaceMethod) {
@@ -338,12 +316,9 @@ TEST(TMassiveTest, ReplaceMethod) {
     std::stringstream ss;
     massive.print(ss);
     EXPECT_EQ(ss.str(), "10, 25, 30, ");
-
-    // Попытка заменить значение на несуществующей позиции
-    EXPECT_THROW(massive.replace(5, 50), std::out_of_range);
 }
 
-TEST(TMassiveTest, FindFirstMethod) {
+TEST(TMassiveTest, FindFirstMethod_ValueInArchive) {
     TMassive<int> massive;
     massive.push_back(10);
     massive.push_back(20);
@@ -355,9 +330,6 @@ TEST(TMassiveTest, FindFirstMethod) {
 
     index = massive.find_first(20);
     EXPECT_EQ(index, 1);
-
-    // Проверяем исключение для отсутствующего значения
-    EXPECT_THROW(massive.find_first(40), std::logic_error);
 }
 
 TEST(TMassiveTest, FindAllMethod) {
@@ -382,4 +354,107 @@ TEST(TMassiveTest, FindAllMethod) {
     // Проверка для значения, которого нет
     indices = massive.find_all(40);
     EXPECT_EQ(indices, nullptr);
+}
+
+TEST(TMassiveTest, AccessOperator) {
+    TMassive<int> massive;
+    massive.push_back(12);
+    massive.push_back(20);
+    massive.push_back(17);
+    massive.push_back(30);
+    massive.push_back(14);
+
+    EXPECT_EQ(massive[3], 30);
+}
+
+TEST(TMassiveTest, AccessOperatorOutOfRange) {
+    TMassive<int> massive;
+    massive.push_back(12);
+    massive.push_back(20);
+    massive.push_back(17);
+    massive.push_back(30);
+    massive.push_back(14);
+
+    EXPECT_THROW(massive[100], std::out_of_range);
+}
+
+TEST(TMassiveTest, AccessOperatorNotValid) {
+    TMassive<int> massive;
+    EXPECT_THROW(massive[0], std::logic_error);
+}
+
+TEST(TMassiveTest, PopBackMethodEmptyMassive) {
+    TMassive<int> massive;
+    EXPECT_THROW(massive.pop_back(), std::out_of_range);
+}
+
+TEST(TMassiveTest, PopFrontMethodEmptyMassive) {
+    TMassive<int> massive;
+    EXPECT_THROW(massive.pop_front(), std::out_of_range);
+}
+
+TEST(TMassiveTest, InsertArrayMethodOutOfRange) {
+    TMassive<int> massive;
+    int arr[] = {20, 30};
+
+    EXPECT_THROW(massive.insert(arr, 2, 10), std::out_of_range);
+}
+
+TEST(TMassiveTest, InsertSingleValueOutOfRange) {
+    TMassive<int> massive;
+    EXPECT_THROW(massive.insert(10, 10), std::out_of_range);
+}
+
+TEST(TMassiveTest, ReplaceMethodOutOfRange) {
+    TMassive<int> massive;
+    massive.push_back(10);
+    massive.push_back(20);
+    massive.push_back(30);
+
+    EXPECT_THROW(massive.replace(5, 50), std::out_of_range);
+}
+
+TEST(TMassiveTest, ReplaceMethodNotValid) {
+    TMassive<int> massive;
+    EXPECT_THROW(massive.replace(0, 50), std::logic_error);
+}
+
+TEST(TMassiveTest, EraseOutOfRange) {
+    TMassive<int> massive;
+    // Заполняем архив значениями
+    for (int i = 0; i < 10; ++i) {
+        massive.push_back(i);
+    }
+    EXPECT_THROW(massive.erase(10, 1), std::out_of_range);
+}
+
+TEST(TMassiveTest, RemoveFirstOccurrenceNotValid) {
+    TMassive<int> massive;
+    EXPECT_THROW(massive.remove_first(40), std::logic_error);
+}
+
+TEST(TMassiveTest, RemoveLastOccurrenceNotValid) {
+    TMassive<int> massive;
+    EXPECT_THROW(massive.remove_last(40), std::logic_error);
+}
+
+TEST(TMassiveTest, RemoveByIndexOutOfRange) {
+    TMassive<int> massive;
+    EXPECT_THROW(massive.remove_by_index(5), std::out_of_range);
+}
+
+TEST(TMassiveTest, FindLastMethod_ValueNotInArchive) {
+    TMassive<int> massive;
+    massive.push_back(10);
+    massive.push_back(20);
+
+    EXPECT_THROW(massive.find_last(40), std::logic_error);
+}
+
+TEST(TMassiveTest, FindFirstMethod_ValueNotInArchive) {
+    TMassive<int> massive;
+    massive.push_back(10);
+    massive.push_back(20);
+
+    EXPECT_THROW(massive.find_first(40), std::logic_error);
 }

@@ -2,10 +2,10 @@
 
 #pragma once
 
+#include <massive.h>
 #include <iostream>
 #include <Windows.h>
 #include <string>
-#include "../lib_massive/massive.h"
 
 
 namespace InputSystem {

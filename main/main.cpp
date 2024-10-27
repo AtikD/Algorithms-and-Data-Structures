@@ -1,12 +1,14 @@
 // Copyright 2024 atikdd.t.me
 
+#include <massive.h>
 #include <iostream>
 #include <iomanip>
-#include "../lib_easy_example/easy_example.h"
+#include <string>
 
-#define STACK
-#ifdef EXAPLE
-int main() {
+#ifdef EXAMPLE
+#include <easy_example.h>
+
+void EasyExample() {
     int a, b;
     float result;
 
@@ -31,18 +33,15 @@ int main() {
     } catch (std::exception& err) {
         std::cerr << err.what() << std::endl;
     }
-
-    return 0;
 }
 #endif
 #ifdef MASSIVE
 
-#include "../lib_massive/massive.h"
 #include "../main/utilities.h"
 
 enum Actions { EXIT, INSERT, FIND, REMOVE, CLEAN };
 
-int main() {
+void MassiveExample() {
     TMassive<int> massive;
     size_t n, pos;
     int* values = nullptr;
@@ -165,14 +164,13 @@ int main() {
             break;
         }
     }
-
-    return 0;
 }
 #endif
-#ifdef STACK
-#include "../lib_stack/stack.h"
 
-int main() {
+#ifdef STACK
+#include <stack.h>
+
+void StackExample() {
     Stack<int> s;
 
     s.push(10);
@@ -188,7 +186,23 @@ int main() {
 
     s.clear();
     std::cout << "Стек пуст? " << (s.empty() ? "Да" : "Нет") << std::endl;
+}
+#endif
+
+
+int main() {
+    #ifdef EXAMPLE
+    EasyExample();
+    #endif
+
+    #ifdef MASSIVE
+    MassiveExample();
+    #endif
+
+    #ifdef STACK
+    StackExample();
+    #endif
 
     return 0;
 }
-#endif
+
