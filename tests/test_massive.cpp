@@ -1,10 +1,10 @@
 // Copyright 2024 atikdd.t.me
 
-
+#include <massive.h>
 #include <gtest/gtest.h>
 #include <utility>
 #include <algorithm>
-#include "../lib_massive/massive.h"
+
 
 TEST(TMassiveTest, InsertSingleValue) {
     TMassive<int> massive;

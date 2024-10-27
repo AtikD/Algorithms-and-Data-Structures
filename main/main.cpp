@@ -1,14 +1,12 @@
 // Copyright 2024 atikdd.t.me
 
+#include <massive.h>
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include "../lib_massive/massive.h"
-
-#define MASSIVE
 
 #ifdef EXAMPLE
-#include "../lib_easy_example/easy_example.h"
+#include <easy_example.h>
 
 void EasyExample() {
     int a, b;

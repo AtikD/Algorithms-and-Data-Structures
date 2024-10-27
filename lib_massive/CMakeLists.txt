@@ -1,3 +1,5 @@
-add_library(TMassive STATIC massive.cpp)
+add_library(TMassive INTERFACE)
 
-target_include_directories(TMassive PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(TMassive INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
