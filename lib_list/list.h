@@ -28,7 +28,11 @@ class TList {
 
     // Поиск
     TNode<T>* find(const T& value) const;                // По значению
+
+    // Возвращает значение первого элемента
     T front() const;
+    // Возвращает указатель на узел по индексу (0-based)
+    TNode<T>* getNodeAt(size_t pos) const;
 
     // Удаление
     void pop_back();                                     // Из конца
@@ -268,4 +272,18 @@ T TList<T>::front() const {
         throw std::out_of_range("List is empty");
     }
     return _head->getValue();
+}
+
+template <class T>
+TNode<T>* TList<T>::getNodeAt(size_t pos) const {
+    TNode<T>* current = _head;
+    size_t index = 0;
+    while (current != nullptr) {
+        if (index == pos) {
+            return current;
+        }
+        current = current->getNext();
+        ++index;
+    }
+    throw std::out_of_range("Position out of range");
 }
