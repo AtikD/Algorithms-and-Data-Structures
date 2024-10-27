@@ -217,3 +217,11 @@ void TList<T>::remove_at(size_t pos) {
     }
     delete nodeToDelete;
 }
+
+template <class T>
+void TList<T>::replace(TNode<T>* node, const T& newValue) {
+    if (node == nullptr) {
+        throw std::invalid_argument("Node cannot be null");
+    }
+    node->setValue(newValue);
+}
