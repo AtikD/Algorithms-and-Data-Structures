@@ -91,3 +91,15 @@ void TList<T>::push_front(const T& value) {
     }
     _head = newNode;
 }
+
+template <class T>
+void TList<T>::insert_after(TNode<T>* node, const T& value) {
+    if (node == nullptr) {
+        throw std::invalid_argument("Node cannot be null");
+    }
+    TNode<T>* newNode = new TNode<T>(value, node->getNext());
+    node->setNext(newNode);
+    if (node == _tail) {
+        _tail = newNode;
+    }
+}
