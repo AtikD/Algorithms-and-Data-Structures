@@ -139,3 +139,16 @@ TEST(TListTest, Remove_ThrowsException_WhenNodeIsNullptr) {
     TList<int> list;
     EXPECT_THROW(list.remove(nullptr), std::invalid_argument);
 }
+
+TEST(TListTest, Replace_UpdatesNodeValue) {
+    TList<int> list;
+    list.push_back(10);
+    TNode<int>* node = list.find(10);
+    list.replace(node, 20);
+    EXPECT_EQ(node->getValue(), 20);
+}
+
+TEST(TListTest, Replace_ThrowsException_WhenNodeIsNullptr) {
+    TList<int> list;
+    EXPECT_THROW(list.replace(nullptr, 20), std::invalid_argument);
+}
