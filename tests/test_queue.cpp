@@ -24,3 +24,24 @@ TEST(TQueueTest, CapacityConstructorInvalid) {
     EXPECT_THROW(TQueue<int> q(0), std::invalid_argument);
     EXPECT_THROW(TQueue<int> q(-5), std::invalid_argument);
 }
+
+TEST(TQueueTest, CopyConstructorEmptyQueue) {
+    TQueue<int> q1;
+    TQueue<int> q2(q1);
+    EXPECT_TRUE(q2.is_empty());
+    EXPECT_EQ(q2.capacity(), q1.capacity());
+}
+
+TEST(TQueueTest, CopyConstructorNonEmptyQueue) {
+    TQueue<int> q1;
+    q1.push(1);
+    q1.push(2);
+    q1.push(3);
+
+    TQueue<int> q2(q1);
+    EXPECT_EQ(q2.size(), q1.size());
+    EXPECT_EQ(q2.pop(), 1);
+    EXPECT_EQ(q2.pop(), 2);
+    EXPECT_EQ(q2.pop(), 3);
+    EXPECT_TRUE(q2.is_empty());
+}
