@@ -3,13 +3,12 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include "../lib_easy_example/easy_example.h"
 #include "../lib_massive/massive.h"
-#include "../lib_queue/queue.h"
 
 #define QUEUE
 
 #ifdef EXAMPLE
+#include "../lib_easy_example/easy_example.h"
 
 void EasyExample() {
     int a, b;
