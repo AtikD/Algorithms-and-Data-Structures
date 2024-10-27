@@ -140,8 +140,6 @@ void TQueue<T>::print() const {
         std::cout << "Очередь пуста." << std::endl;
         return;
     }
-
-    std::cout << "Состояние очереди: ";
     int i = _top;
     while (true) {
         std::cout << _data[i] << " ";
