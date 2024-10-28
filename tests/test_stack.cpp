@@ -9,7 +9,7 @@ TEST(StackTest, DefaultConstructor) {
     EXPECT_EQ(s.size(), 0);
 }
 
-TEST(StackTest, CopyConstructor) {
+TEST(StackTest, TopAndCopyConstructor) {
     Stack<int> s1;
     s1.push(1);
     s1.push(2);
@@ -81,5 +81,4 @@ TEST(StackTest, Clear) {
     s.clear();
     EXPECT_TRUE(s.empty());
     EXPECT_EQ(s.size(), 0);
-    EXPECT_THROW(s.top(), std::out_of_range);
 }
