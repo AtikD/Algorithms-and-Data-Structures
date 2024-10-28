@@ -225,6 +225,162 @@ void StackExample() {
 }
 #endif
 
+#ifdef QUEUE
+
+#include <queue.h>
+
+void QueueExample() {
+    // Создаем очередь целых чисел с емкостью 5
+    TQueue<int> intQueue(5);
+
+    // Добавляем элементы в очередь
+    std::cout << "Adding elements to intQueue:" << std::endl;
+    for (int i = 1; i <= 5; ++i) {
+        intQueue.push(i * 10);
+        std::cout << "Added element: " << i * 10 << std::endl;
+    }
+
+    // Попытка добавить элемент в полную очередь (выбросит исключение)
+    try {
+        intQueue.push(60);
+    } catch (const std::overflow_error& e) {
+        std::cout << "Error while adding: " << e.what() << std::endl;
+    }
+
+    // Выводим состояние очереди
+    std::cout << "State of intQueue after adding elements:" << std::endl;
+    intQueue.print();
+
+    // Удаляем два элемента из очереди
+    std::cout << "Removing two elements from intQueue:" << std::endl;
+    std::cout << "Removed element: " << intQueue.pop() << std::endl;
+    std::cout << "Removed element: " << intQueue.pop() << std::endl;
+
+    // Выводим состояние очереди
+    std::cout << "State of intQueue after removing elements:" << std::endl;
+    intQueue.print();
+
+    // Проверяем, пуста ли очередь
+    if (intQueue.is_empty()) {
+        std::cout << "intQueue is empty." << std::endl;
+    } else {
+        std::cout << "intQueue is not empty." << std::endl;
+    }
+
+    // Проверяем, полна ли очередь
+    if (intQueue.is_full()) {
+        std::cout << "intQueue is full." << std::endl;
+    } else {
+        std::cout << "intQueue is not full." << std::endl;
+    }
+
+    // Добавляем еще элементы в очередь
+    std::cout << "Adding elements to intQueue after removal:" << std::endl;
+    intQueue.push(60);
+    std::cout << "Added element: 60" << std::endl;
+    intQueue.push(70);
+    std::cout << "Added element: 70" << std::endl;
+
+    // Выводим текущее состояние очереди
+    std::cout << "Current state of intQueue:" << std::endl;
+    intQueue.print();
+
+    // Создаем массив TMassive<double> и заполняем его
+    TMassive<double> doubleMassive;
+    doubleMassive.push_back(1.1);
+    doubleMassive.push_back(2.2);
+    doubleMassive.push_back(3.3);
+
+    // Создаем очередь на основе TMassive<double>
+    TQueue<double> doubleQueue(doubleMassive);
+
+    // Выводим состояние очереди doubleQueue
+    std::cout << "State of doubleQueue created from TMassive<double>:"
+              << std::endl;
+    doubleQueue.print();
+
+    // Удаляем элементы из doubleQueue
+    std::cout << "Removing elements from doubleQueue:" << std::endl;
+    while (!doubleQueue.is_empty()) {
+        std::cout << "Removed element: " << doubleQueue.pop() << std::endl;
+    }
+
+    // Проверяем состояние очереди
+    if (doubleQueue.is_empty()) {
+        std::cout << "doubleQueue is now empty." << std::endl;
+    }
+
+    // Использование очереди строк
+    TQueue<std::string> stringQueue;
+    stringQueue.push("First");
+    stringQueue.push("Second");
+    stringQueue.push("Third");
+
+    // Выводим состояние очереди stringQueue
+    std::cout << "State of stringQueue:" << std::endl;
+    stringQueue.print();
+
+    // Удаляем элемент из очереди строк
+    std::cout << "Removed element from stringQueue: " << stringQueue.pop()
+              << std::endl;
+
+    // Выводим текущее состояние очереди строк
+    std::cout << "Current state of stringQueue:" << std::endl;
+    stringQueue.print();
+
+    // Очистка очереди строк
+    stringQueue.clear();
+    std::cout << "stringQueue after clearing:" << std::endl;
+    if (stringQueue.is_empty()) {
+        std::cout << "stringQueue is empty." << std::endl;
+    }
+
+    // Демонстрация циклического поведения очереди
+    TQueue<int> cycleQueue(4);
+    cycleQueue.push(100);
+    cycleQueue.push(200);
+    cycleQueue.push(300);
+    cycleQueue.push(400);
+
+    // Очередь полна, индексы top и back
+    std::cout << "Indices top and back in full cycleQueue:" << std::endl;
+    std::cout << "top = " << cycleQueue.get_top() << "; back = "
+              << cycleQueue.get_back() << std::endl;
+
+    // Удаляем два элемента
+    std::cout << "Removing two elements from cycleQueue:" << std::endl;
+    std::cout << "Removed element: " << cycleQueue.pop() << std::endl;
+    std::cout << "Removed element: " << cycleQueue.pop() << std::endl;
+
+    // Добавляем еще два элемента, индексы должны обернуться
+    cycleQueue.push(500);
+    std::cout << "Added element: 500" << std::endl;
+    cycleQueue.push(600);
+    std::cout << "Added element: 600" << std::endl;
+
+    // Выводим состояние очереди
+    std::cout << "State of cycleQueue after circular addition:" << std::endl;
+    cycleQueue.print();
+
+    // Индексы top и back после циклического добавления
+    std::cout << "Indices top and back after circular addition:" << std::endl;
+    std::cout << "top = " << cycleQueue.get_top() << "; back = "
+              << cycleQueue.get_back() << std::endl;
+
+    // Удаляем все элементы из cycleQueue
+    std::cout << "Removing all remaining elements from cycleQueue:"
+              << std::endl;
+    while (!cycleQueue.is_empty()) {
+        std::cout << "Removed element: " << cycleQueue.pop() << std::endl;
+    }
+
+    // Проверяем состояние очереди
+    if (cycleQueue.is_empty()) {
+        std::cout << "cycleQueue is now empty." << std::endl;
+    }
+}
+#endif
+
 
 int main() {
     #ifdef EXAMPLE
@@ -241,6 +397,10 @@ int main() {
 
     #ifdef STACK
     StackExample();
+    #endif
+
+    #ifdef QUEUE
+    QueueExample();
     #endif
 
     return 0;
