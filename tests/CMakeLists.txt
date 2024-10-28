@@ -25,13 +25,14 @@ set(TEST_SOURCES
     test_vector.cpp
     test_stack.cpp
     test_queue.cpp
+    test_list.cpp
 )
 
 # Создаём (или обновляем) исполняемый файл с новыми тестами
 add_executable(Tests ${TEST_SOURCES})
 
 # Подключаем необходимые библиотеки
-target_link_libraries(Tests PRIVATE EasyExample TPair TMassive TVector TStack TQueue gtest gtest_main)
+target_link_libraries(Tests PRIVATE EasyExample TPair TMassive TVector TStack TQueue TList gtest gtest_main)
 
 # Регистрируем тесты
 add_test(NAME EasyExampleTests COMMAND Tests)

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <list>
 
 #ifdef EXAMPLE
 #include <easy_example.h>
@@ -163,6 +164,45 @@ void MassiveExample() {
             system("pause");
             break;
         }
+    }
+}
+#endif
+#ifdef LIST
+
+#include <list.h>
+
+void ListExample() {
+    TList<int> list;
+
+    list.push_back(10);
+    list.push_front(5);
+    list.insert_at(1, 7);
+
+    std::cout << "List after insertions: " << list << std::endl;
+
+    TNode<int>* node = list.find(7);
+    if (node != nullptr) {
+        std::cout << "Found node with value: " << node->getValue() << std::endl;
+    }
+
+    list.replace(node, 8);
+    std::cout << "List after replacing value: " << list << std::endl;
+
+    list.remove(node);
+    std::cout << "List after removing node: " << list << std::endl;
+
+    list.remove_at(1);
+    std::cout << "List after removing at position 1: " << list << std::endl;
+
+    if (list.isEmpty()) {
+        std::cout << "List is empty." << std::endl;
+    } else {
+        std::cout << "List is not empty." << std::endl;
+    }
+
+    list.pop_front();
+    if (list.isEmpty()) {
+        std::cout << "List is empty after pop_front." << std::endl;
     }
 }
 #endif
@@ -401,6 +441,10 @@ int main() {
 
     #ifdef QUEUE
     QueueExample();
+    #endif
+
+    #ifdef LIST
+    ListExample();
     #endif
 
     return 0;
