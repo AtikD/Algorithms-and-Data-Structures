@@ -141,7 +141,7 @@ TEST(TQueueTest, ClearQueue) {
     EXPECT_EQ(q.get_back(), -1);
 }
 
-TEST(TQueueTest, TestQueueOperations) {
+TEST(TQueueTest, CycleShift) {
     TQueue<int> q(5);
 
     // Заполняем очередь
