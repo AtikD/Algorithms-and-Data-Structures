@@ -64,12 +64,19 @@ TEST(TListTest, Find_ReturnsNullptr_WhenValueNotFound) {
     EXPECT_EQ(node, nullptr);
 }
 
-TEST(TListTest, PopBack_RemovesLastElement) {
+TEST(TListTest, PopBack_Successful) {
     TList<int> list;
     list.push_back(10);
     list.push_back(20);
     list.pop_back();
     EXPECT_EQ(list.find(20), nullptr);
+}
+
+TEST(TListTest, PopBack_OneElementList) {
+    TList<int> list;
+    list.push_back(10);
+    list.pop_back();
+    EXPECT_TRUE(list.isEmpty());
 }
 
 TEST(TListTest, PopBack_ThrowsException_WhenListIsEmpty) {
