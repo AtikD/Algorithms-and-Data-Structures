@@ -203,6 +203,29 @@ void VectorExample() {
 
 #endif
 
+#ifdef STACK
+#include <stack.h>
+
+void StackExample() {
+    Stack<int> s;
+
+    s.push(10);
+    s.push(20);
+    s.push(30);
+
+    std::cout << "Размер стека: " << s.size() << std::endl;
+
+    std::cout << "Верхний элемент: " << s.top() << std::endl;
+
+    s.pop();
+    std::cout << "Верхний элемент после pop(): " << s.top() << std::endl;
+
+    s.clear();
+    std::cout << "Стек пуст? " << (s.empty() ? "Да" : "Нет") << std::endl;
+}
+#endif
+
+
 int main() {
     #ifdef EXAMPLE
     EasyExample();
@@ -215,5 +238,10 @@ int main() {
     #ifdef VECTOR
     VectorExample();
     #endif
+
+    #ifdef STACK
+    StackExample();
+    #endif
+
     return 0;
 }
