@@ -1,14 +1,19 @@
 // Copyright 2024 atikdd.t.me
 
+#include <easy_example.h>
+#include <queue.h>
 #include <massive.h>
+#include <cycle_detector.h>
+#include <vector.h>
+#include <list.h>
+#include <stack.h>
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <list>
+#include <chrono> // NOLINT [build/c++11]
+#include <cstdint>
 
 #ifdef EXAMPLE
-#include <easy_example.h>
-
 void EasyExample() {
     int a, b;
     float result;
@@ -36,8 +41,8 @@ void EasyExample() {
     }
 }
 #endif
-#ifdef MASSIVE
 
+#ifdef MASSIVE
 #include "../main/utilities.h"
 
 enum Actions { EXIT, INSERT, FIND, REMOVE, CLEAN };
@@ -167,10 +172,8 @@ void MassiveExample() {
     }
 }
 #endif
+
 #ifdef LIST
-
-#include <list.h>
-
 void ListExample() {
     TList<int> list;
 
@@ -208,8 +211,6 @@ void ListExample() {
 #endif
 
 #ifdef VECTOR
-#include <vector.h>
-
 void VectorExample() {
     TVector<int> vec1(3, 0);
     vec1[0] = 1;
@@ -244,8 +245,6 @@ void VectorExample() {
 #endif
 
 #ifdef STACK
-#include <stack.h>
-
 void StackExample() {
     Stack<int> s;
 
@@ -266,9 +265,6 @@ void StackExample() {
 #endif
 
 #ifdef QUEUE
-
-#include <queue.h>
-
 void QueueExample() {
     // Создаем очередь целых чисел с емкостью 5
     TQueue<int> intQueue(5);
@@ -421,6 +417,78 @@ void QueueExample() {
 }
 #endif
 
+#ifdef ALGORITHMS
+template <typename T>
+TList<T>* generateList(size_t size, bool createCycle) {
+    TList<T>* list = new TList<T>();
+    for (size_t i = 0; i < size; ++i) {
+        list->push_back(static_cast<T>(i));
+    }
+
+    if (createCycle && size > 0) {
+        TNode<T>* tail = list->getTail();
+        TNode<T>* head = list->getHead();
+        tail->setNext(head);
+    }
+    return list;
+}
+
+
+template <typename Func, typename T>
+int64_t measureAlgorithmTime(Func algorithm, TList<T>* list) {
+    auto start = std::chrono::high_resolution_clock::now();
+    bool result = algorithm(list);
+    auto end = std::chrono::high_resolution_clock::now();
+    int64_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>
+                                                     (end - start).count();
+    return duration;
+}
+
+void compareAlgorithms() {
+    TMassive<size_t> sizes;
+    sizes.push_back(1000);
+    sizes.push_back(10000);
+    sizes.push_back(100000);
+
+    for (size_t i = 0; i < sizes.size(); ++i) {
+        size_t size = sizes[i];
+
+        // Создаем списки
+        TList<int>* linearList = generateList<int>(size, false);
+        TList<int>* cyclicList = generateList<int>(size, true);
+
+        // Измеряем время для линейного списка
+        int64_t timeFloydLinear = measureAlgorithmTime(
+            hasCycleFloyd<int>, linearList);
+        int64_t timeReverseLinear = measureAlgorithmTime(
+            hasCycleReverse<int>, linearList);
+
+        // Измеряем время для циклического списка
+        int64_t timeFloydCyclic = measureAlgorithmTime(
+            hasCycleFloyd<int>, cyclicList);
+        int64_t timeReverseCyclic = measureAlgorithmTime(
+            hasCycleReverse<int>, cyclicList);
+
+        // Выводим результаты
+        std::cout << "Size: " << size << "\n";
+        std::cout << "Linear List:\n";
+        std::cout << "  Floyd's Algorithm Time: "
+                  << timeFloydLinear << " ns\n";
+        std::cout << "  Reverse Pointer Algorithm Time: "
+                  << timeReverseLinear << " ns\n";
+        std::cout << "Cyclic List:\n";
+        std::cout << "  Floyd's Algorithm Time: "
+                  << timeFloydCyclic << " ns\n";
+        std::cout << "  Reverse Pointer Algorithm Time: "
+                  << timeReverseCyclic << " ns\n\n";
+
+        // Очищаем память
+        delete linearList;
+        delete cyclicList;
+    }
+}
+
+#endif
 
 int main() {
     #ifdef EXAMPLE
@@ -445,6 +513,10 @@ int main() {
 
     #ifdef LIST
     ListExample();
+    #endif
+
+    #ifdef ALGORITHMS
+    compareAlgorithms();
     #endif
 
     return 0;

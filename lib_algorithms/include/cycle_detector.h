@@ -5,8 +5,34 @@
 #include <list.h>
 
 template <typename T>
-bool hasCycle(const TList<T>& list) {
-    TNode<T>* head = list.getHead();
+bool hasCycleReverse(TList<T>* list) {
+    if (list == nullptr) {
+        return false;
+    }
+
+    TNode<T>* current = list->getHead();
+    TNode<T>* prev = nullptr;
+    TNode<T>* next = nullptr;
+
+    while (current != nullptr) {
+        next = current->getNext();
+        current->setNext(prev);
+        prev = current;
+        current = next;
+
+        // Если узел указывает на голову списка, это цикл
+        if (current == list->getHead()) {
+            return true;
+        }
+    }
+
+    return false;  // Цикл отсутствует
+}
+
+
+template <typename T>
+bool hasCycleFloyd(const TList<T>* list) {
+    TNode<T>* head = list->getHead();
     if (head == nullptr) {
         return false;
     }
@@ -25,3 +51,4 @@ bool hasCycle(const TList<T>& list) {
 
     return false;  // Цикла нет
 }
+

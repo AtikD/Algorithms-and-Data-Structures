@@ -61,16 +61,16 @@ TEST(ExpressionParserTest, ComplexNestedExpressions) {
     EXPECT_FALSE(parser.isValidExpression(new std::string("((((x))")));
 }
 
-TEST(CycleDetectorTest, NotDetectsCycle) {
+TEST(CycleDetectorTest, NotDetectsCycleFloyd) {
     TList<int> list;
     list.push_back(1);
     list.push_back(2);
     list.push_back(3);
 
-    EXPECT_FALSE(hasCycle(list));
+    EXPECT_FALSE(hasCycleFloyd(&list));
 }
 
-TEST(CycleDetectorTest, DetectsCycle) {
+TEST(CycleDetectorTest, DetectsCycleFloyd) {
     TList<int> list;
     list.push_back(1);
     list.push_back(2);
@@ -81,7 +81,32 @@ TEST(CycleDetectorTest, DetectsCycle) {
     TNode<int>* head = list.getHead();
     tail->setNext(head);
 
-    EXPECT_TRUE(hasCycle(list));
+    EXPECT_TRUE(hasCycleFloyd(&list));
+
+    tail->setNext(nullptr);
+}
+
+TEST(CycleDetectorTest, NotDetectsCycleReverse) {
+    TList<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+
+    EXPECT_FALSE(hasCycleReverse(&list));
+}
+
+TEST(CycleDetectorTest, DetectsCycleReverse) {
+    TList<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+
+    // Создаем цикл: последний элемент ссылается на первый
+    TNode<int>* tail = list.getTail();
+    TNode<int>* head = list.getHead();
+    tail->setNext(head);
+
+    EXPECT_TRUE(hasCycleReverse(&list));
 
     tail->setNext(nullptr);
 }
