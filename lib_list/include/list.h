@@ -46,6 +46,10 @@ class TList {
     void replace(TNode<T>* node, const T& newValue);     // Указанный узел
     void replace_at(size_t pos, const T& newValue);      // По указанной позиции
 
+    TNode<T>* getHead() const;
+
+    TNode<T>* getTail() const;
+
     // Ввод / вывод
     template <class U>
     friend std::ostream& operator<<(std::ostream& os, const TList<U>& list);
@@ -71,6 +75,16 @@ TList<T>::~TList() {
     while (!isEmpty()) {
         pop_front();
     }
+}
+
+template <class T>
+TNode<T>* TList<T>::getHead() const {
+    return _head;
+}
+
+template <class T>
+TNode<T>* TList<T>::getTail() const {
+    return _tail;
 }
 
 template <class T>

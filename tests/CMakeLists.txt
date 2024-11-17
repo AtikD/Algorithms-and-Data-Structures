@@ -16,23 +16,13 @@ set(BUILD_GTEST ON)
 
 FetchContent_MakeAvailable(googletest)
 
-# Добавляем новый тестовый файл
-set(TEST_SOURCES
-    test_easy_example.cpp
-    test_additional.cpp
-    test_pair.cpp
-    test_massive.cpp
-    test_vector.cpp
-    test_stack.cpp
-    test_queue.cpp
-    test_list.cpp
-)
+file(GLOB TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
 # Создаём (или обновляем) исполняемый файл с новыми тестами
 add_executable(Tests ${TEST_SOURCES})
 
 # Подключаем необходимые библиотеки
-target_link_libraries(Tests PRIVATE EasyExample TPair TMassive TVector TStack TQueue TList gtest gtest_main)
+target_link_libraries(Tests PRIVATE EasyExample TPair TMassive TVector TStack TQueue TAlgorithms TList gtest gtest_main)
 
 # Регистрируем тесты
 add_test(NAME EasyExampleTests COMMAND Tests)
