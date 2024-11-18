@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 #include <parser.h>
 #include <cycle_detector.h>
+#include <string>
 
 TEST(ExpressionParserTest, ValidExpressions) {
     ExpressionParser parser;

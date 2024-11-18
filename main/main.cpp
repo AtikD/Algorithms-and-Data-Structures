@@ -12,6 +12,7 @@
 #include <string>
 #include <chrono> // NOLINT [build/c++11]
 #include <cstdint>
+#include <list>
 
 #ifdef EXAMPLE
 void EasyExample() {

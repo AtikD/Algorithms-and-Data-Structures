@@ -2,6 +2,7 @@
 
 #include "../include/parser.h"
 #include <cctype>
+#include <string>
 
 bool ExpressionParser::isValidExpression(const std::string* expression) {
     if (expression == nullptr) {
