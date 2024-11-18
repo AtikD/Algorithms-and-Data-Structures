@@ -1,5 +1,6 @@
 // Copyright 2024 atikdd.t.me
 
+#include <matrix.h>
 #include <easy_example.h>
 #include <queue.h>
 #include <massive.h>
@@ -491,7 +492,117 @@ void compareAlgorithms() {
 
 #endif
 
+#ifdef MATRIX
+void MatrixExample() {
+    setlocale(LC_ALL, "");
+// Пример 1: Создание и вывод матрицы
+    TMatrix<int> mat1(2, 3);
+    mat1[0][0] = 1;
+    mat1[0][1] = 2;
+    mat1[0][2] = 3;
+    mat1[1][0] = 4;
+    mat1[1][1] = 5;
+    mat1[1][2] = 6;
+    std::cout << "Матрица 1 (2x3):" << std::endl << mat1 << std::endl;
+
+    // Пример 2: Транспонирование матрицы
+    TMatrix<int> transposed = mat1.transpose();
+    std::cout << "Транспонированная Матрица 1:"
+              << std::endl << transposed << std::endl;
+
+    // Пример 3: Сложение матриц
+    TMatrix<int> mat2(2, 3);
+    mat2[0][0] = 6;
+    mat2[0][1] = 5;
+    mat2[0][2] = 4;
+    mat2[1][0] = 3;
+    mat2[1][1] = 2;
+    mat2[1][2] = 1;
+    std::cout << "Матрица 2 (2x3):" << std::endl << mat2 << std::endl;
+
+    TMatrix<int> sum = mat1 + mat2;
+    std::cout << "Сумма Матрицы 1 и Матрицы 2:"
+              << std::endl << sum << std::endl;
+
+    // Пример 4: Вычитание матриц
+    TMatrix<int> diff = mat1 - mat2;
+    std::cout << "Разность Матрицы 1 и Матрицы 2:"
+              << std::endl << diff << std::endl;
+
+    // Пример 5: Умножение матриц
+    TMatrix<int> mat3(3, 2);
+    mat3[0][0] = 1;
+    mat3[0][1] = 4;
+    mat3[1][0] = 2;
+    mat3[1][1] = 5;
+    mat3[2][0] = 3;
+    mat3[2][1] = 6;
+    std::cout << "Матрица 3 (3x2):" << std::endl << mat3 << std::endl;
+
+    TMatrix<int> product = mat1 * mat3;
+    std::cout << "Произведение Матрицы 1 и Матрицы 3:"
+              << std::endl << product << std::endl;
+
+    // Пример 6: Создание квадратной матрицы и вычисление детерминанта
+    TMatrix<double> mat4(3, 3);
+    mat4[0][0] = 6;
+    mat4[0][1] = 1;
+    mat4[0][2] = 1;
+    mat4[1][0] = 4;
+    mat4[1][1] = -2;
+    mat4[1][2] = 5;
+    mat4[2][0] = 2;
+    mat4[2][1] = 8;
+    mat4[2][2] = 7;
+    std::cout << "Матрица 4 (3x3):" << std::endl << mat4 << std::endl;
+
+    double det = mat4.determinant();
+    std::cout << "Детерминант Матрицы 4: " << det << std::endl;
+
+    // Пример 7: Нахождение обратной матрицы
+    if (det != 0) {
+        TMatrix<double> inverse = mat4.inverse();
+        std::cout << "Обратная Матрица 4:"
+                  << std::endl << inverse << std::endl;
+    }
+
+    // Пример 8: Работа с пустой матрицей
+    TMatrix<int> empty_mat;
+    std::cout << "Пустая Матрица:" << std::endl << empty_mat << std::endl;
+
+    // Пример 9: Масштабирование матрицы (умножение на скаляр)
+    TMatrix<int> scaled = mat1 * 2;
+    std::cout << "Матрица 1, умноженная на 2:"
+              << std::endl << scaled << std::endl;
+
+    // Пример 10: Сравнение матриц
+    std::cout << "Матрица 1 и Матрица 2 равны? "
+              << (mat1 == mat2 ? "Да" : "Нет") << std::endl;
+
+    // Пример 11: Редактирование элементов матрицы
+    mat1[0][0] = 100;
+    mat1[1][2] = 200;
+    std::cout << "Матрица 1 после изменений:"
+              << std::endl << mat1 << std::endl;
+
+    // Пример 12: Матрица из дробных чисел
+    TMatrix<float> mat5(2, 2);
+    mat5[0][0] = 1.5;
+    mat5[0][1] = 2.5;
+    mat5[1][0] = 3.5;
+    mat5[1][1] = 4.5;
+    std::cout << "Матрица 5 (2x2, дробные числа):"
+              << std::endl << mat5 << std::endl;
+
+    // Пример 13: Умножение дробной матрицы на скаляр
+    TMatrix<float> scaled_float = mat5 * 0.5;
+    std::cout << "Матрица 5, умноженная на 0.5:"
+              << std::endl << scaled_float << std::endl;
+}
+#endif
 int main() {
+    setlocale(LC_ALL, "");
+
     #ifdef EXAMPLE
     EasyExample();
     #endif
@@ -520,5 +631,8 @@ int main() {
     compareAlgorithms();
     #endif
 
+    #ifdef MATRIX
+    MatrixExample();
+    #endif
     return 0;
 }

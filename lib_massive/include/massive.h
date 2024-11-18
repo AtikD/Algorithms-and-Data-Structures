@@ -35,7 +35,7 @@ class TMassive {
     TMassive& assign(const TMassive& archive);
 
     void clear();
-    void resize(size_t n, const T& value);
+    void resize(size_t n, const T& value = T());
     void reserve(size_t new_capacity);
 
     void push_back(const T& value);

@@ -63,7 +63,7 @@ TVector<T>::TVector() : _data(), _start_index(0) {}
 template <typename T>
 TVector<T>::TVector(size_t size, size_t start_index) :
                     _data(), _start_index(start_index) {
-    _data.resize(size, 0);
+    _data.resize(size);
 }
 
 template <typename T>
@@ -116,25 +116,15 @@ TVector<T>& TVector<T>::operator=(const TVector<T>& other) {
 
 template <typename T>
 TVector<T> TVector<T>::operator+(const TVector<T>& other) const {
-    if (size() != other.size() || _start_index != other._start_index) {
-        throw std::logic_error("Размеры векторов не совпадают");
-    }
-    TVector<T> result(size(), _start_index);
-    for (size_t i = 0; i < size(); ++i) {
-        result._data.replace(i, _data[i] + other._data[i]);
-    }
+    TVector<T> result(*this);
+    result += other;
     return result;
 }
 
 template <typename T>
 TVector<T> TVector<T>::operator-(const TVector<T>& other) const {
-    if (size() != other.size() || _start_index != other._start_index) {
-        throw std::logic_error("Размеры векторов не совпадают");
-    }
-    TVector<T> result(size(), _start_index);
-    for (size_t i = 0; i < size(); ++i) {
-        result._data.replace(i, _data[i] - other._data[i]);
-    }
+    TVector<T> result(*this);
+    result -= other;
     return result;
 }
 
@@ -156,7 +146,7 @@ TVector<T>& TVector<T>::operator+=(const TVector<T>& other) {
         throw std::logic_error("Размеры векторов не совпадают");
     }
     for (size_t i = 0; i < size(); ++i) {
-        _data.replace(i, _data[i] + other._data[i]);
+        _data[i] += other._data[i];
     }
     return *this;
 }
@@ -167,7 +157,7 @@ TVector<T>& TVector<T>::operator-=(const TVector<T>& other) {
         throw std::logic_error("Размеры векторов не совпадают");
     }
     for (size_t i = 0; i < size(); ++i) {
-        _data.replace(i, _data[i] - other._data[i]);
+        _data[i] -= other._data[i];
     }
     return *this;
 }
@@ -192,17 +182,15 @@ bool TVector<T>::operator!=(const TVector<T>& other) const {
 
 template <typename T>
 TVector<T> TVector<T>::operator*(const T& scalar) const {
-    TVector<T> result(size(), _start_index);
-    for (size_t i = 0; i < size(); ++i) {
-        result._data.replace(i, _data[i] * scalar);
-    }
+    TVector<T> result(*this);
+    result *= scalar;
     return result;
 }
 
 template <typename T>
 TVector<T>& TVector<T>::operator*=(const T& scalar) {
     for (size_t i = 0; i < size(); ++i) {
-        _data.replace(i, _data[i] * scalar);
+        _data[i] *= scalar;
     }
     return *this;
 }
@@ -214,7 +202,7 @@ void TVector<T>::set_start_index(size_t start_index) {
 
 template <typename T>
 void TVector<T>::resize(size_t new_size) {
-    _data.resize(new_size, 0);
+    _data.resize(new_size);
 }
 
 template <typename T>
