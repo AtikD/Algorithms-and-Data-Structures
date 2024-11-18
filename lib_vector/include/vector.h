@@ -11,14 +11,14 @@
 
 template <typename T>
 class TVector {
- private:
+ protected:
     TMassive<T> _data;
     size_t _start_index;
 
  public:
     TVector();
-    TVector(size_t size, size_t start_index);
-    TVector(const T* arr, size_t size, size_t start_index);
+    explicit TVector(size_t size, size_t start_index = 0);
+    TVector(const T* arr, size_t size, size_t start_index = 0);
     TVector(const TVector<T>& other);
 
     ~TVector();
