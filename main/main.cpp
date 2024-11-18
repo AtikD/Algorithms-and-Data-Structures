@@ -495,7 +495,7 @@ void compareAlgorithms() {
 #ifdef MATRIX
 void MatrixExample() {
     setlocale(LC_ALL, "");
-// Пример 1: Создание и вывод матрицы
+    // Пример 1: Создание и вывод матрицы
     TMatrix<int> mat1(2, 3);
     mat1[0][0] = 1;
     mat1[0][1] = 2;
