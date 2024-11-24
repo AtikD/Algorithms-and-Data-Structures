@@ -56,6 +56,50 @@ class TList {
 
     template <class U>
     friend std::istream& operator>>(std::istream& is, TList<U>& list);
+
+    class iterator {
+     private:
+        TNode<T>* current;
+
+     public:
+        iterator() : current(nullptr) {}
+        explicit iterator(TNode<T>* node) : current(node) {}
+
+        T& operator*() const {
+            return current->getValue();
+        }
+
+        iterator& operator++() {  // Префиксный
+            if (current) {
+                current = current->getNext();
+            }
+            return *this;
+        }
+
+        iterator operator++(int) {  // Постфиксный
+            iterator temp = *this;
+            if (current) {
+                current = current->getNext();
+            }
+            return temp;
+        }
+
+        bool operator==(const iterator& other) const {
+            return current == other.current;
+        }
+
+        bool operator!=(const iterator& other) const {
+            return current != other.current;
+        }
+    };
+
+    iterator begin() {
+        return iterator(_head);
+    }
+
+    iterator end() {
+        return iterator(nullptr);
+    }
 };
 
 template <class T>
