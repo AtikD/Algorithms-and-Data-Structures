@@ -55,6 +55,38 @@ class TVector {
     void clear();
 
     void print(std::ostream& out = std::cout) const;
+    class Iterator {
+     private:
+        TVector<T>& vec_;
+        size_t index_;
+
+     public:
+        explicit Iterator(TVector<T>& vec) : vec_(vec), index_(0) {}
+
+        void First() {
+            index_ = 0;
+        }
+
+        void Next() {
+            ++index_;
+        }
+
+        bool IsDone() const {
+            return index_ >= vec_.size();
+        }
+
+        T& CurrentItem() {
+            if (IsDone()) {
+                throw std::out_of_range("Iterator out of range");
+            }
+            return vec_._data[index_];
+        }
+    };
+
+    // Метод для получения итератора
+    Iterator GetIterator() {
+        return Iterator(*this);
+    }
 };
 
 template <typename T>

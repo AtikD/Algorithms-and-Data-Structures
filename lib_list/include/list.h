@@ -92,11 +92,9 @@ class TList {
             return current != other.current;
         }
     };
-
     iterator begin() {
         return iterator(_head);
     }
-
     iterator end() {
         return iterator(nullptr);
     }
