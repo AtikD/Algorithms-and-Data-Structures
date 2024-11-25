@@ -1,5 +1,6 @@
 // Copyright 2024 atikdd.t.me
 
+#include <lstack.h>
 #include <matrix.h>
 #include <easy_example.h>
 #include <queue.h>
@@ -14,6 +15,7 @@
 #include <chrono> // NOLINT [build/c++11]
 #include <cstdint>
 #include <list>
+
 
 #ifdef EXAMPLE
 void EasyExample() {
@@ -254,15 +256,15 @@ void StackExample() {
     s.push(20);
     s.push(30);
 
-    std::cout << "Размер стека: " << s.size() << std::endl;
+    std::cout << "Size: " << s.size() << std::endl;
 
-    std::cout << "Верхний элемент: " << s.top() << std::endl;
+    std::cout << "Top: " << s.top() << std::endl;
 
     s.pop();
-    std::cout << "Верхний элемент после pop(): " << s.top() << std::endl;
+    std::cout << "Top after pop(): " << s.top() << std::endl;
 
     s.clear();
-    std::cout << "Стек пуст? " << (s.empty() ? "Да" : "Нет") << std::endl;
+    std::cout << "isEmpty? " << (s.empty() ? "Да" : "Нет") << std::endl;
 }
 #endif
 
@@ -600,6 +602,48 @@ void MatrixExample() {
               << std::endl << scaled_float << std::endl;
 }
 #endif
+
+#ifdef STACKEXPERIMENTS
+template <typename StackType>
+void testStackPerformance(const std::string& stackName) {
+    StackType stack;
+
+    size_t TEST_SIZE = 1000000;
+
+    auto startPush = std::chrono::high_resolution_clock::now();
+    for (size_t i = 0; i < TEST_SIZE; ++i) {
+        stack.push(i);
+    }
+    auto endPush = std::chrono::high_resolution_clock::now();
+    auto pushDuration =
+        std::chrono::duration_cast<std::chrono::milliseconds>
+                                            (endPush - startPush);
+
+    auto startPop = std::chrono::high_resolution_clock::now();
+    for (size_t i = 0; i < TEST_SIZE; ++i) {
+        stack.pop();
+    }
+    auto endPop = std::chrono::high_resolution_clock::now();
+    auto popDuration =
+        std::chrono::duration_cast<std::chrono::milliseconds>
+                                            (endPop - startPop);
+
+    std::cout << "Stack: " << stackName << "\n";
+    std::cout << "Push: " << pushDuration.count() << " ms\n";
+    std::cout << "Pop: " << popDuration.count() << " ms\n";
+    std::cout << "-----------------------------------------\n";
+}
+
+void StackExperiments() {
+    std::cout << "Stack Performance Comparison\n";
+    std::cout << "-----------------------------------------\n";
+
+    testStackPerformance<LStack<int>>("LStack (TList)");
+
+    testStackPerformance<Stack<int>>("Stack (TMassive)");
+}
+
+#endif
 int main() {
     setlocale(LC_ALL, "");
 
@@ -634,5 +678,10 @@ int main() {
     #ifdef MATRIX
     MatrixExample();
     #endif
+
+    #ifdef STACKEXPERIMENTS
+    StackExperiments();
+    #endif
+
     return 0;
 }
