@@ -340,7 +340,8 @@ TMassive<T>& TMassive<T>::insert(const T& value, size_t pos) {
         throw std::out_of_range("Insert position is out of range.");
     }
     if (_size >= _capacity) {
-        reserve(_capacity + STEP_CAPACITY);
+        size_t new_capacity = (_capacity == 0) ? 1 : _capacity * 2;
+        reserve(new_capacity);
     }
     for (size_t i = _size; i > pos; --i) {
         _data[i] = _data[i - 1];
