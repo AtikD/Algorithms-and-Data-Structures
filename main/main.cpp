@@ -604,44 +604,72 @@ void MatrixExample() {
 #endif
 
 #ifdef STACKEXPERIMENTS
-template <typename StackType>
-void testStackPerformance(const std::string& stackName) {
-    StackType stack;
 
-    size_t TEST_SIZE = 1000000;
-
-    auto startPush = std::chrono::high_resolution_clock::now();
-    for (size_t i = 0; i < TEST_SIZE; ++i) {
-        stack.push(i);
+template <typename Function>
+long long measureExecutionTime(Function func, int repetitions = 1) {
+    auto start = std::chrono::high_resolution_clock::now();
+    for (int i = 0; i < repetitions; ++i) {
+        func();
     }
-    auto endPush = std::chrono::high_resolution_clock::now();
-    auto pushDuration =
-        std::chrono::duration_cast<std::chrono::milliseconds>
-                                            (endPush - startPush);
-
-    auto startPop = std::chrono::high_resolution_clock::now();
-    for (size_t i = 0; i < TEST_SIZE; ++i) {
-        stack.pop();
-    }
-    auto endPop = std::chrono::high_resolution_clock::now();
-    auto popDuration =
-        std::chrono::duration_cast<std::chrono::milliseconds>
-                                            (endPop - startPop);
-
-    std::cout << "Stack: " << stackName << "\n";
-    std::cout << "Push: " << pushDuration.count() << " ms\n";
-    std::cout << "Pop: " << popDuration.count() << " ms\n";
-    std::cout << "-----------------------------------------\n";
+    auto end = std::chrono::high_resolution_clock::now();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / repetitions;
 }
 
-void StackExperiments() {
-    std::cout << "Stack Performance Comparison\n";
-    std::cout << "-----------------------------------------\n";
+template <typename DataStructure, typename InsertFunc, typename RemoveFunc>
+void testInsertionAndRemoval(const std::string& name, size_t testSize, InsertFunc insert, RemoveFunc remove) {
+    DataStructure structure;
 
-    testStackPerformance<LStack<int>>("LStack (TList)");
+    std::cout << "Testing " << name << "\n";
 
-    testStackPerformance<Stack<int>>("Stack (TMassive)");
+    auto insertionTime = measureExecutionTime([&]() {
+        for (size_t i = 0; i < testSize; ++i) {
+            insert(structure, i);
+        }
+    });
+    std::cout << "Insertion time: " << insertionTime << " ms\n";
+
+    auto removalTime = measureExecutionTime([&]() {
+        for (size_t i = 0; i < testSize; ++i) {
+            remove(structure);
+        }
+    });
+    std::cout << "Removal time: " << removalTime << " ms\n";
+
+    std::cout << "--------------------------------------------\n";
 }
+
+void testPerfomance() {
+    const size_t testSize = 100000000;
+
+    testInsertionAndRemoval<TMassive<int>>(
+        "Dynamic Array",
+        testSize,
+        [](TMassive<int>& massive, int value) { massive.push_back(value); },
+        [](TMassive<int>& massive) { massive.pop_back(); }
+    );
+
+    testInsertionAndRemoval<TList<int>>(
+        "Linked List",
+        testSize,
+        [](TList<int>& list, int value) { list.push_front(value); },
+        [](TList<int>& list) { list.pop_front(); }
+    );
+
+    testInsertionAndRemoval<Stack<int>>(
+        "Stack (Dynamic Array)",
+        testSize,
+        [](Stack<int>& stack, int value) { stack.push(value); },
+        [](Stack<int>& stack) { stack.pop(); }
+    );
+
+    testInsertionAndRemoval<LStack<int>>(
+        "Stack (Linked List)",
+        testSize,
+        [](LStack<int>& stack, int value) { stack.push(value); },
+        [](LStack<int>& stack) { stack.pop(); }
+    );
+}
+
 
 #endif
 int main() {
@@ -680,7 +708,7 @@ int main() {
     #endif
 
     #ifdef STACKEXPERIMENTS
-    StackExperiments();
+    testPerfomance();
     #endif
 
     return 0;
