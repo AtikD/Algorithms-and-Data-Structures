@@ -57,6 +57,42 @@ class TList {
     template <class U>
     friend std::istream& operator>>(std::istream& is, TList<U>& list);
 
+    class const_iterator {
+     private:
+        const TNode<T>* current;
+
+     public:
+        const_iterator() : current(nullptr) {}
+        explicit const_iterator(const TNode<T>* node) : current(node) {}
+
+        const T& operator*() const {
+            return current->getValue();
+        }
+
+        const_iterator& operator++() {
+            if (current) {
+                current = current->getNext();
+            }
+            return *this;
+        }
+
+        const_iterator operator++(int) {
+            const_iterator temp = *this;
+            if (current) {
+                current = current->getNext();
+            }
+            return temp;
+        }
+
+        bool operator==(const const_iterator& other) const {
+            return current == other.current;
+        }
+
+        bool operator!=(const const_iterator& other) const {
+            return current != other.current;
+        }
+    };
+
     class iterator {
      private:
         TNode<T>* current;
@@ -98,13 +134,22 @@ class TList {
     iterator end() {
         return iterator(nullptr);
     }
+
+    const_iterator begin() const {
+        return const_iterator(_head);
+    }
+
+    const_iterator end() const {
+        return const_iterator(nullptr);
+    }
 };
 
 template <class T>
 TList<T>::TList() : _head(nullptr), _tail(nullptr) {}
 
 template <class T>
-TList<T>::TList(const TList<T>& other) : _head(nullptr), _tail(nullptr) {
+TList<T>::TList(const TList<T>& other): _head(nullptr),
+                                    _tail(nullptr) {
     TNode<T>* current = other._head;
     while (current != nullptr) {
         push_back(current->getValue());
