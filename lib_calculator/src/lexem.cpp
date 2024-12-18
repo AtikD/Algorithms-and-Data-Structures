@@ -4,7 +4,7 @@
 #include <parser.h>
 #include <iostream>
 #include <string>
-
+#include <vector>
 
 bool LexemFactory::isFunction(const std::string& token) {
     static const std::vector<std::string> funcs = {"sin", "cos", "tg", "ctg"};

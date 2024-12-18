@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 #include <lexem.h>
 #include <list.h>
+#include <string>
 
 int CountLexems(const TList<Lexem*>& list) {
     int count = 0;
