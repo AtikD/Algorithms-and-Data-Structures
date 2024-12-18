@@ -4,6 +4,7 @@
 #include <matrix.h>
 #include <easy_example.h>
 #include <queue.h>
+#include <lexem.h>
 #include <massive.h>
 #include <cycle_detector.h>
 #include <vector.h>
@@ -606,17 +607,21 @@ void MatrixExample() {
 #ifdef STACKEXPERIMENTS
 
 template <typename Function>
-long long measureExecutionTime(Function func, int repetitions = 1) {
+int64_t measureExecutionTime(Function func, int repetitions = 1) {
     auto start = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < repetitions; ++i) {
         func();
     }
     auto end = std::chrono::high_resolution_clock::now();
-    return std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / repetitions;
+    return std::chrono::duration_cast<std::chrono::milliseconds>
+            (end - start).count() / repetitions;
 }
 
 template <typename DataStructure, typename InsertFunc, typename RemoveFunc>
-void testInsertionAndRemoval(const std::string& name, size_t testSize, InsertFunc insert, RemoveFunc remove) {
+void testInsertionAndRemoval(const std::string& name,
+                            size_t testSize,
+                            InsertFunc insert,
+                            RemoveFunc remove) {
     DataStructure structure;
 
     std::cout << "Testing " << name << "\n";
@@ -645,33 +650,69 @@ void testPerfomance() {
         "Dynamic Array",
         testSize,
         [](TMassive<int>& massive, int value) { massive.push_back(value); },
-        [](TMassive<int>& massive) { massive.pop_back(); }
-    );
+        [](TMassive<int>& massive) { massive.pop_back(); });
 
     testInsertionAndRemoval<TList<int>>(
         "Linked List",
         testSize,
         [](TList<int>& list, int value) { list.push_front(value); },
-        [](TList<int>& list) { list.pop_front(); }
-    );
+        [](TList<int>& list) { list.pop_front(); });
 
     testInsertionAndRemoval<Stack<int>>(
         "Stack (Dynamic Array)",
         testSize,
         [](Stack<int>& stack, int value) { stack.push(value); },
-        [](Stack<int>& stack) { stack.pop(); }
-    );
+        [](Stack<int>& stack) { stack.pop(); });
 
     testInsertionAndRemoval<LStack<int>>(
         "Stack (Linked List)",
         testSize,
         [](LStack<int>& stack, int value) { stack.push(value); },
-        [](LStack<int>& stack) { stack.pop(); }
-    );
+        [](LStack<int>& stack) { stack.pop(); });
 }
 
 
 #endif
+
+#ifdef LEXEMS
+void lexemexample() {
+    std::string input =
+        "sin(12*12)+(13+488)*5+(x-12^x)/sin(42)";
+    TList<Lexem*> lexems = parse(input);
+    int count = 0;
+    std::cout << "Lexems:" << std::endl;
+        for (auto it = lexems.begin(); it != lexems.end(); ++it) {
+        Lexem* lex = *it;
+        switch (lex->type()) {
+            case FUNCTION:
+                std::cout << "Function: ";
+                break;
+            case VARIABLE:
+                std::cout << "Variable: ";
+                break;
+            case OPERATION:
+                std::cout << "Operator: ";
+                break;
+            case BRACKET:
+                std::cout << "Bracket: ";
+                break;
+            case INT_CONST:
+                std::cout << "IntConst: ";
+                break;
+            case FLOAT_CONST:
+                std::cout << "FloatConst: ";
+                break;
+        }
+        std::cout << lex->name() << std::endl;
+        count++;
+    }
+    std::cout <<"Count of lexems is " << count;
+    for (auto it = lexems.begin(); it != lexems.end(); ++it) {
+        delete *it;
+    }
+}
+#endif
+
 int main() {
     setlocale(LC_ALL, "");
 
@@ -709,6 +750,10 @@ int main() {
 
     #ifdef STACKEXPERIMENTS
     testPerfomance();
+    #endif
+
+    #ifdef LEXEMS
+    lexemexample();
     #endif
 
     return 0;
