@@ -57,42 +57,6 @@ class TList {
     template <class U>
     friend std::istream& operator>>(std::istream& is, TList<U>& list);
 
-    class const_iterator {
-     private:
-        const TNode<T>* current;
-
-     public:
-        const_iterator() : current(nullptr) {}
-        explicit const_iterator(const TNode<T>* node) : current(node) {}
-
-        const T& operator*() const {
-            return current->getValue();
-        }
-
-        const_iterator& operator++() {
-            if (current) {
-                current = current->getNext();
-            }
-            return *this;
-        }
-
-        const_iterator operator++(int) {
-            const_iterator temp = *this;
-            if (current) {
-                current = current->getNext();
-            }
-            return temp;
-        }
-
-        bool operator==(const const_iterator& other) const {
-            return current == other.current;
-        }
-
-        bool operator!=(const const_iterator& other) const {
-            return current != other.current;
-        }
-    };
-
     class iterator {
      private:
         TNode<T>* current;
@@ -111,8 +75,21 @@ class TList {
             }
             return *this;
         }
+        iterator& operator++() const {  // Префиксный
+            if (current) {
+                current = current->getNext();
+            }
+            return *this;
+        }
 
         iterator operator++(int) {  // Постфиксный
+            iterator temp = *this;
+            if (current) {
+                current = current->getNext();
+            }
+            return temp;
+        }
+        iterator operator++(int) const {  // Постфиксный
             iterator temp = *this;
             if (current) {
                 current = current->getNext();
@@ -135,12 +112,12 @@ class TList {
         return iterator(nullptr);
     }
 
-    const_iterator begin() const {
-        return const_iterator(_head);
+    iterator begin() const {
+        return iterator(_head);
     }
 
-    const_iterator end() const {
-        return const_iterator(nullptr);
+    iterator end() const {
+        return iterator(nullptr);
     }
 };
 

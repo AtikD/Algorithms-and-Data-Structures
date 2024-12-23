@@ -292,7 +292,6 @@ TEST(CMonomTest, VariableWithLocalCoefficientWithoutPower) {
 TEST(CMonomTest, VariableWithMultiDigitIndex) {
     CMonom m("3.5*x10^2*x2^3");
     EXPECT_DOUBLE_EQ(m.getCoef(), 3.5);
-    std::vector<int> expectedPowers = {0, 3, 0, 0, 0, 0, 0, 0, 0, 2};
 
     EXPECT_EQ(m.getPowers().size(), 10);
     EXPECT_EQ(m.getPowers()[1], 3);
