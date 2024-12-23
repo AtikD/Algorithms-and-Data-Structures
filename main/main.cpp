@@ -677,7 +677,7 @@ void testPerfomance() {
 #ifdef LEXEMS
 void lexemexample() {
     std::string input =
-        "sin(12*12)+(13+488)*5+(x-12^x)/sin(42)";
+        "sin( sin^(cos(X) + arctng(10-pi))) + 9 ^ 131344.5 - r+ - rwreADS16342 ";
     TList<Lexem*> lexems = parse(input);
     int count = 0;
     std::cout << "Lexems:" << std::endl;

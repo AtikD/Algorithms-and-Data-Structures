@@ -133,9 +133,9 @@ TMatrix<T> TMatrix<T>::operator+(const TMatrix<T>& other) const {
     if (rows() != other.rows() || cols() != other.cols()) {
         throw std::logic_error("Размеры матриц не совпадают для сложения");
     }
-    TMatrix<T> result(rows(), cols());
+    TMatrix<T> result(*this);
     for (size_t i = 0; i < rows(); ++i) {
-        result[i] = _data[i] + other._data[i];
+        result[i] += other._data[i];
     }
     return result;
 }
@@ -145,9 +145,9 @@ TMatrix<T> TMatrix<T>::operator-(const TMatrix<T>& other) const {
     if (rows() != other.rows() || cols() != other.cols()) {
         throw std::logic_error("Размеры матриц не совпадают для вычитания");
     }
-    TMatrix<T> result(rows(), cols());
+    TMatrix<T> result(*this);
     for (size_t i = 0; i < rows(); ++i) {
-        result[i] = _data[i] - other._data[i];
+        result[i] -= other._data[i];
     }
     return result;
 }
