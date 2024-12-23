@@ -47,7 +47,7 @@ Lexem* LexemFactory::create(const std::string& token) {
 
 void delete_spaces(std::string* exp) {
     if (exp == nullptr) return;
-    exp->erase(std::remove_if(exp->begin(), exp->end(), ::isspace), exp->end());
+    exp->erase(std::remove_if(exp->begin(), exp->end(), isspace), exp->end());
 }
 
 static bool isOperatorChar(char c) {

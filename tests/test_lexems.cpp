@@ -119,14 +119,14 @@ TEST(LexemParseTest, InvalidCharacter) {
     }, std::runtime_error);
 }
 
-TEST(LexemOperatorTest, DoublePlus) {
+TEST(LexemParseTest, DoublePlus) {
     std::string input = "12++34";
     EXPECT_THROW({
         TList<Lexem*> result = parse(input);
     }, std::runtime_error);
 }
 
-TEST(LexemOperatorTest, OperatorBeforeClosingBracket) {
+TEST(LexemParseTest, OperatorBeforeClosingBracket) {
     std::string input = "(12+)";
     EXPECT_THROW({
         TList<Lexem*> result = parse(input);

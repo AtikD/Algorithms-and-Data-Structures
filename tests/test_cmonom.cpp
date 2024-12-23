@@ -3,6 +3,8 @@
 
 #include <gtest/gtest.h>
 #include <cmonom.h>
+#include <vector>
+#include <algorithm>
 
 TEST(CMonomTest, EqualityTrue) {
     CMonom m1(2.0, {2, 1, 0});

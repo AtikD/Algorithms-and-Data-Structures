@@ -20,7 +20,7 @@ file(GLOB TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
 # Создаём (или обновляем) исполняемый файл с новыми тестами
 # add_executable(Tests ${TEST_SOURCES})
-add_executable(Tests test_matrix.cpp)
+add_executable(Tests test_lexems.cpp)
 
 # Подключаем необходимые библиотеки
 target_link_libraries(Tests PRIVATE EasyExample TPair TMassive TVector TPolynom TStack TCalculator TQueue TAlgorithms TList TMatrix gtest gtest_main)
