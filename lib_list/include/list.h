@@ -46,19 +46,87 @@ class TList {
     void replace(TNode<T>* node, const T& newValue);     // Указанный узел
     void replace_at(size_t pos, const T& newValue);      // По указанной позиции
 
+    TNode<T>* getHead() const;
+
+    TNode<T>* getTail() const;
+
     // Ввод / вывод
     template <class U>
     friend std::ostream& operator<<(std::ostream& os, const TList<U>& list);
 
     template <class U>
     friend std::istream& operator>>(std::istream& is, TList<U>& list);
+
+    class iterator {
+     private:
+        TNode<T>* current;
+
+     public:
+        iterator() : current(nullptr) {}
+        explicit iterator(TNode<T>* node) : current(node) {}
+
+        T& operator*() const {
+            return current->getValue();
+        }
+
+        iterator& operator++() {  // Префиксный
+            if (current) {
+                current = current->getNext();
+            }
+            return *this;
+        }
+        iterator& operator++() const {  // Префиксный
+            if (current) {
+                current = current->getNext();
+            }
+            return *this;
+        }
+
+        iterator operator++(int) {  // Постфиксный
+            iterator temp = *this;
+            if (current) {
+                current = current->getNext();
+            }
+            return temp;
+        }
+        iterator operator++(int) const {  // Постфиксный
+            iterator temp = *this;
+            if (current) {
+                current = current->getNext();
+            }
+            return temp;
+        }
+
+        bool operator==(const iterator& other) const {
+            return current == other.current;
+        }
+
+        bool operator!=(const iterator& other) const {
+            return current != other.current;
+        }
+    };
+    iterator begin() {
+        return iterator(_head);
+    }
+    iterator end() {
+        return iterator(nullptr);
+    }
+
+    iterator begin() const {
+        return iterator(_head);
+    }
+
+    iterator end() const {
+        return iterator(nullptr);
+    }
 };
 
 template <class T>
 TList<T>::TList() : _head(nullptr), _tail(nullptr) {}
 
 template <class T>
-TList<T>::TList(const TList<T>& other) : _head(nullptr), _tail(nullptr) {
+TList<T>::TList(const TList<T>& other): _head(nullptr),
+                                    _tail(nullptr) {
     TNode<T>* current = other._head;
     while (current != nullptr) {
         push_back(current->getValue());
@@ -71,6 +139,16 @@ TList<T>::~TList() {
     while (!isEmpty()) {
         pop_front();
     }
+}
+
+template <class T>
+TNode<T>* TList<T>::getHead() const {
+    return _head;
+}
+
+template <class T>
+TNode<T>* TList<T>::getTail() const {
+    return _tail;
 }
 
 template <class T>

@@ -160,3 +160,75 @@ TEST(TListTest, Replace_ThrowsException_WhenNodeIsNullptr) {
     TList<int> list;
     EXPECT_THROW(list.replace(nullptr, 20), std::invalid_argument);
 }
+
+TEST(TListIteratorTest, DefaultConstructor) {
+    TList<int>::iterator it;
+    EXPECT_EQ(it, TList<int>::iterator(nullptr));
+}
+
+TEST(TListIteratorTest, IteratorConstruction) {
+    TNode<int> node(5);
+    TList<int>::iterator it(&node);
+    EXPECT_EQ(*it, 5);
+}
+
+TEST(TListIteratorTest, PrefixIncrement) {
+    TList<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    TList<int>::iterator it = list.begin();
+    ++it;
+    EXPECT_EQ(*it, 2);
+}
+
+TEST(TListIteratorTest, PostfixIncrement) {
+    TList<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    TList<int>::iterator it = list.begin();
+    it++;
+    EXPECT_EQ(*it, 2);
+}
+
+TEST(TListIteratorTest, DereferenceOperator) {
+    TList<int> list;
+    list.push_back(42);
+    TList<int>::iterator it = list.begin();
+    EXPECT_EQ(*it, 42);
+}
+
+TEST(TListIteratorTest, ComparisonOperators) {
+    TList<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    TList<int>::iterator it1 = list.begin();
+    TList<int>::iterator it2 = list.begin();
+    EXPECT_TRUE(it1 == it2);
+    ++it2;
+    EXPECT_TRUE(it1 != it2);
+}
+
+TEST(TListIteratorTest, IterateOverList) {
+    TList<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+    int expected = 1;
+    for (TList<int>::iterator it = list.begin(); it != list.end(); ++it) {
+        EXPECT_EQ(*it, expected);
+        ++expected;
+    }
+}
+
+TEST(TListIteratorTest, ModifyElements) {
+    TList<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    for (TList<int>::iterator it = list.begin(); it != list.end(); ++it) {
+        *it *= 10;
+    }
+    TList<int>::iterator it = list.begin();
+    EXPECT_EQ(*it, 10);
+    ++it;
+    EXPECT_EQ(*it, 20);
+}

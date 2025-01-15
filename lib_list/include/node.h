@@ -22,7 +22,7 @@ class TNode {
     bool operator==(const TNode<T>& other) const;
 
     // Геттеры и сеттеры
-    T getValue() const;
+    T& getValue();
     void setValue(const T& value);
 
     TNode<T>* getNext() const;
@@ -59,7 +59,7 @@ bool TNode<T>::operator==(const TNode<T>& other) const {
 }
 
 template <class T>
-T TNode<T>::getValue() const {
+T& TNode<T>::getValue() {
     return _value;
 }
 

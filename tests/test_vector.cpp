@@ -255,3 +255,116 @@ TEST(TVectorTest, AccessOperator) {
     EXPECT_EQ(vec[0], 5);
     EXPECT_EQ(vec[1], 10);
 }
+
+TEST(TVectorIteratorTest, IterateOverElements) {
+    TVector<int> vec(5);
+    for (size_t i = 0; i < 5; ++i) {
+        vec[i + vec.get_start_index()] = static_cast<int>(i * 10);
+    }
+
+    TVector<int>::Iterator it = vec.GetIterator();
+    int expected_value = 0;
+    for (it.First(); !it.IsDone(); it.Next()) {
+        EXPECT_EQ(it.CurrentItem(), expected_value);
+        expected_value += 10;
+    }
+}
+
+TEST(TVectorIteratorTest, ModifyElements) {
+    TVector<int> vec(5);
+    TVector<int>::Iterator it = vec.GetIterator();
+    int value = 100;
+    for (it.First(); !it.IsDone(); it.Next()) {
+        it.CurrentItem() = value;
+        value += 100;
+    }
+
+    value = 100;
+    for (size_t i = 0; i < 5; ++i) {
+        EXPECT_EQ(vec[i + vec.get_start_index()], value);
+        value += 100;
+    }
+}
+
+TEST(TVectorIteratorTest, EmptyVector) {
+    TVector<int> vec;
+    TVector<int>::Iterator it = vec.GetIterator();
+
+    EXPECT_TRUE(it.IsDone());
+    EXPECT_THROW(it.CurrentItem(), std::out_of_range);
+}
+
+TEST(TVectorIteratorTest, IteratorOutOfRange) {
+    TVector<int> vec(3);
+    for (size_t i = 0; i < 3; ++i) {
+        vec[i + vec.get_start_index()] = static_cast<int>(i + 1);
+    }
+
+    TVector<int>::Iterator it = vec.GetIterator();
+    it.First();
+    it.Next();
+    it.Next();
+    it.Next();
+    EXPECT_TRUE(it.IsDone());
+    EXPECT_THROW(it.CurrentItem(), std::out_of_range);
+}
+
+TEST(TVectorIteratorTest, SingleElementVector) {
+    TVector<int> vec(1);
+    vec[vec.get_start_index()] = 42;
+
+    TVector<int>::Iterator it = vec.GetIterator();
+    it.First();
+    EXPECT_FALSE(it.IsDone());
+    EXPECT_EQ(it.CurrentItem(), 42);
+    it.Next();
+    EXPECT_TRUE(it.IsDone());
+}
+
+TEST(TVectorIteratorTest, MultipleCallsToFirst) {
+    TVector<int> vec(3);
+    for (size_t i = 0; i < 3; ++i) {
+        vec[i + vec.get_start_index()] = static_cast<int>(i + 1);
+    }
+
+    TVector<int>::Iterator it = vec.GetIterator();
+    it.First();
+    EXPECT_EQ(it.CurrentItem(), 1);
+    it.Next();
+    it.Next();
+    EXPECT_EQ(it.CurrentItem(), 3);
+    it.First();
+    EXPECT_EQ(it.CurrentItem(), 1);
+}
+
+
+TEST(TVectorIteratorTest, MultipleNextOnDoneIterator) {
+    TVector<int> vec(2);
+    vec[vec.get_start_index()] = 10;
+    vec[vec.get_start_index() + 1] = 20;
+
+    TVector<int>::Iterator it = vec.GetIterator();
+    it.First();
+    it.Next();
+    it.Next();
+    EXPECT_TRUE(it.IsDone());
+    EXPECT_NO_THROW(it.Next());
+    EXPECT_THROW(it.CurrentItem(), std::out_of_range);
+}
+
+TEST(TVectorIteratorTest, LargeVector) {
+    constexpr size_t kLargeSize = 10000;
+    TVector<int> vec(kLargeSize);
+
+    for (size_t i = 0; i < kLargeSize; ++i) {
+        vec[i + vec.get_start_index()] = static_cast<int>(i);
+    }
+
+    TVector<int>::Iterator it = vec.GetIterator();
+    size_t count = 0;
+    for (it.First(); !it.IsDone(); it.Next()) {
+        EXPECT_EQ(it.CurrentItem(), static_cast<int>(count));
+        ++count;
+    }
+    EXPECT_EQ(count, kLargeSize);
+}

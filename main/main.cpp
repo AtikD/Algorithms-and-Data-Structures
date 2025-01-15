@@ -1,14 +1,24 @@
 // Copyright 2024 atikdd.t.me
 
+#include <lstack.h>
+#include <matrix.h>
+#include <easy_example.h>
+#include <queue.h>
+#include <lexem.h>
 #include <massive.h>
+#include <cycle_detector.h>
+#include <vector.h>
+#include <list.h>
+#include <stack.h>
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <chrono> // NOLINT [build/c++11]
+#include <cstdint>
 #include <list>
 
-#ifdef EXAMPLE
-#include <easy_example.h>
 
+#ifdef EXAMPLE
 void EasyExample() {
     int a, b;
     float result;
@@ -36,8 +46,8 @@ void EasyExample() {
     }
 }
 #endif
-#ifdef MASSIVE
 
+#ifdef MASSIVE
 #include "../main/utilities.h"
 
 enum Actions { EXIT, INSERT, FIND, REMOVE, CLEAN };
@@ -167,10 +177,8 @@ void MassiveExample() {
     }
 }
 #endif
+
 #ifdef LIST
-
-#include <list.h>
-
 void ListExample() {
     TList<int> list;
 
@@ -208,8 +216,6 @@ void ListExample() {
 #endif
 
 #ifdef VECTOR
-#include <vector.h>
-
 void VectorExample() {
     TVector<int> vec1(3, 0);
     vec1[0] = 1;
@@ -244,8 +250,6 @@ void VectorExample() {
 #endif
 
 #ifdef STACK
-#include <stack.h>
-
 void StackExample() {
     Stack<int> s;
 
@@ -253,22 +257,19 @@ void StackExample() {
     s.push(20);
     s.push(30);
 
-    std::cout << "Размер стека: " << s.size() << std::endl;
+    std::cout << "Size: " << s.size() << std::endl;
 
-    std::cout << "Верхний элемент: " << s.top() << std::endl;
+    std::cout << "Top: " << s.top() << std::endl;
 
     s.pop();
-    std::cout << "Верхний элемент после pop(): " << s.top() << std::endl;
+    std::cout << "Top after pop(): " << s.top() << std::endl;
 
     s.clear();
-    std::cout << "Стек пуст? " << (s.empty() ? "Да" : "Нет") << std::endl;
+    std::cout << "isEmpty? " << (s.empty() ? "Да" : "Нет") << std::endl;
 }
 #endif
 
 #ifdef QUEUE
-
-#include <queue.h>
-
 void QueueExample() {
     // Создаем очередь целых чисел с емкостью 5
     TQueue<int> intQueue(5);
@@ -421,8 +422,300 @@ void QueueExample() {
 }
 #endif
 
+#ifdef ALGORITHMS
+template <typename T>
+TList<T>* generateList(size_t size, bool createCycle) {
+    TList<T>* list = new TList<T>();
+    for (size_t i = 0; i < size; ++i) {
+        list->push_back(static_cast<T>(i));
+    }
+
+    if (createCycle && size > 0) {
+        TNode<T>* tail = list->getTail();
+        TNode<T>* head = list->getHead();
+        tail->setNext(head);
+    }
+    return list;
+}
+
+
+template <typename Func, typename T>
+int64_t measureAlgorithmTime(Func algorithm, TList<T>* list) {
+    auto start = std::chrono::high_resolution_clock::now();
+    bool result = algorithm(list);
+    auto end = std::chrono::high_resolution_clock::now();
+    int64_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>
+                                                     (end - start).count();
+    return duration;
+}
+
+void compareAlgorithms() {
+    TMassive<size_t> sizes;
+    sizes.push_back(1000);
+    sizes.push_back(10000);
+    sizes.push_back(100000);
+
+    for (size_t i = 0; i < sizes.size(); ++i) {
+        size_t size = sizes[i];
+
+        // Создаем списки
+        TList<int>* linearList = generateList<int>(size, false);
+        TList<int>* cyclicList = generateList<int>(size, true);
+
+        // Измеряем время для линейного списка
+        int64_t timeFloydLinear = measureAlgorithmTime(
+            hasCycleFloyd<int>, linearList);
+        int64_t timeReverseLinear = measureAlgorithmTime(
+            hasCycleReverse<int>, linearList);
+
+        // Измеряем время для циклического списка
+        int64_t timeFloydCyclic = measureAlgorithmTime(
+            hasCycleFloyd<int>, cyclicList);
+        int64_t timeReverseCyclic = measureAlgorithmTime(
+            hasCycleReverse<int>, cyclicList);
+
+        // Выводим результаты
+        std::cout << "Size: " << size << "\n";
+        std::cout << "Linear List:\n";
+        std::cout << "  Floyd's Algorithm Time: "
+                  << timeFloydLinear << " ns\n";
+        std::cout << "  Reverse Pointer Algorithm Time: "
+                  << timeReverseLinear << " ns\n";
+        std::cout << "Cyclic List:\n";
+        std::cout << "  Floyd's Algorithm Time: "
+                  << timeFloydCyclic << " ns\n";
+        std::cout << "  Reverse Pointer Algorithm Time: "
+                  << timeReverseCyclic << " ns\n\n";
+
+        // Очищаем память
+        delete linearList;
+        delete cyclicList;
+    }
+}
+
+#endif
+
+#ifdef MATRIX
+void MatrixExample() {
+    setlocale(LC_ALL, "");
+    // Пример 1: Создание и вывод матрицы
+    TMatrix<int> mat1(2, 3);
+    mat1[0][0] = 1;
+    mat1[0][1] = 2;
+    mat1[0][2] = 3;
+    mat1[1][0] = 4;
+    mat1[1][1] = 5;
+    mat1[1][2] = 6;
+    std::cout << "Матрица 1 (2x3):" << std::endl << mat1 << std::endl;
+
+    // Пример 2: Транспонирование матрицы
+    TMatrix<int> transposed = mat1.transpose();
+    std::cout << "Транспонированная Матрица 1:"
+              << std::endl << transposed << std::endl;
+
+    // Пример 3: Сложение матриц
+    TMatrix<int> mat2(2, 3);
+    mat2[0][0] = 6;
+    mat2[0][1] = 5;
+    mat2[0][2] = 4;
+    mat2[1][0] = 3;
+    mat2[1][1] = 2;
+    mat2[1][2] = 1;
+    std::cout << "Матрица 2 (2x3):" << std::endl << mat2 << std::endl;
+
+    TMatrix<int> sum = mat1 + mat2;
+    std::cout << "Сумма Матрицы 1 и Матрицы 2:"
+              << std::endl << sum << std::endl;
+
+    // Пример 4: Вычитание матриц
+    TMatrix<int> diff = mat1 - mat2;
+    std::cout << "Разность Матрицы 1 и Матрицы 2:"
+              << std::endl << diff << std::endl;
+
+    // Пример 5: Умножение матриц
+    TMatrix<int> mat3(3, 2);
+    mat3[0][0] = 1;
+    mat3[0][1] = 4;
+    mat3[1][0] = 2;
+    mat3[1][1] = 5;
+    mat3[2][0] = 3;
+    mat3[2][1] = 6;
+    std::cout << "Матрица 3 (3x2):" << std::endl << mat3 << std::endl;
+
+    TMatrix<int> product = mat1 * mat3;
+    std::cout << "Произведение Матрицы 1 и Матрицы 3:"
+              << std::endl << product << std::endl;
+
+    // Пример 6: Создание квадратной матрицы и вычисление детерминанта
+    TMatrix<double> mat4(3, 3);
+    mat4[0][0] = 6;
+    mat4[0][1] = 1;
+    mat4[0][2] = 1;
+    mat4[1][0] = 4;
+    mat4[1][1] = -2;
+    mat4[1][2] = 5;
+    mat4[2][0] = 2;
+    mat4[2][1] = 8;
+    mat4[2][2] = 7;
+    std::cout << "Матрица 4 (3x3):" << std::endl << mat4 << std::endl;
+
+    double det = mat4.determinant();
+    std::cout << "Детерминант Матрицы 4: " << det << std::endl;
+
+    // Пример 7: Нахождение обратной матрицы
+    if (det != 0) {
+        TMatrix<double> inverse = mat4.inverse();
+        std::cout << "Обратная Матрица 4:"
+                  << std::endl << inverse << std::endl;
+    }
+
+    // Пример 8: Работа с пустой матрицей
+    TMatrix<int> empty_mat;
+    std::cout << "Пустая Матрица:" << std::endl << empty_mat << std::endl;
+
+    // Пример 9: Масштабирование матрицы (умножение на скаляр)
+    TMatrix<int> scaled = mat1 * 2;
+    std::cout << "Матрица 1, умноженная на 2:"
+              << std::endl << scaled << std::endl;
+
+    // Пример 10: Сравнение матриц
+    std::cout << "Матрица 1 и Матрица 2 равны? "
+              << (mat1 == mat2 ? "Да" : "Нет") << std::endl;
+
+    // Пример 11: Редактирование элементов матрицы
+    mat1[0][0] = 100;
+    mat1[1][2] = 200;
+    std::cout << "Матрица 1 после изменений:"
+              << std::endl << mat1 << std::endl;
+
+    // Пример 12: Матрица из дробных чисел
+    TMatrix<float> mat5(2, 2);
+    mat5[0][0] = 1.5;
+    mat5[0][1] = 2.5;
+    mat5[1][0] = 3.5;
+    mat5[1][1] = 4.5;
+    std::cout << "Матрица 5 (2x2, дробные числа):"
+              << std::endl << mat5 << std::endl;
+
+    // Пример 13: Умножение дробной матрицы на скаляр
+    TMatrix<float> scaled_float = mat5 * 0.5;
+    std::cout << "Матрица 5, умноженная на 0.5:"
+              << std::endl << scaled_float << std::endl;
+}
+#endif
+
+#ifdef STACKEXPERIMENTS
+
+template <typename Function>
+int64_t measureExecutionTime(Function func, int repetitions = 1) {
+    auto start = std::chrono::high_resolution_clock::now();
+    for (int i = 0; i < repetitions; ++i) {
+        func();
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    return std::chrono::duration_cast<std::chrono::milliseconds>
+            (end - start).count() / repetitions;
+}
+
+template <typename DataStructure, typename InsertFunc, typename RemoveFunc>
+void testInsertionAndRemoval(const std::string& name,
+                            size_t testSize,
+                            InsertFunc insert,
+                            RemoveFunc remove) {
+    DataStructure structure;
+
+    std::cout << "Testing " << name << "\n";
+
+    auto insertionTime = measureExecutionTime([&]() {
+        for (size_t i = 0; i < testSize; ++i) {
+            insert(structure, i);
+        }
+    });
+    std::cout << "Insertion time: " << insertionTime << " ms\n";
+
+    auto removalTime = measureExecutionTime([&]() {
+        for (size_t i = 0; i < testSize; ++i) {
+            remove(structure);
+        }
+    });
+    std::cout << "Removal time: " << removalTime << " ms\n";
+
+    std::cout << "--------------------------------------------\n";
+}
+
+void testPerfomance() {
+    const size_t testSize = 100000000;
+
+    testInsertionAndRemoval<TMassive<int>>(
+        "Dynamic Array",
+        testSize,
+        [](TMassive<int>& massive, int value) { massive.push_back(value); },
+        [](TMassive<int>& massive) { massive.pop_back(); });
+
+    testInsertionAndRemoval<TList<int>>(
+        "Linked List",
+        testSize,
+        [](TList<int>& list, int value) { list.push_front(value); },
+        [](TList<int>& list) { list.pop_front(); });
+
+    testInsertionAndRemoval<Stack<int>>(
+        "Stack (Dynamic Array)",
+        testSize,
+        [](Stack<int>& stack, int value) { stack.push(value); },
+        [](Stack<int>& stack) { stack.pop(); });
+
+    testInsertionAndRemoval<LStack<int>>(
+        "Stack (Linked List)",
+        testSize,
+        [](LStack<int>& stack, int value) { stack.push(value); },
+        [](LStack<int>& stack) { stack.pop(); });
+}
+
+
+#endif
+
+#ifdef LEXEMS
+void lexemexample() {
+    std::string input =
+        "2+2";
+    TList<Lexem*> lexems = parse(input);
+    int count = 0;
+    std::cout << "Lexems:" << std::endl;
+        for (auto it = lexems.begin(); it != lexems.end(); ++it) {
+        Lexem* lex = *it;
+        switch (lex->type()) {
+            case FUNCTION:
+                std::cout << "Function: ";
+                break;
+            case VARIABLE:
+                std::cout << "Variable: ";
+                break;
+            case OPERATION:
+                std::cout << "Operator: ";
+                break;
+            case BRACKET:
+                std::cout << "Bracket: ";
+                break;
+            case INT_CONST:
+                std::cout << "IntConst: ";
+                break;
+            case FLOAT_CONST:
+                std::cout << "FloatConst: ";
+                break;
+        }
+        std::cout << lex->name() << std::endl;
+        count++;
+    }
+    std::cout <<"Count of lexems is " << count;
+    for (auto it = lexems.begin(); it != lexems.end(); ++it) {
+        delete *it;
+    }
+}
+#endif
 
 int main() {
+    setlocale(LC_ALL, "");
+
     #ifdef EXAMPLE
     EasyExample();
     #endif
@@ -445,6 +738,22 @@ int main() {
 
     #ifdef LIST
     ListExample();
+    #endif
+
+    #ifdef ALGORITHMS
+    compareAlgorithms();
+    #endif
+
+    #ifdef MATRIX
+    MatrixExample();
+    #endif
+
+    #ifdef STACKEXPERIMENTS
+    testPerfomance();
+    #endif
+
+    #ifdef LEXEMS
+    lexemexample();
     #endif
 
     return 0;
