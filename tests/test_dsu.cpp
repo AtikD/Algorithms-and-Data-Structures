@@ -34,3 +34,18 @@ TEST(DSUTest, UnionTrivialIdempotency) {
     EXPECT_EQ(a.find(4), 2);
 }
 
+
+TEST(DSUTest, UnionByRankSuccessful) {
+    DSU a(5);
+    a.union_by_rank(2, 4);
+    EXPECT_EQ(a.find(2), 2);
+    EXPECT_EQ(a.find(4), 2);
+}
+
+TEST(DSUTest, UnionByRankIdempotency) {
+    DSU a(5);
+    a.union_by_rank(2, 4);
+    a.union_by_rank(4, 2);
+    EXPECT_EQ(a.find(2), 2);
+    EXPECT_EQ(a.find(4), 2);
+}

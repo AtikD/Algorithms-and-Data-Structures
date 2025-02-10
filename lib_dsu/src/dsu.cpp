@@ -38,3 +38,25 @@ void DSU::union_trivial(int first, int second) {
     }
     _parent[rep2 - 1] = rep1 - 1;
 }
+
+void DSU::union_by_rank(int first, int second) {
+    int rep1 = find(first);
+    int rep2 = find(second);
+
+    if (rep1 == rep2) {
+        return;
+    }
+
+    int idx1 = rep1 - 1;
+    int idx2 = rep2 - 1;
+
+    if (rank[idx1] < rank[idx2]) {
+        _parent[idx1] = idx2;
+    } else if (rank[idx1] > rank[idx2]) {
+        _parent[idx2] = idx1;
+    } else {
+        _parent[idx2] = idx1;
+        rank[idx1]++;
+    }
+}
+
