@@ -29,3 +29,12 @@ int DSU::find(int elem) {
     }
     return _parent[idx] + 1;
 }
+
+void DSU::union_trivial(int first, int second) {
+    int rep1 = find(first);
+    int rep2 = find(second);
+    if (rep1 == rep2) {
+        return;
+    }
+    _parent[rep2 - 1] = rep1 - 1;
+}
