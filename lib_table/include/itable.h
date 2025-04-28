@@ -1,7 +1,5 @@
 // Copyright 2025 atikdd.t.me
 
-// Copyright 2025 atikdd.t.me
-
 #pragma once
 
 template <typename TKey, typename TVal>
