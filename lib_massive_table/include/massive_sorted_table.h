@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include <stdexcept>
-#include <algorithm>
 #include <itable.h>
 #include <massive.h>
+#include <stdexcept>
+#include <algorithm>
 #include <pair.h>
 
 
