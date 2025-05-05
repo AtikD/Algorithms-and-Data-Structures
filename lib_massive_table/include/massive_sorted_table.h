@@ -4,10 +4,9 @@
 
 #include <itable.h>
 #include <massive.h>
+#include <pair.h>
 #include <stdexcept>
 #include <algorithm>
-#include <pair.h>
-
 
 template <typename TKey, typename TVal>
 class TMassiveSortedTable : public ITable<TKey, TVal> {
