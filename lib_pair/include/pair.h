@@ -102,7 +102,7 @@ TPair<T1, T2>& TPair<T1, T2>::operator=(const TPair& pair) noexcept {
 // Equality operator
 template <class T1, class T2>
 bool TPair<T1, T2>::operator==(const TPair& pair) const noexcept {
-  return _first == other._first && _second == other._second;
+  return _first == pair._first && _second == pair._second;
 }
 
 template <class T1, class T2>
