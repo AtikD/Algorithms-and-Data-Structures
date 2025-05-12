@@ -25,3 +25,4 @@ add_executable(Tests test_pair.cpp)
 # Подключаем необходимые библиотеки
 target_link_libraries(Tests PRIVATE EasyExample TBSTTable TBST IMTable ITable TPair TMassive TVector TPolynom TStack DSU TCalculator TQueue TAlgorithms TList TMatrix gtest gtest_main)
 
+add_test(NAME EasyExampleTests COMMAND Tests)

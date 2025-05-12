@@ -35,6 +35,12 @@
             "displayName": "Visual Studio Community 2022 Release - amd64 - Debug",
             "configurePreset": "MSVC",
             "configuration": "Debug"
+        },
+        {
+            "name": "gg",
+            "description": "",
+            "displayName": "",
+            "configurePreset": "gcc"
         }
     ]
 }

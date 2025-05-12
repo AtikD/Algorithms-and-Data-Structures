@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
 project(Algorithms-and-Data-Structures)
+enable_testing()
 
 # Опции для сборки с покрытием кода
 option(CODE_COVERAGE "Enable coverage reporting" ON)
@@ -37,3 +38,4 @@ add_subdirectory(lib_bst)
 add_subdirectory(lib_bst_table)
 add_subdirectory(main)
 add_subdirectory(tests)
+
