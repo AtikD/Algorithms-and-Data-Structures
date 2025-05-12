@@ -20,9 +20,9 @@ TEST_F(MassiveSortedTableTest, InsertNewKeysReturnsTrue) {
     EXPECT_TRUE(table.Insert(5, "Five"));
 }
 
-TEST_F(MassiveSortedTableTest, InsertExistingKeyReturnsFalse) {
-    EXPECT_FALSE(table.Insert(1, "Another One"));
-    EXPECT_FALSE(table.Insert(2, "Another Two"));
+TEST_F(MassiveSortedTableTest, InsertExistingKey) {
+    EXPECT_THROW(table.Insert(1, "Another One"), std::invalid_argument);
+    EXPECT_THROW(table.Insert(2, "Another Two"), std::invalid_argument);
 }
 
 TEST_F(MassiveSortedTableTest, FindExistingKeyReturnsValue) {
@@ -32,8 +32,8 @@ TEST_F(MassiveSortedTableTest, FindExistingKeyReturnsValue) {
 }
 
 TEST_F(MassiveSortedTableTest, FindNonExistingKeyThrowsException) {
-    EXPECT_THROW(table.Find(4), std::runtime_error);
-    EXPECT_THROW(table.Find(99), std::runtime_error);
+    EXPECT_THROW(table.Find(4), std::out_of_range);
+    EXPECT_THROW(table.Find(99), std::out_of_range);
 }
 
 TEST_F(MassiveSortedTableTest, IsExistsReturnsTrueForExistingKeys) {
@@ -53,9 +53,9 @@ TEST_F(MassiveSortedTableTest, DeleteExistingKeyReturnsTrue) {
     EXPECT_EQ(table.GetSize(), 2);
 }
 
-TEST_F(MassiveSortedTableTest, DeleteNonExistingKeyReturnsFalse) {
-    EXPECT_FALSE(table.Delete(4));
-    EXPECT_FALSE(table.Delete(99));
+TEST_F(MassiveSortedTableTest, DeleteNonExistingKey) {
+    EXPECT_THROW(table.Delete(4), std::out_of_range);
+    EXPECT_THROW(table.Delete(99), std::out_of_range);
     EXPECT_EQ(table.GetSize(), 3);
 }
 
@@ -88,14 +88,14 @@ TEST_F(MassiveSortedTableTest, EmptyTableInitially) {
     EXPECT_FALSE(emptyTable.IsExists(1));
 }
 
-TEST_F(MassiveSortedTableTest, DeleteFromEmptyTableReturnsFalse) {
+TEST_F(MassiveSortedTableTest, DeleteFromEmptyTable) {
     TMassiveSortedTable<int, std::string> emptyTable;
-    EXPECT_FALSE(emptyTable.Delete(1));
+    EXPECT_THROW(emptyTable.Delete(1), std::out_of_range);
 }
 
 TEST_F(MassiveSortedTableTest, FindInEmptyTableThrowsException) {
     TMassiveSortedTable<int, std::string> emptyTable;
-    EXPECT_THROW(emptyTable.Find(1), std::runtime_error);
+    EXPECT_THROW(emptyTable.Find(1), std::out_of_range);
 }
 
 TEST_F(MassiveSortedTableTest, ClearEmptyTableDoesNothing) {

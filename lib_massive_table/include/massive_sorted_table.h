@@ -13,8 +13,8 @@ class TMassiveSortedTable : public ITable<TKey, TVal> {
  private:
     TMassive<TPair<TKey, TVal>> _data;
 
+    TPair<int, bool> BinarySearchBase(const TKey& key) const;
     int BinarySearch(const TKey& key) const;
-
     size_t FindInsertPosition(const TKey& key) const;
 
  public:
@@ -31,9 +31,9 @@ class TMassiveSortedTable : public ITable<TKey, TVal> {
 
 
 template <typename TKey, typename TVal>
-int TMassiveSortedTable<TKey, TVal>::BinarySearch(const TKey& key) const {
+TPair<int, bool> TMassiveSortedTable<TKey, TVal>::BinarySearchBase(const TKey& key) const {
     if (_data.empty()) {
-        return -1;
+        return TPair<int, bool>(0, false);
     }
 
     int left = 0;
@@ -44,7 +44,7 @@ int TMassiveSortedTable<TKey, TVal>::BinarySearch(const TKey& key) const {
         const TKey& middleKey = _data[middle].first();
 
         if (middleKey == key) {
-            return middle;
+            return TPair<int, bool>(middle, true); // Ключ найден
         }
 
         if (middleKey < key) {
@@ -54,34 +54,25 @@ int TMassiveSortedTable<TKey, TVal>::BinarySearch(const TKey& key) const {
         }
     }
 
-    return -1;
+    return TPair<int, bool>(left, false);
 }
 
 template <typename TKey, typename TVal>
-size_t TMassiveSortedTable<TKey, TVal>::FindInsertPosition(
-    const TKey& key) const {
-    if (_data.empty()) {
-        return 0;
-    }
-    int left = 0;
-    int right = static_cast<int>(_data.size()) - 1;
-    while (left <= right) {
-        int middle = left + (right - left) / 2;
+int TMassiveSortedTable<TKey, TVal>::BinarySearch(const TKey& key) const {
+    TPair<int, bool> result = BinarySearchBase(key);
+    return result.second() ? result.first() : -1;
+}
 
-        if (_data[middle].first() < key) {
-            left = middle + 1;
-        } else {
-            right = middle - 1;
-        }
-    }
-
-    return static_cast<size_t>(left);
+template <typename TKey, typename TVal>
+size_t TMassiveSortedTable<TKey, TVal>::FindInsertPosition(const TKey& key) const {
+    TPair<int, bool> result = BinarySearchBase(key);
+    return static_cast<size_t>(result.first());
 }
 
 template <typename TKey, typename TVal>
 bool TMassiveSortedTable<TKey, TVal>::Insert(const TKey& key, const TVal& val) {
     if (BinarySearch(key) != -1) {
-        return false;
+        throw std::invalid_argument("Key already exists in the table");
     }
 
     size_t pos = FindInsertPosition(key);
@@ -100,7 +91,7 @@ TVal TMassiveSortedTable<TKey, TVal>::Find(const TKey& key) const {
         return _data[index].second();
     }
 
-    throw std::runtime_error("Key not found");
+    throw std::out_of_range("Key not found");
 }
 
 template <typename TKey, typename TVal>
@@ -117,7 +108,7 @@ bool TMassiveSortedTable<TKey, TVal>::Delete(const TKey& key) {
         return true;
     }
 
-    return false;
+    throw std::out_of_range("Key not found");
 }
 
 template <typename TKey, typename TVal>

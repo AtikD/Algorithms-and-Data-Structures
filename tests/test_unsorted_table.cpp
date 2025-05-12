@@ -20,9 +20,9 @@ TEST_F(UnsortedTableTest, InsertNewKeysReturnsTrue) {
     EXPECT_TRUE(table.Insert(5, "Five"));
 }
 
-TEST_F(UnsortedTableTest, InsertExistingKeyReturnsFalse) {
-    EXPECT_FALSE(table.Insert(1, "Another One"));
-    EXPECT_FALSE(table.Insert(2, "Another Two"));
+TEST_F(UnsortedTableTest, InsertExistingKey) {
+    EXPECT_THROW(table.Insert(1, "Another One"), std::invalid_argument);
+    EXPECT_THROW(table.Insert(2, "Another Two"), std::invalid_argument);
 }
 
 TEST_F(UnsortedTableTest, FindExistingKeyReturnsValue) {
@@ -32,8 +32,8 @@ TEST_F(UnsortedTableTest, FindExistingKeyReturnsValue) {
 }
 
 TEST_F(UnsortedTableTest, FindNonExistingKeyThrowsException) {
-    EXPECT_THROW(table.Find(4), std::runtime_error);
-    EXPECT_THROW(table.Find(99), std::runtime_error);
+    EXPECT_THROW(table.Find(4), std::out_of_range);
+    EXPECT_THROW(table.Find(99), std::out_of_range);
 }
 
 TEST_F(UnsortedTableTest, IsExistsReturnsTrueForExistingKeys) {
@@ -54,8 +54,8 @@ TEST_F(UnsortedTableTest, DeleteExistingKeyReturnsTrue) {
 }
 
 TEST_F(UnsortedTableTest, DeleteNonExistingKeyReturnsFalse) {
-    EXPECT_FALSE(table.Delete(4));
-    EXPECT_FALSE(table.Delete(99));
+    EXPECT_THROW(table.Delete(4), std::out_of_range);
+    EXPECT_THROW(table.Delete(99), std::out_of_range);
     EXPECT_EQ(table.GetSize(), 3);
 }
 
@@ -90,12 +90,12 @@ TEST_F(UnsortedTableTest, EmptyTableInitially) {
 
 TEST_F(UnsortedTableTest, DeleteFromEmptyTableReturnsFalse) {
     TUnsortedTable<int, std::string> emptyTable;
-    EXPECT_FALSE(emptyTable.Delete(1));
+    EXPECT_THROW(emptyTable.Delete(1), std::out_of_range);
 }
 
 TEST_F(UnsortedTableTest, FindInEmptyTableThrowsException) {
     TUnsortedTable<int, std::string> emptyTable;
-    EXPECT_THROW(emptyTable.Find(1), std::runtime_error);
+    EXPECT_THROW(emptyTable.Find(1), std::out_of_range);
 }
 
 TEST_F(UnsortedTableTest, ClearEmptyTableDoesNothing) {
