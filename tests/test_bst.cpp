@@ -176,3 +176,15 @@ TEST_F(BSTTest, ModificationsDoNotAffectCopy) {
     EXPECT_FALSE(tree.contains(50));
     EXPECT_TRUE(copy.contains(50));
 }
+
+TEST(BSTGetRootTest, EmptyTreeReturnsNullptr) {
+    TBinSearchTree<int> emptyTree;
+    const auto* root = emptyTree.getRoot();
+    EXPECT_EQ(root, nullptr);
+}
+
+TEST_F(BSTGetRootTest, NonEmptyTreeReturnsRoot) {
+    const auto* root = tree.getRoot();
+    ASSERT_NE(root, nullptr);
+    EXPECT_EQ(root->key, 10);
+}

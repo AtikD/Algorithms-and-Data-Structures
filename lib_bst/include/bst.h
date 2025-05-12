@@ -31,6 +31,7 @@ class TBinSearchTree {
     TBinSearchTree(const TBinSearchTree& other);
     ~TBinSearchTree();
 
+    
     bool isEmpty() const;
     size_t size() const;
     bool contains(const T& key) const;
@@ -39,6 +40,9 @@ class TBinSearchTree {
     bool insert(const T& key);
     bool remove(const T& key);
     void clear();
+    const Node* getRoot() const{
+        return _root;
+    };
 };
 
 
