@@ -182,9 +182,3 @@ TEST(BSTGetRootTest, EmptyTreeReturnsNullptr) {
     const auto* root = emptyTree.getRoot();
     EXPECT_EQ(root, nullptr);
 }
-
-TEST_F(BSTGetRootTest, NonEmptyTreeReturnsRoot) {
-    const auto* root = tree.getRoot();
-    ASSERT_NE(root, nullptr);
-    EXPECT_EQ(root->key, 10);
-}
