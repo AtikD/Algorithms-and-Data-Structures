@@ -2,8 +2,21 @@ cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
 project(Algorithms-and-Data-Structures)
 
-# Включаем поддержку тестирования
-enable_testing()
+# Опции для сборки с покрытием кода
+option(CODE_COVERAGE "Enable coverage reporting" ON)
+
+if(CODE_COVERAGE)
+    # Проверка компилятора (на Windows обычно MSVC, но для покрытия нужен GCC или Clang)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        # Флаги для компиляции с покрытием кода
+        set(COVERAGE_FLAGS "--coverage")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COVERAGE_FLAGS}")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${COVERAGE_FLAGS}")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${COVERAGE_FLAGS}")
+    else()
+        message(WARNING "Покрытие кода поддерживается только с компиляторами GCC и Clang")
+    endif()
+endif()
 
 # Добавляем подкаталоги
 add_subdirectory(lib_easy_example)
