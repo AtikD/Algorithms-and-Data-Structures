@@ -122,7 +122,7 @@ TEST_F(BSTTableTest, BSTOrdering) {
     EXPECT_TRUE(orderedTable.IsExists(6));
     EXPECT_TRUE(orderedTable.IsExists(7));
     EXPECT_TRUE(orderedTable.IsExists(8));
-    
+
     EXPECT_EQ(orderedTable.GetSize(), 7);
 }
 
@@ -143,7 +143,7 @@ TEST_F(BSTTableTest, LargeDataSet) {
     EXPECT_TRUE(bigTable.Delete(750));
     EXPECT_FALSE(bigTable.IsExists(250));
     EXPECT_FALSE(bigTable.IsExists(750));
-    
+
     EXPECT_EQ(bigTable.GetSize(), 998);
 }
 

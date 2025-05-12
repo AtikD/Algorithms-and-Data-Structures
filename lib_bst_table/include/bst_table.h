@@ -7,6 +7,7 @@
 #include <pair.h>
 #include <stdexcept>
 
+
 template <typename TKey, typename TVal>
 class TBSTTable : public ITable<TKey, TVal> {
  private:
@@ -32,19 +33,18 @@ bool TBSTTable<TKey, TVal>::Insert(const TKey& key, const TVal& val) {
     if (IsExists(key)) {
         return false;
     }
-    
     return _tree.insert(pair);
 }
 
 template <typename TKey, typename TVal>
 TVal TBSTTable<TKey, TVal>::Find(const TKey& key) const {
     TPair<TKey, TVal> search_pair(key, TVal());
-    
+
     const TPair<TKey, TVal>* found = _tree.find(search_pair);
     if (found == nullptr) {
         throw std::runtime_error("Key not found");
     }
-    
+
     return found->second();
 }
 

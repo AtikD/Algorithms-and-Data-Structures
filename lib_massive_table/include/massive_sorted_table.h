@@ -31,7 +31,8 @@ class TMassiveSortedTable : public ITable<TKey, TVal> {
 
 
 template <typename TKey, typename TVal>
-TPair<int, bool> TMassiveSortedTable<TKey, TVal>::BinarySearchBase(const TKey& key) const {
+TPair<int, bool> TMassiveSortedTable<TKey, TVal>::BinarySearchBase(
+    const TKey& key) const {
     if (_data.empty()) {
         return TPair<int, bool>(0, false);
     }
@@ -44,7 +45,7 @@ TPair<int, bool> TMassiveSortedTable<TKey, TVal>::BinarySearchBase(const TKey& k
         const TKey& middleKey = _data[middle].first();
 
         if (middleKey == key) {
-            return TPair<int, bool>(middle, true); // Ключ найден
+            return TPair<int, bool>(middle, true);  // Ключ найден
         }
 
         if (middleKey < key) {
@@ -64,7 +65,8 @@ int TMassiveSortedTable<TKey, TVal>::BinarySearch(const TKey& key) const {
 }
 
 template <typename TKey, typename TVal>
-size_t TMassiveSortedTable<TKey, TVal>::FindInsertPosition(const TKey& key) const {
+size_t TMassiveSortedTable<TKey, TVal>::FindInsertPosition(
+    const TKey& key) const {
     TPair<int, bool> result = BinarySearchBase(key);
     return static_cast<size_t>(result.first());
 }

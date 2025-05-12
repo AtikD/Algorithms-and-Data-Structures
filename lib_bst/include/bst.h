@@ -34,38 +34,38 @@ class TBinSearchTree {
         LStack<Node*> _stack;
         Node* _current;
 
-        void pushLeftBranch(Node* node){
-            while (node!=nullptr){
+        void pushLeftBranch(Node* node) {
+            while (node != nullptr) {
                 _stack.push(node);
                 node = node->left;
             }
         }
 
      public:
-        explicit InOrderIterator(Node* root) : _current(nullptr){
+        explicit InOrderIterator(Node* root) : _current(nullptr) {
             pushLeftBranch(root);
-            if (!_stack.empty()){
+            if (!_stack.empty()) {
                 _current = _stack.top();
                 _stack.pop();
                 pushLeftBranch(_current->right);
             }
         }
-        InOrderIterator() : _current(nullptr){}
+        InOrderIterator() : _current(nullptr) {}
                 bool operator==(const InOrderIterator& other) const {
             return _current == other._current;
         }
-        
+
         bool operator!=(const InOrderIterator& other) const {
             return _current != other._current;
         }
-        
+
         const T& operator*() const {
             if (_current == nullptr) {
                 throw std::out_of_range("Iterator dereference out of range");
             }
             return _current->key;
         }
-        
+
         InOrderIterator& operator++() {
             if (!_stack.empty()) {
                 _current = _stack.top();
@@ -76,7 +76,7 @@ class TBinSearchTree {
             }
             return *this;
         }
-        
+
         InOrderIterator operator++(int) {
             InOrderIterator temp(*this);
             ++(*this);
@@ -97,14 +97,15 @@ class TBinSearchTree {
         int _currentLevel;
 
      public:
-        explicit LevelOrderIterator(Node* root) : _current(nullptr), _currentLevel(0) {
+        explicit LevelOrderIterator(Node* root)
+            : _current(nullptr), _currentLevel(0) {
             if (root != nullptr) {
                 _queue.push(QueueItem(root, 0));
-                
+
                 QueueItem item = _queue.pop();
                 _current = item.node;
                 _currentLevel = item.level;
-                
+
                 if (_current->left) {
                     _queue.push(QueueItem(_current->left, _currentLevel + 1));
                 }
@@ -113,34 +114,34 @@ class TBinSearchTree {
                 }
             }
         }
-        
+
         LevelOrderIterator() : _current(nullptr), _currentLevel(0) {}
-        
+
         bool operator==(const LevelOrderIterator& other) const {
             return _current == other._current;
         }
-        
+
         bool operator!=(const LevelOrderIterator& other) const {
             return _current != other._current;
         }
-        
+
         const T& operator*() const {
             if (_current == nullptr) {
                 throw std::out_of_range("Iterator dereference out of range");
             }
             return _current->key;
         }
-        
+
         int level() const {
             return _currentLevel;
         }
-        
+
         LevelOrderIterator& operator++() {
             if (!_queue.is_empty()) {
                 QueueItem item = _queue.pop();
                 _current = item.node;
                 _currentLevel = item.level;
-                
+
                 if (_current->left) {
                     _queue.push(QueueItem(_current->left, _currentLevel + 1));
                 }
@@ -152,14 +153,14 @@ class TBinSearchTree {
             }
             return *this;
         }
-        
+
         LevelOrderIterator operator++(int) {
             LevelOrderIterator temp(*this);
             ++(*this);
             return temp;
         }
     };
-    
+
     TBinSearchTree();
     TBinSearchTree(const TBinSearchTree& other);
     ~TBinSearchTree();
@@ -172,30 +173,30 @@ class TBinSearchTree {
     bool insert(const T& key);
     bool remove(const T& key);
     void clear();
-    const Node* getRoot() const{
+    const Node* getRoot() const {
         return _root;
     }
 
     InOrderIterator beginInOrder() const {
         return InOrderIterator(_root);
     }
-    
+
     InOrderIterator endInOrder() const {
         return InOrderIterator();
     }
-    
+
     LevelOrderIterator beginLevelOrder() const {
         return LevelOrderIterator(_root);
     }
-    
+
     LevelOrderIterator endLevelOrder() const {
         return LevelOrderIterator();
     }
-    
+
     InOrderIterator begin() const {
         return beginInOrder();
     }
-    
+
     InOrderIterator end() const {
         return endInOrder();
     }

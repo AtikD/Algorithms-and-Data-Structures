@@ -1,11 +1,12 @@
 // Copyright 2025 atikdd.t.me
 
 #pragma once
+#include <node.h>
 #include <itable.h>
-#include <stdexcept>
 #include <list.h>
 #include <pair.h>
-#include <node.h>
+#include <stdexcept>
+
 
 template <typename TKey, typename TVal>
 class TUnsortedTable : public ITable<TKey, TVal> {
@@ -65,7 +66,7 @@ bool TUnsortedTable<TKey, TVal>::IsExists(const TKey& key) const {
 template <typename TKey, typename TVal>
 bool TUnsortedTable<TKey, TVal>::Delete(const TKey& key) {
     size_t index = _findIndex(key);
-    if (index == -1) 
+    if (index == -1)
         throw std::out_of_range("Key not found");
     _data.remove_at(index);
     return true;

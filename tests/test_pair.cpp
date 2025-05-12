@@ -49,7 +49,7 @@ TEST(TPairComparisonTest, EqualityOperator) {
     TPair<int, std::string> pair1(5, "Five");
     TPair<int, std::string> pair2(5, "Another Five");
     TPair<int, std::string> pair3(10, "Ten");
-    
+
     // Равенство определяется только по первому элементу (ключу)
     EXPECT_TRUE(pair1 == pair2);
     EXPECT_FALSE(pair1 == pair3);
@@ -59,7 +59,7 @@ TEST(TPairComparisonTest, LessThanOperator) {
     TPair<int, std::string> pair1(5, "Five");
     TPair<int, std::string> pair2(10, "Ten");
     TPair<int, std::string> pair3(5, "Another Five");
-    
+
     EXPECT_TRUE(pair1 < pair2);
     EXPECT_FALSE(pair2 < pair1);
     EXPECT_FALSE(pair1 < pair3);  // Равные ключи
@@ -70,7 +70,7 @@ TEST(TPairComparisonTest, GreaterThanOperator) {
     TPair<int, std::string> pair1(5, "Five");
     TPair<int, std::string> pair2(10, "Ten");
     TPair<int, std::string> pair3(5, "Another Five");
-    
+
     EXPECT_FALSE(pair1 > pair2);
     EXPECT_TRUE(pair2 > pair1);
     EXPECT_FALSE(pair1 > pair3);  // Равные ключи
@@ -81,7 +81,7 @@ TEST(TPairComparisonTest, LessOrEqualOperator) {
     TPair<int, std::string> pair1(5, "Five");
     TPair<int, std::string> pair2(10, "Ten");
     TPair<int, std::string> pair3(5, "Another Five");
-    
+
     EXPECT_TRUE(pair1 <= pair2);
     EXPECT_FALSE(pair2 <= pair1);
     EXPECT_TRUE(pair1 <= pair3);  // Равные ключи
@@ -92,7 +92,7 @@ TEST(TPairComparisonTest, GreaterOrEqualOperator) {
     TPair<int, std::string> pair1(5, "Five");
     TPair<int, std::string> pair2(10, "Ten");
     TPair<int, std::string> pair3(5, "Another Five");
-    
+
     EXPECT_FALSE(pair1 >= pair2);
     EXPECT_TRUE(pair2 >= pair1);
     EXPECT_TRUE(pair1 >= pair3);  // Равные ключи
