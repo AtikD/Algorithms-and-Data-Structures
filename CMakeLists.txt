@@ -36,6 +36,7 @@ add_subdirectory(lib_table)
 add_subdirectory(lib_massive_table)
 add_subdirectory(lib_bst)
 add_subdirectory(lib_bst_table)
+add_subdirectory(lib_heap)
 add_subdirectory(main)
 add_subdirectory(tests)
 
