@@ -12,8 +12,8 @@ TEST(TMassiveTest, InsertSingleValue) {
     massive.insert(20, 1);
     massive.insert(15, 1);
     std::stringstream ss;
-    massive.print(ss);
-    EXPECT_EQ(ss.str(), "10, 15, 20, ");
+    ss << massive;
+    EXPECT_EQ(ss.str(), "10 15 20");
 }
 
 TEST(TMassiveTest, DefaultConstructor) {
@@ -60,15 +60,15 @@ TEST(TMassiveTest, EraseMultipleValues) {
 
     // Проверяем оставшиеся элементы
     std::stringstream ss;
-    massive.print(ss);
-    EXPECT_EQ(ss.str(), "0, 1, 5, 6, 7, 8, 9, ");
+    ss << massive;
+    EXPECT_EQ(ss.str(), "0 1 5 6 7 8 9");
 
     // Удаляем элементы, когда `pos + n` превышает размер
     massive.erase(5, 10);
     EXPECT_EQ(massive.size(), 5);
     ss.str("");
-    massive.print(ss);
-    EXPECT_EQ(ss.str(), "0, 1, 5, 6, 7, ");
+    ss << massive;
+    EXPECT_EQ(ss.str(), "0 1 5 6 7");
 
     // Удаление 0 элементов
     massive.erase(0, 0);
@@ -82,7 +82,7 @@ TEST(TMassiveTest, ClearMassive) {
     massive.clear();
     EXPECT_TRUE(massive.empty());
     std::stringstream ss;
-    massive.print(ss);
+    ss << massive;
     EXPECT_EQ(ss.str(), "");
 }
 
@@ -100,8 +100,8 @@ TEST(TMassiveTest, RemoveAllOccurrences) {
 
     EXPECT_EQ(massive.size(), 2);
     std::stringstream ss;
-    massive.print(ss);
-    EXPECT_EQ(ss.str(), "20, 30, ");
+    ss << massive;
+    EXPECT_EQ(ss.str(), "20 30");
 }
 
 TEST(TMassiveTest, RemoveFirstOccurrence) {
@@ -117,13 +117,13 @@ TEST(TMassiveTest, RemoveFirstOccurrence) {
 
     EXPECT_EQ(massive.size(), 3);
     std::stringstream ss;
-    massive.print(ss);
-    EXPECT_EQ(ss.str(), "20, 10, 30, ");
+    ss << massive;
+    EXPECT_EQ(ss.str(), "20 10 30");
 
     massive.remove_first(10);
     std::stringstream ss2;
-    massive.print(ss2);
-    EXPECT_EQ(ss2.str(), "20, 30, ");
+    ss2 << massive;
+    EXPECT_EQ(ss2.str(), "20 30");
 }
 
 TEST(TMassiveTest, RemoveLastOccurrence) {
@@ -139,8 +139,8 @@ TEST(TMassiveTest, RemoveLastOccurrence) {
 
     EXPECT_EQ(massive.size(), 3);
     std::stringstream ss;
-    massive.print(ss);
-    EXPECT_EQ(ss.str(), "10, 20, 30, ");
+    ss << massive;
+    EXPECT_EQ(ss.str(), "10 20 30");
 }
 
 TEST(TMassiveTest, RemoveByIndex) {
@@ -155,8 +155,8 @@ TEST(TMassiveTest, RemoveByIndex) {
 
     EXPECT_EQ(massive.size(), 2);
     std::stringstream ss;
-    massive.print(ss);
-    EXPECT_EQ(ss.str(), "10, 30, ");
+    ss << massive;
+    EXPECT_EQ(ss.str(), "10 30");
 }
 
 TEST(TMassiveTest, SwapMethod) {
@@ -175,13 +175,13 @@ TEST(TMassiveTest, SwapMethod) {
 
     // Проверяем содержимое massive1
     std::stringstream ss1;
-    massive1.print(ss1);
-    EXPECT_EQ(ss1.str(), "30, 40, 50, ");
+    ss1 << massive1;
+    EXPECT_EQ(ss1.str(), "30 40 50");
 
     // Проверяем содержимое massive2
     std::stringstream ss2;
-    massive2.print(ss2);
-    EXPECT_EQ(ss2.str(), "10, 20, ");
+    ss2 << massive2;
+    EXPECT_EQ(ss2.str(), "10 20");
 }
 
 TEST(TMassiveTest, AssignMethod) {
@@ -200,13 +200,13 @@ TEST(TMassiveTest, AssignMethod) {
 
     // Проверяем содержимое massive1
     std::stringstream ss1;
-    massive1.print(ss1);
-    EXPECT_EQ(ss1.str(), "30, 40, 50, ");
+    ss1 << massive1;
+    EXPECT_EQ(ss1.str(), "30 40 50");
 
     // Проверяем, что massive2 не изменился
     std::stringstream ss2;
-    massive2.print(ss2);
-    EXPECT_EQ(ss2.str(), "30, 40, 50, ");
+    ss2 << massive2;
+    EXPECT_EQ(ss2.str(), "30 40 50");
 }
 
 TEST(TMassiveTest, ResizeMethod) {
@@ -219,15 +219,15 @@ TEST(TMassiveTest, ResizeMethod) {
     massive.resize(5, 0);
     EXPECT_EQ(massive.size(), 5);
     std::stringstream ss;
-    massive.print(ss);
-    EXPECT_EQ(ss.str(), "10, 20, 30, 0, 0, ");
+    ss << massive;
+    EXPECT_EQ(ss.str(), "10 20 30 0 0");
 
     // Уменьшаем размер до 2
     massive.resize(2, 0);
     EXPECT_EQ(massive.size(), 2);
     ss.str("");
-    massive.print(ss);
-    EXPECT_EQ(ss.str(), "10, 20, ");
+    ss << massive;
+    EXPECT_EQ(ss.str(), "10 20");
 }
 
 TEST(TMassiveTest, PushFrontMethod) {
@@ -239,8 +239,8 @@ TEST(TMassiveTest, PushFrontMethod) {
 
     EXPECT_EQ(massive.size(), 3);
     std::stringstream ss;
-    massive.print(ss);
-    EXPECT_EQ(ss.str(), "10, 20, 30, ");
+    ss << massive;
+    EXPECT_EQ(ss.str(), "10 20 30");
 }
 
 TEST(TMassiveTest, PopFrontMethod) {
@@ -253,8 +253,8 @@ TEST(TMassiveTest, PopFrontMethod) {
 
     EXPECT_EQ(massive.size(), 2);
     std::stringstream ss;
-    massive.print(ss);
-    EXPECT_EQ(ss.str(), "20, 30, ");
+    ss << massive;
+    EXPECT_EQ(ss.str(), "20 30");
 
     // Проверяем исключение при попытке удалить из пустого архива
     massive.pop_front();
@@ -274,8 +274,8 @@ TEST(TMassiveTest, InsertArrayMethod) {
 
     EXPECT_EQ(massive.size(), 4);
     std::stringstream ss;
-    massive.print(ss);
-    EXPECT_EQ(ss.str(), "10, 20, 30, 40, ");
+    ss << massive;
+    EXPECT_EQ(ss.str(), "10 20 30 40");
 }
 
 TEST(TMassiveTest, FindLastMethod_ValueInArchive) {
@@ -299,8 +299,8 @@ TEST(TMassiveTest, PopBackMethod) {
 
     EXPECT_EQ(massive.size(), 2);
     std::stringstream ss;
-    massive.print(ss);
-    EXPECT_EQ(ss.str(), "10, 20, ");
+    ss << massive;
+    EXPECT_EQ(ss.str(), "10 20");
 }
 
 TEST(TMassiveTest, ReplaceMethod) {
@@ -313,8 +313,8 @@ TEST(TMassiveTest, ReplaceMethod) {
     massive.replace(1, 25);
 
     std::stringstream ss;
-    massive.print(ss);
-    EXPECT_EQ(ss.str(), "10, 25, 30, ");
+    ss << massive;
+    EXPECT_EQ(ss.str(), "10 25 30");
 }
 
 TEST(TMassiveTest, FindFirstMethod_ValueInArchive) {
