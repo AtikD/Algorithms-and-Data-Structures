@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <cstddef>
+
 template <typename TKey, typename TVal>
 class ITable {
  public:
