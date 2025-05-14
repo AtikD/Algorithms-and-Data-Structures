@@ -8,3 +8,8 @@ add_executable(Heap heap.cpp)
 target_link_libraries(Heap PRIVATE 
     THeap TMassive
 )
+
+add_executable(Hash hash.cpp)
+target_link_libraries(Hash PRIVATE 
+    THash
+)
