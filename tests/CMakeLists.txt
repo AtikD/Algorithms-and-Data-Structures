@@ -22,6 +22,6 @@ file(GLOB TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 add_executable(Tests ${TEST_SOURCES})
 
 # Подключаем необходимые библиотеки
-target_link_libraries(Tests PRIVATE THeap EasyExample TBSTTable TBST IMTable ITable TPair TMassive TVector TPolynom TStack DSU TCalculator TQueue TAlgorithms TList TMatrix gtest gtest_main)
+target_link_libraries(Tests PRIVATE THash THeap EasyExample TBSTTable TBST IMTable ITable TPair TMassive TVector TPolynom TStack DSU TCalculator TQueue TAlgorithms TList TMatrix gtest gtest_main)
 
 add_test(NAME EasyExampleTests COMMAND Tests)
