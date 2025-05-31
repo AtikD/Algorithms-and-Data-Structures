@@ -485,11 +485,13 @@ size_t TMassive<T>::count_value(T value) const noexcept {
     return count;
 }
 
-template <typename T>
-void TMassive<T>::print(std::ostream& out) const noexcept {
-    for (size_t i = 0; i < _size; ++i) {
-        if (_states[i] != State::deleted) {
-            out << _data[i] << ", ";
+template <class T>
+std::ostream& operator<<(std::ostream& os, const TMassive<T>& arr) {
+    for (size_t i = 0; i < arr.size(); ++i) {
+        os << arr[i];
+        if (i < arr.size() - 1) {
+            os << " ";
         }
     }
+    return os;
 }

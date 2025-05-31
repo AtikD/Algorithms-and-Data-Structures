@@ -19,11 +19,9 @@ FetchContent_MakeAvailable(googletest)
 file(GLOB TEST_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
 # Создаём (или обновляем) исполняемый файл с новыми тестами
-# add_executable(Tests ${TEST_SOURCES})
-add_executable(Tests test_vector.cpp)
+add_executable(Tests ${TEST_SOURCES})
 
 # Подключаем необходимые библиотеки
-target_link_libraries(Tests PRIVATE EasyExample TPair TMassive TVector TPolynom TStack TCalculator TQueue TAlgorithms TList TMatrix gtest gtest_main)
+target_link_libraries(Tests PRIVATE THash THeap EasyExample TBSTTable TBST IMTable ITable TPair TMassive TVector TPolynom TStack DSU TCalculator TQueue TAlgorithms TList TMatrix gtest gtest_main)
 
-# Регистрируем тесты
 add_test(NAME EasyExampleTests COMMAND Tests)
